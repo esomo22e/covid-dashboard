@@ -6,10 +6,23 @@
 
 	import * as jsondata from '../public/datasets/covidtest.json'
 
+	import { csv } from 'd3-fetch'
+
+	$: coviddata = [];
+
+	csv("../datasets/suffolk.csv").then(function(data,i){
+		 coviddata = data;
+
+	});
+
 	let width = Math.min(
 		document.getElementById('interactive').getBoundingClientRect().width,
 		1000
 	);
+
+	// console.log(jsondata.default)
+	// console.log(coviddata)
+
 </script>
 
 <style>
@@ -20,13 +33,15 @@
 	title={"Today's chart"}
 	subhed={"A look at something etc"}
 />
-<ColumnChart
-	width={width}
-	height={width * 0.66}
-	data={jsondata}
-	xVar={"date"}
-	yVar={"newcases"}
-/>
+{#if coviddata.length > 0}
+	<ColumnChart
+		width={width}
+		height={width * 0.66}
+		data={coviddata.filter(function(d,i){return i > 161})}
+		xVar={"date"}
+		yVar={"newcases"}
+	/>
+{/if}
 <!-- <HoverCard
 	data={dataset}
 	xVar={"city"}

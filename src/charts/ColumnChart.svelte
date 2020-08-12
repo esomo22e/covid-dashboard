@@ -35,11 +35,17 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		export let xVar = {xVar};
 		export let yVar = {yVar};
 
-		data = data.default;
+		export let avgdaycount = 3;
+
+		console.log(data)
 
 		data.forEach(function(d,i){
-			if (i > 1) {
-				let avg = (data[i][yVar] + data[i-1][yVar] + data[i-2][yVar])/3;
+			if (i > (avgdaycount-2)) {
+				let array = [];
+				for (let j=0;  j<avgdaycount; j++) {
+					array.push( +data[i-j][yVar] )
+				}
+				let avg = array.reduce((a, b) => a + b, 0) / avgdaycount;
 				data[i]["rollingavg"] = Math.round(avg);
 			}
 		})
@@ -58,11 +64,11 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 	function generateBarChart() {
 
-		console.log(
-			data.filter(function(d,i){
-				return i > 1
-			})
-		)
+		// console.log(
+		// 	data.filter(function(d,i){
+		// 		return i > 1
+		// 	})
+		// )
 
 		var svg = d3.select(el)
 			.append("svg")
@@ -93,7 +99,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 		 svg.append("path")
         .datum(data.filter(function(d,i){
-			  return i > 1
+			  return i > (avgdaycount-2)
 		  }))
         .attr("fill", "none")
 		  .attr("stroke", "#d51e2d")
