@@ -37,7 +37,7 @@
 	<ColumnChart
 		width={width}
 		height={width * 0.66}
-		data={coviddata.filter(function(d,i){return i > 161})}
+		data={coviddata.filter(function(d,i){return i > 100})}
 		xVar={"date"}
 		yVar={"newcases"}
 	/>

@@ -35,7 +35,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		export let xVar = {xVar};
 		export let yVar = {yVar};
 
-		export let avgdaycount = 3;
+		export let avgdaycount = 14;
 
 		console.log(data)
 
