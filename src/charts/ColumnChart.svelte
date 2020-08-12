@@ -4,8 +4,9 @@
 	import { axisLeft, axisRight, axisTop, axisBottom } from 'd3-axis';
 	import { select } from 'd3-selection';
 import { timeParse, timeFormat } from 'd3-time-format';
-	import { line } from 'd3-shape';
+	import { line, curveMonotoneX, curveNatural } from 'd3-shape';
 	import { path } from 'd3-path';
+	import { interpolateRound } from 'd3-interpolate';
 
 	let d3 = {
 		scaleLinear: scaleLinear,
@@ -17,6 +18,9 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		axisTop: axisTop,
 		line: line,
 		path: path,
+		curveMonotoneX: curveMonotoneX,
+		curveNatural: curveNatural,
+		interpolateRound: interpolateRound
 	}
 
 	let el;
@@ -47,7 +51,8 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 	$: yScale = d3.scaleLinear()
 		.domain([0, Math.max.apply(Math, data.map(function(o) { return o[yVar]; }))])
-		.range([height - padding.bottom, padding.top]);
+		.range([height - padding.bottom, padding.top])
+    	.nice();
 
 	onMount(generateBarChart);
 
@@ -82,17 +87,20 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		 .attr("x", function (d) { return xScale(d[xVar]); })
 	    .attr("y", function (d) { return yScale(d[yVar]); })
 		 .attr("width", xScale.bandwidth())
-		 .attr("height", function (d) { return height - padding.bottom - yScale(d[yVar]); });
+		 .attr("height", function (d) {
+			 return height - padding.bottom - yScale(d[yVar]);
+		 });
 
 		 svg.append("path")
         .datum(data.filter(function(d,i){
 			  return i > 1
 		  }))
         .attr("fill", "none")
-		  .attr("stroke", "black")
+		  .attr("stroke", "#d51e2d")
         .attr("stroke-width", 5)
         .attr("d", d3.line()
-          .x(function(d) { return xScale(d[xVar]) + 30; })
+		  	 .curve(d3.curveNatural)
+          .x(function(d) { return xScale(d[xVar]) + (xScale.bandwidth()/2); })
           .y(function(d) { return yScale(d["rollingavg"]); })
       	)
 	}
@@ -100,7 +108,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 <style>
 	.chart :global(rect) {
-		fill: #d51e2d;
+		fill: #cfbabc;
 	}
 </style>
 
