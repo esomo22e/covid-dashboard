@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { scaleLinear, scaleBand } from 'd3-scale';
 	import { axisLeft, axisRight, axisTop, axisBottom } from 'd3-axis';
-	import { select } from 'd3-selection';
+	import { select, mouse } from 'd3-selection';
 import { timeParse, timeFormat } from 'd3-time-format';
 	import { line, curveMonotoneX, curveNatural } from 'd3-shape';
 	import { path } from 'd3-path';
@@ -12,6 +12,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		scaleLinear: scaleLinear,
 		scaleBand: scaleBand,
 		select: select,
+		mouse: mouse,
 		axisLeft: axisLeft,
 		axisRight: axisRight,
 		axisBottom: axisBottom,
@@ -25,7 +26,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 	let el;
 
-	const padding = { top: 10, right: 40, bottom: 40, left: 50 };
+	const padding = { top: 10, right: 40, bottom: 70, left: 50 };
 
 
 
@@ -35,7 +36,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		export let xVar = {xVar};
 		export let yVar = {yVar};
 
-		export let avgdaycount = 14;
+		export let avgdaycount = 7;
 
 		console.log(data)
 
@@ -51,7 +52,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		})
 
 	$: xScale = d3.scaleBand()
-		.domain(data.map(function(o) { return o[xVar]; }))
+		.domain((data.filter(function(d,i){return i > (avgdaycount-2)})).map(function(o) { return o[xVar]; }))
 		.rangeRound([0, width - padding.left - padding.right])
 		.padding(0.2);
 
@@ -70,6 +71,8 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		// 	})
 		// )
 
+		var tooltip = d3.select(el).append("div").attr("class", "tooltip");
+
 		var svg = d3.select(el)
 			.append("svg")
 			.attr("width", width)
@@ -80,22 +83,45 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 		svg.append("g")
 		   .attr("transform", "translate(0," + (height-padding.bottom) + ")")
-		   .call(d3.axisBottom(xScale));
+		   .call(d3.axisBottom(xScale).tickSize(0))
+			.selectAll("text")
+	        .style("text-anchor", "end")
+	        .attr("dx", "-.4em")
+	        .attr("dy", ".15em")
+	        .attr("transform", "rotate(-60)");
 
 		svg.append("g")
   			.call(d3.axisLeft(yScale));
 
 		svg.append('g')
 	    .selectAll("rect")
-	    .data(data)
+	    .data(data.filter(function(d,i){return i > (avgdaycount-2)}))
 	    .enter()
 	    .append("rect")
 		 .attr("x", function (d) { return xScale(d[xVar]); })
 	    .attr("y", function (d) { return yScale(d[yVar]); })
 		 .attr("width", xScale.bandwidth())
 		 .attr("height", function (d) {
-			 return height - padding.bottom - yScale(d[yVar]);
-		 });
+			 return (d[yVar] > 0) ?
+			 height - padding.bottom - yScale(d[yVar]) :
+			 0;
+		 })
+       .on("mousemove", function(d){
+			   console.log(d3.mouse(this))
+            tooltip
+				  .style("position", "absolute")
+              .style("left", d3.mouse(this)[0] + "px")
+              .style("top", d3.mouse(this)[1] - 40 + "px")
+              .style("display", "inline-block")
+              .html(
+					  "<h4>" + d[xVar] + "</h4>" +
+					  "New cases reported:" + d[yVar] + "<br/>" +
+					  avgdaycount + "-day average:" + d["rollingavg"]
+			      );
+        })
+    	  .on("mouseout", function(d){
+			  tooltip.style("display", "none")
+		  });
 
 		 svg.append("path")
         .datum(data.filter(function(d,i){
@@ -115,6 +141,16 @@ import { timeParse, timeFormat } from 'd3-time-format';
 <style>
 	.chart :global(rect) {
 		fill: #cfbabc;
+	}
+
+	.chart :global(.tooltip) {
+		display:none;
+		position: absolute;
+		background-color: white;
+		border:2px solid black;
+		border-radius:10px;
+		padding: 10px;
+		width:200px;
 	}
 </style>
 
