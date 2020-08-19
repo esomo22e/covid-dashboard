@@ -26,7 +26,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 	let el;
 
-	const padding = { top: 10, right: 40, bottom: 70, left: 50 };
+	const padding = { top: 5, right: 15, bottom: 40, left: 40 };
 
 
 
@@ -35,41 +35,51 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		export let height = {height};
 		export let xVar = {xVar};
 		export let yVar = {yVar};
+		export let yA = {yA};
+		export let yB = {yB};
 
 		export let avgdaycount = 7;
 
 		console.log(data)
 
-		data.forEach(function(d,i){
-			if (i > (avgdaycount-2)) {
-				let array = [];
-				for (let j=0;  j<avgdaycount; j++) {
-					array.push( +data[i-j][yVar] )
-				}
-				let avg = array.reduce((a, b) => a + b, 0) / avgdaycount;
-				data[i]["rollingavg"] = Math.round(avg);
-			}
-		})
+		// data.forEach(function(d,i){
+		// 	if (i > (avgdaycount-2)) {
+		// 		let array = [];
+		// 		for (let j=0;  j<avgdaycount; j++) {
+		// 			array.push( +data[i-j][yVar] )
+		// 		}
+		// 		let avg = array.reduce((a, b) => a + b, 0) / avgdaycount;
+		// 		data[i]["rollingavg"] = Math.round(avg);
+		// 	}
+		// })
 
 	$: xScale = d3.scaleBand()
-		.domain((data.filter(function(d,i){return i > (avgdaycount-2)})).map(function(o) { return o[xVar]; }))
+		.domain(data.map(function(o) { return o[xVar]; }))
 		.rangeRound([0, width - padding.left - padding.right])
-		.padding(0.2);
+		.padding(0.1);
 
 	$: yScale = d3.scaleLinear()
 		.domain([0, Math.max.apply(Math, data.map(function(o) { return o[yVar]; }))])
 		.range([height - padding.bottom, padding.top])
     	.nice();
 
+	function showTip(d, target, mouse) {
+		target
+		  .style("position", "absolute")
+		  .style("left", mouse[0] + "px")
+		  .style("top", mouse[1] - 90 + "px")
+		  .style("display", "inline-block")
+		  .html(
+			  "<h4>" + d[xVar] + "</h4>" +
+			  "Samples taken: " + d[yVar] + "<br/>" +
+			  "Tests completed: " + d[yA] + "<br/>" +
+			  "Tests in progress: " + d[yB] + "<br/>"
+			);
+	}
+
 	onMount(generateBarChart);
 
 	function generateBarChart() {
-
-		// console.log(
-		// 	data.filter(function(d,i){
-		// 		return i > 1
-		// 	})
-		// )
 
 		var tooltip = d3.select(el).append("div").attr("class", "tooltip");
 
@@ -93,37 +103,42 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		svg.append("g")
   			.call(d3.axisLeft(yScale));
 
+		// add data columns
 		svg.append('g')
 	    .selectAll("rect")
-	    .data(data.filter(function(d,i){return i > (avgdaycount-2)}))
+	    .data(data)
 	    .enter()
 	    .append("rect")
+		 .attr("fill", "#D41B2C")
 		 .attr("x", function (d) { return xScale(d[xVar]); })
-	    .attr("y", function (d) { return yScale(d[yVar]); })
+	    .attr("y", function (d) { return yScale(d[yA]); })
 		 .attr("width", xScale.bandwidth())
-		 .attr("height", function (d) {
-			 return (d[yVar] > 0) ?
-			 height - padding.bottom - yScale(d[yVar]) :
-			 0;
-		 })
+		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yA]) })
+		 .on("mousemove", function(d){
+            showTip(d, tooltip, d3.mouse(this))
+        })
+    	  .on("mouseout", function(d){
+			  tooltip.style("display", "none")
+		  });;
 
-		 
-       // .on("mousemove", function(d){
-			//    console.log(d3.mouse(this))
-       //      tooltip
-			// 	  .style("position", "absolute")
-       //        .style("left", d3.mouse(this)[0] + "px")
-       //        .style("top", d3.mouse(this)[1] - 40 + "px")
-       //        .style("display", "inline-block")
-       //        .html(
-			// 		  "<h4>" + d[xVar] + "</h4>" +
-			// 		  "New cases reported:" + d[yVar] + "<br/>" +
-			// 		  avgdaycount + "-day average:" + d["rollingavg"]
-			//       );
-       //  })
-    	 //  .on("mouseout", function(d){
-			//   tooltip.style("display", "none")
-		 //  });
+		 svg.append('g')
+ 	    .selectAll("rect")
+ 	    .data(data)
+ 	    .enter()
+ 	    .append("rect")
+		 .attr("fill", "#CFC7BF")
+ 		 .attr("x", function (d) { return xScale(d[xVar]); })
+ 	    .attr("y", function (d) {
+			 return yScale(+d[yB] + +d[yA])
+		 })
+ 		 .attr("width", xScale.bandwidth())
+ 		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yB]) })
+		 .on("mousemove", function(d){
+            showTip(d, tooltip, d3.mouse(this))
+        })
+    	  .on("mouseout", function(d){
+			  tooltip.style("display", "none")
+		  });
 
 		 // svg.append("path")
        //  .datum(data.filter(function(d,i){
@@ -142,7 +157,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 <style>
 	.chart :global(rect) {
-		fill: #cfbabc;
+		/* fill: #cfbabc; */
 	}
 
 	.chart :global(.tooltip) {
