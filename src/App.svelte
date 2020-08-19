@@ -17,8 +17,13 @@
 	});
 
 	let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
-	let width1 = width;
+	let width1 = Math.min(width, 350);
 	let width2 = width;
+
+	if (window.innerWidth > 600) {
+		width1 = width * 0.33;
+		width2 = (width * 0.66) - 60
+	}
 
 	const columns = [
 	  {
@@ -82,6 +87,15 @@
 	  margin-bottom:40px;
 	}
 
+	@media screen and (max-width:600px) {
+		#dashboard-grid {
+			grid-template-columns: 1fr;
+		 	  grid-template-rows: 1fr;
+		 	  gap: 40px 60px;
+			grid-template-areas: "dash-bars" "dash-donut" "dash-table";
+		}
+	}
+
 	.dash-bars { grid-area: dash-bars; }
 
 	.dash-donut { grid-area: dash-donut; }
@@ -111,8 +125,8 @@
 				title={"Samples by Date"}
 			/>
 			<StackedColumnChart
-				width={(width * 0.66) - 60}
-				height={width * 0.66 * 0.66}
+				width={width2}
+				height={width2 * 0.66}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Samples Taken"}
@@ -126,8 +140,8 @@
 				title={"Current Positive Rate"}
 			/>
 			<DonutChart
-				width={width * 0.33}
-				height={width * 0.33}
+				width={width1}
+				height={width1}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Samples Taken"}

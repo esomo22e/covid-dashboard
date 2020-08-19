@@ -45,8 +45,6 @@ import { timeParse, timeFormat } from 'd3-time-format';
 
 		export let avgdaycount = 7;
 
-		console.log(data)
-
 		// data.forEach(function(d,i){
 		// 	if (i > (avgdaycount-2)) {
 		// 		let array = [];

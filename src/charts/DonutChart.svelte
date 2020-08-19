@@ -29,8 +29,6 @@
 
 	data = data[data.length-1]
 
-	console.log(data)
-
 
 	// function showTip(d, target, mouse) {
 	// 	target
