@@ -74,11 +74,9 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		  .style("display", "inline-block")
 		  .html(
 			  "<h4>" + d[xVar] + "</h4>" +
-			  "Samples taken: " + d[yVar] + "<br/>" +
-			  "Tests completed: " + d[yA] + "<br/>" +
-			  "Positive tests: " + d[yC] + "<br/>" +
-			  "Tests in progress: " + d[yB] + "<br/>"
-
+			  yB + ": " + d[yB] + "<br/>" +
+			  yC + ": " + d[yC] + "<br/>" +
+			  yA + ": " + d[yA] + "<br/>"
 			);
 	}
 
@@ -109,7 +107,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
   			.call(d3.axisLeft(yScale));
 
 		// add data columns
-		// completed
+		// positive
 		svg.append('g')
 	    .selectAll("rect")
 	    .data(data)
@@ -127,7 +125,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 			  tooltip.style("display", "none")
 		  });
 
-		  // in progress
+		  // negative
 		 svg.append('g')
  	    .selectAll("rect")
  	    .data(data)
@@ -146,8 +144,8 @@ import { timeParse, timeFormat } from 'd3-time-format';
     	  .on("mouseout", function(d){
 			  tooltip.style("display", "none")
 		  });
-
-		  // positive
+		//
+		//   // inconclusive
   		svg.append('g')
   	    .selectAll("rect")
   	    .data(data)
@@ -155,7 +153,9 @@ import { timeParse, timeFormat } from 'd3-time-format';
   	    .append("rect")
   		 .attr("fill", colors(yC))
   		 .attr("x", function (d) { return xScale(d[xVar]); })
-  	    .attr("y", function (d) { return yScale(d[yC]); })
+  	    .attr("y", function (d) {
+			 return yScale(+d[yC] + +d[yB] + +d[yA])
+		 })
   		 .attr("width", xScale.bandwidth())
   		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yC]) })
   		 .on("mousemove", function(d){
@@ -173,8 +173,8 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		  	 .scale(colors)
 			 .orient("horizontal")
 		  	 .shape("rect")
-			 .shapeWidth(3 * (width/19))
-			 .shapePadding(2 * width/19)
+			 .shapeWidth(3 * (width/15))
+			 .shapePadding(2 * width/15)
 			 .shapeHeight(10);
 
 		  svg.select(".legendOrdinal")

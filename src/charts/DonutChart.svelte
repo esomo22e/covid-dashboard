@@ -51,19 +51,23 @@
 		var svg = d3.select(el)
 			.append("svg")
 			.attr("width", width)
-			.attr("height", height + 75)
+			.attr("height", height)
 			.append("g")
 			.append("g")
       	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 
 			// Create dummy data
-		var donutdata = {a: data["Tests Completed"], b: data["Positive Tests"]}
+		var donutdata = {a: data["Positive Tests"], b: data["Negative Tests"], c: data["Inconclusive Tests"]}
 
 		// set the color scale
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
-		  .range(["#CFC7BF", "#D41B2C"])
+		  .range([
+	           "#D41B2C",
+	           "#88c7f0",
+	           "#FF854F"
+	     ])
 
 		// Compute the position of each group on the pie:
 		var pie = d3.pie()
@@ -82,21 +86,31 @@
 		  )
 	  	.attr('fill', function(d){ return(color(d.data.key)) })
 
-		var donutcaption = svg.append("text")
-			.attr("text-anchor", "middle")
-			.attr("x", -32)
-			.attr("y", (height/2) + 25)
+		var donutcaption = d3.select(el)
+			.append("div")
+			.style("text-align", "center")
 
-		donutcaption.append("tspan")
-			.text("Positive rate as of " + data["Date"] + ": ")
 
-		donutcaption.append("tspan")
-			.attr("dx", -125)
-			.attr("dy", 30)
-			.attr("font-size", "1.5rem")
-			.attr("fill", "#D41B2C")
-			.attr("font-weight", "900")
+		donutcaption.append("div")
+			.text("NU positive rate as of " + data["Date"] + ": ")
+
+		donutcaption.append("div")
+			.style("font-size", "1.5rem")
+			.style("color", "#D41B2C")
+			.style("font-weight", "700")
+			.style("margin-bottom", "1rem")
 			.text((data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+
+		donutcaption.append("div")
+
+			.style("font-size", "0.84rem")
+			.text("Massachusetts positive rate as of " + data["Date"] + ": ")
+
+		donutcaption.append("div")
+			.style("font-size", "1.2rem")
+			.style("color", "#333")
+			.style("font-weight", "700")
+			.text((data["Mass. Positive Rate"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 	}
 </script>
 

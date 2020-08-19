@@ -1,5 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
+	import Brief from './charts/Brief.svelte'
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
 	import GraphicTitle from './components/GraphicTitle.svelte'
@@ -12,7 +13,18 @@
 	$: coviddata = [];
 
 	csv("../datasets/testingdata.csv").then(function(data,i){
-		 coviddata = data;
+		data.forEach(function(d,i){
+			Object.keys(d).forEach(function(j) {
+				if ((j == "Date") || (j == "Mass. Positive Rate")) {
+					d[j] = d[j]
+				} else {
+					d[j] = parseFloat(d[j])
+				}
+
+			})
+		});
+
+		coviddata = data;
 
 	});
 
@@ -30,35 +42,53 @@
 	    key: "Date",
 	    title: "Date",
 	    value: v => v["Date"],
-	    sortable: false,
-	    headerClass: "text-left"
-	  },
-	  {
-	    key: "Samples Taken",
-	    title: "Samples Taken",
-	    value: v => v["Samples Taken"],
-	    sortable: false,
+	    sortable: true,
 	    headerClass: "text-left"
 	  },
 	  {
 	    key: "Tests Completed",
 	    title: "Tests Completed",
 	    value: v => v["Tests Completed"],
-	    sortable: false,
+	    sortable: true,
 	    headerClass: "text-left"
 	  },
 	  {
-	    key: "Tests in Progress",
-	    title: "Tests in Progress",
-	    value: v => v["Tests in Progress"],
-	    sortable: false,
+	    key: "Negative Tests",
+	    title: "Negative Tests",
+	    value: v => v["Negative Tests"],
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Negative Rate",
+	    title: "Negative Rate",
+	    value: v => (
+			 (v["Negative Tests"] / v["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
+		 ),
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Inconclusive Tests",
+	    title: "Inconclusive Tests",
+	    value: v => v["Inconclusive Tests"],
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Inconclusive Rate",
+	    title: "Inconclusive Rate",
+	    value: v => (
+			 (v["Inconclusive Tests"] / v["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
+		 ),
+	    sortable: true,
 	    headerClass: "text-left"
 	  },
 	  {
 	    key: "Positive Tests",
 	    title: "Positive Tests",
 	    value: v => v["Positive Tests"],
-	    sortable: false,
+	    sortable: true,
 	    headerClass: "text-left"
 	  },
 	  {
@@ -67,7 +97,16 @@
 	    value: v => (
 			 (v["Positive Tests"] / v["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
 		 ),
-	    sortable: false,
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Mass. Positive Rate",
+	    title: "MA Positive Rate",
+	    value: v => (
+			 (v["Mass. Positive Rate"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
+		 ),
+	    sortable: true,
 	    headerClass: "text-left"
 	  }
   ]
@@ -82,8 +121,8 @@
 	  display: grid;
 	  grid-template-columns: 1fr 1fr 1fr;
 	  grid-template-rows: 1fr auto;
-	  gap: 40px 60px;
-	  grid-template-areas: "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
+	  gap: 20px 60px;
+	  grid-template-areas: "dash-brief dash-brief dash-brief" "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
 	  margin-bottom:40px;
 	}
 
@@ -92,9 +131,15 @@
 			grid-template-columns: 1fr;
 		 	  grid-template-rows: 1fr;
 		 	  gap: 40px 60px;
-			grid-template-areas: "dash-bars" "dash-donut" "dash-table";
+			grid-template-areas: "dash-brief" "dash-bars" "dash-donut";
+		}
+
+		.dash-table {
+			display:none;
 		}
 	}
+
+	.dash-brief { grid-area: dash-brief; }
 
 	.dash-bars { grid-area: dash-bars; }
 
@@ -103,7 +148,6 @@
 	.dash-table { grid-area: dash-table; }
 
 	.dashboard-grid-item {
-
 	}
 
 </style>
@@ -120,19 +164,24 @@
 {/if} -->
 {#if coviddata.length > 0}
 	<div id="dashboard-grid">
+		<div class="dashboard-grid-item dash-brief">
+			<Brief
+				data={coviddata}
+			/>
+		</div>
 		<div class="dashboard-grid-item dash-bars" id="column-chart-container">
 			<GraphicTitle
-				title={"Samples by Date"}
+				title={"Test Results by Date"}
 			/>
 			<StackedColumnChart
 				width={width2}
-				height={width2 * 0.66}
+				height={width2 * 0.75}
 				data={coviddata}
 				xVar={"Date"}
-				yVar={"Samples Taken"}
-				yA={"Tests Completed"}
-				yB={"Tests in Progress"}
-				yC={"Positive Tests"}
+				yVar={"Tests Completed"}
+				yA={"Positive Tests"}
+				yB={"Negative Tests"}
+				yC={"Inconclusive Tests"}
 			/>
 		</div>
 		<div class="dashboard-grid-item dash-donut">
@@ -153,9 +202,8 @@
 			<SvelteTable
 			   columns={columns}
 			   rows={coviddata}
-			   sortOrder={1}
-			   clickCol={(event,row,key) => console.log(event,row,key)}
-			   sortBy={"Date"}
+				sortBy={"Date"}
+			   sortOrder={-1}
 			   classNameCell={"infocell"}
 			>
 			</SvelteTable>

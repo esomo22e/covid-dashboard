@@ -60,32 +60,55 @@ button:focus {
 } */
 
 #covid-testing-dashboard table {
-	border: 0px
+	border: 0px;
+	font-size:0.7rem;
+	background-color: extralightgray;
+}
+
+#covid-testing-dashboard th {
+	font-weight:700;
+	font-size:0.7rem;
+	text-transform:uppercase;
+
+}
+
+#covid-testing-dashboard thead {
+	background-color:#eee
+}
+
+
+
+#covid-testing-dashboard td:nth-child(1) {
+	text-align:left;
+}
+
+#covid-testing-dashboard td {
+	text-align: right;
 }
 
 @media only screen and (min-width: 601px) {
 
-	#covid-testing-dashboard td.infocell {
-	    width: 13%;
+	#covid-testing-dashboard table {
+		font-size:1rem;
 	}
 
-	#covid-testing-dashboard td.infocell:nth-child(1){
-	    width: 30%;
-	}
-
-	#covid-testing-dashboard td.infocell:nth-child(4),
-	#covid-testing-dashboard td.infocell:nth-child(5) {
-	    width: 22%;
+	#covid-testing-dashboard th:nth-child(1) {
+		width: 8%;
 	}
 
 	#covid-testing-dashboard th {
+		width: 11.5%;
+	}
+
+
+	#covid-testing-dashboard th {
 		vertical-align: bottom;
-		border-bottom:2px solid #222;
+
 	}
 } /* large-screen table */
 
 @media only screen and (max-width: 600px) {
-	/* #covid-testing-dashboard table, thead, tbody, th, td, tr {
+	#covid-testing-dashboard table, thead, tbody, th, td, tr {
 		display: block;
 	}
 	#covid-testing-dashboard thead tr {
@@ -109,7 +132,7 @@ button:focus {
 	#covid-testing-dashboard td:before {
 		position: absolute;
 		top: -5px;
-		/* left: 6px; */
+		 left: 6px;
 		width: 100%;
 		font-size:0.75rem;
 		text-transform:uppercase;
@@ -120,7 +143,7 @@ button:focus {
 	#covid-testing-dashboard td:nth-of-type(4):before { content: "Acres of Parkland Per 1000 Residents";}
 	#covid-testing-dashboard td:nth-of-type(5):before { content: "Percent of Residents within Half-Mile of Park";} */
 
-	/* #covid-testing-dashboard .infocell {
+	#covid-testing-dashboard .infocell {
 		font-size:1.2rem;
 		font-weight: 700;
 		color: darkgreen;
@@ -131,7 +154,7 @@ button:focus {
 		text-transform:uppercase;
 		font-weight:normal;
 		color: black;
-	} */
+	}
 } /* end mobile table */
 
 #covid-testing-dashboard text.circlelegendTitle {
