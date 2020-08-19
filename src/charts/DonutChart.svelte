@@ -5,6 +5,7 @@
 	import { entries } from 'd3-collection';
 	import { path } from 'd3-path';
 	import { pie, arc } from 'd3-shape';
+	import { colors } from '../helpers/colors.js'
 
 	let d3 = {
 		scaleOrdinal: scaleOrdinal,
@@ -84,16 +85,19 @@
 	  	.attr('fill', function(d){ return(color(d.data.key)) })
 
 		var donutcaption = svg.append("text")
-			.attr("x", -(width/2))
+			.attr("text-anchor", "middle")
+			.attr("x", -32)
 			.attr("y", (height/2) + 25)
 
 		donutcaption.append("tspan")
-			.text("Positive rate as of 8/18/20: ")
+			.text("Positive rate as of " + data["Date"] + ": ")
 
 		donutcaption.append("tspan")
-			.attr("x", -(width/2))
-			.attr("dy", 25)
-			.attr("font-size", "1.25rem")
+			.attr("dx", -125)
+			.attr("dy", 30)
+			.attr("font-size", "1.5rem")
+			.attr("fill", "#D41B2C")
+			.attr("font-weight", "900")
 			.text((data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 	}
 </script>

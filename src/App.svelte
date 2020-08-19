@@ -11,12 +11,12 @@
 
 	$: coviddata = [];
 
-	csv("../datasets/samples0819.csv").then(function(data,i){
+	csv("../datasets/testingdata.csv").then(function(data,i){
 		 coviddata = data;
 
 	});
 
-	let width = document.getElementById('interactive').getBoundingClientRect().width;
+	let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
 	let width1 = width;
 	let width2 = width;
 
@@ -76,9 +76,10 @@
 	#dashboard-grid {
 	  display: grid;
 	  grid-template-columns: 1fr 1fr 1fr;
-	  grid-template-rows: 1fr 1fr;
-	  gap: 20px 20px;
-	  grid-template-areas: "dash-bars dash-bars dash-donut ." "dash-table dash-table dash-table ." ". . . .";
+	  grid-template-rows: 1fr auto;
+	  gap: 40px 60px;
+	  grid-template-areas: "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
+	  margin-bottom:40px;
 	}
 
 	.dash-bars { grid-area: dash-bars; }
@@ -88,7 +89,7 @@
 	.dash-table { grid-area: dash-table; }
 
 	.dashboard-grid-item {
-		background-color: papayawhip;
+
 	}
 
 </style>
@@ -110,13 +111,14 @@
 				title={"Samples by Date"}
 			/>
 			<StackedColumnChart
-				width={(width * 0.66) - 20}
+				width={(width * 0.66) - 60}
 				height={width * 0.66 * 0.66}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Samples Taken"}
 				yA={"Tests Completed"}
 				yB={"Tests in Progress"}
+				yC={"Positive Tests"}
 			/>
 		</div>
 		<div class="dashboard-grid-item dash-donut">
@@ -147,6 +149,6 @@
 	</div>
 {/if}
 <GraphicFooter
-	source={"Northeastern University"}
+	source={"Northeastern Life Sciences Testing Center"}
 	note={""}
 />

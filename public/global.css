@@ -1,26 +1,26 @@
-.article-content, #interactive{
+.article-content, #covid-testing-dashboard{
 	max-width: 800px;
 	margin: 0 auto;
 }
 
-#interactive > svg, #interactive > #svgContainer, .tick text {
+#covid-testing-dashboard > svg, #covid-testing-dashboard > #svgContainer, .tick text {
 	max-width: 1000px;
 	margin: 0 auto;
 	font-family: "akkurat", -apple-system, sans-serif;
 }
 
-#interactive {
+#covid-testing-dashboard {
 	color: #333;
 	font-family: "akkurat", -apple-system, sans-serif;
 }
 
 
 
-#interactive label {
+#covid-testing-dashboard label {
 	display: block;
 }
 
-#interactive input {
+#covid-testing-dashboard input {
 	font-family: inherit;
 	font-size: inherit;
 	padding: 0.4em;
@@ -30,13 +30,13 @@
 	border-radius: 2px;
 }
 
-#interactive .sourceline {
+#covid-testing-dashboard .sourceline {
 	font-size: 14px;
 	color: #999;
 	margin: 1rem 0;
 }
 
-#interactive .sourceline a {
+#covid-testing-dashboard .sourceline a {
 	color: #999;
 }
 
@@ -59,45 +59,45 @@ button:focus {
 	border-color: #666;
 } */
 
-#interactive table {
+#covid-testing-dashboard table {
 	border: 0px
 }
 
 @media only screen and (min-width: 601px) {
 
-	#interactive td.infocell {
+	#covid-testing-dashboard td.infocell {
 	    width: 13%;
 	}
 
-	#interactive td.infocell:nth-child(1){
+	#covid-testing-dashboard td.infocell:nth-child(1){
 	    width: 30%;
 	}
 
-	#interactive td.infocell:nth-child(4),
-	#interactive td.infocell:nth-child(5) {
+	#covid-testing-dashboard td.infocell:nth-child(4),
+	#covid-testing-dashboard td.infocell:nth-child(5) {
 	    width: 22%;
 	}
 
-	#interactive th {
+	#covid-testing-dashboard th {
 		vertical-align: bottom;
 		border-bottom:2px solid #222;
 	}
 } /* large-screen table */
 
 @media only screen and (max-width: 600px) {
-	#interactive table, thead, tbody, th, td, tr {
+	#covid-testing-dashboard table, thead, tbody, th, td, tr {
 		display: block;
 	}
-	#interactive thead tr {
+	#covid-testing-dashboard thead tr {
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
 	}
-	#interactive tr {
+	#covid-testing-dashboard tr {
 		border: 1px  solid #ccc;
 		margin-bottom:1.5rem;
 	}
-	#interactive td {
+	#covid-testing-dashboard td {
 		border: none;
 		border-bottom: 1px solid #eee;
 		position: relative;
@@ -106,7 +106,7 @@ button:focus {
 		padding-top:12px;
 		padding-left:5px;
 	}
-	#interactive td:before {
+	#covid-testing-dashboard td:before {
 		position: absolute;
 		top: -5px;
 		/* left: 6px; */
@@ -114,19 +114,19 @@ button:focus {
 		font-size:0.75rem;
 		text-transform:uppercase;
 	}
-	/* #interactive td:nth-of-type(1):before { content: "City"; }
-	#interactive td:nth-of-type(2):before { content: "Population"; }
-	#interactive td:nth-of-type(3):before { content: "Population Density"; }
-	#interactive td:nth-of-type(4):before { content: "Acres of Parkland Per 1000 Residents";}
-	#interactive td:nth-of-type(5):before { content: "Percent of Residents within Half-Mile of Park";} */
+	/* #covid-testing-dashboard td:nth-of-type(1):before { content: "City"; }
+	#covid-testing-dashboard td:nth-of-type(2):before { content: "Population"; }
+	#covid-testing-dashboard td:nth-of-type(3):before { content: "Population Density"; }
+	#covid-testing-dashboard td:nth-of-type(4):before { content: "Acres of Parkland Per 1000 Residents";}
+	#covid-testing-dashboard td:nth-of-type(5):before { content: "Percent of Residents within Half-Mile of Park";} */
 
-	#interactive .infocell {
+	#covid-testing-dashboard .infocell {
 		font-size:1.2rem;
 		font-weight: 700;
 		color: darkgreen;
 	}
 
-	#interactive .infocell:before {
+	#covid-testing-dashboard .infocell:before {
 		font-size:0.75rem;
 		text-transform:uppercase;
 		font-weight:normal;
@@ -134,12 +134,12 @@ button:focus {
 	}
 } /* end mobile table */
 
-#interactive text.circlelegendTitle {
+#covid-testing-dashboard text.circlelegendTitle {
 	font-size:0.81rem;
 	margin-bottom:10px;
 }
 
-#interactive .legendContainer {
+#covid-testing-dashboard .legendContainer {
 	border: 1px solid #bbb;
 	border-radius: 3px;
 	width: fit-content;
@@ -153,15 +153,15 @@ circle.circleswatch {
 	stroke: #000000;
 }
 
-.interactivefilter {
+.covid-testing-dashboardfilter {
 	padding:10px;
 	background-color: #eee;
 }
 
-.interactivefilter span {
+.covid-testing-dashboardfilter span {
 	font-size:0.8rem;
 }
 
-.interactivefilter input {
+.covid-testing-dashboardfilter input {
 	width: 100%;
 }

@@ -27,6 +27,6 @@
 <div id="graphic-footer">
    <div id="footer-meta">
       <span class="graphic-footer-text">SOURCE: {source}</span>
-      <span class="graphic-footer-text">NOTE: {note}</span>
+      <!-- <span class="graphic-footer-text">NOTE: {note}</span> -->
    </div>
 </div>

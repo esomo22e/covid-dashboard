@@ -7,6 +7,9 @@ import { timeParse, timeFormat } from 'd3-time-format';
 	import { line, curveMonotoneX, curveNatural } from 'd3-shape';
 	import { path } from 'd3-path';
 	import { interpolateRound } from 'd3-interpolate';
+	import 'd3-transition'
+	import { legendColor } from 'd3-svg-legend';
+	import { colors } from '../helpers/colors.js'
 
 	let d3 = {
 		scaleLinear: scaleLinear,
@@ -21,12 +24,13 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		path: path,
 		curveMonotoneX: curveMonotoneX,
 		curveNatural: curveNatural,
-		interpolateRound: interpolateRound
+		interpolateRound: interpolateRound,
+		legendColor: legendColor
 	}
 
 	let el;
 
-	const padding = { top: 5, right: 15, bottom: 40, left: 40 };
+	const padding = { top: 50, right: 0, bottom: 15, left: 40 };
 
 
 
@@ -37,6 +41,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		export let yVar = {yVar};
 		export let yA = {yA};
 		export let yB = {yB};
+		export let yC = {yC};
 
 		export let avgdaycount = 7;
 
@@ -73,7 +78,9 @@ import { timeParse, timeFormat } from 'd3-time-format';
 			  "<h4>" + d[xVar] + "</h4>" +
 			  "Samples taken: " + d[yVar] + "<br/>" +
 			  "Tests completed: " + d[yA] + "<br/>" +
+			  "Positive tests: " + d[yC] + "<br/>" +
 			  "Tests in progress: " + d[yB] + "<br/>"
+
 			);
 	}
 
@@ -89,27 +96,28 @@ import { timeParse, timeFormat } from 'd3-time-format';
 			.attr("height", height)
 			.append("g")
 			.attr("transform",
-				  "translate(" + padding.left + "," + padding.top + ")");
+				  "translate(" + padding.left + "," + 0 + ")");
 
 		svg.append("g")
 		   .attr("transform", "translate(0," + (height-padding.bottom) + ")")
 		   .call(d3.axisBottom(xScale).tickSize(0))
 			.selectAll("text")
-	        .style("text-anchor", "end")
-	        .attr("dx", "-.4em")
-	        .attr("dy", ".15em")
-	        .attr("transform", "rotate(-60)");
+	        .style("text-anchor", "middle")
+	        // .attr("dx", "-.4em")
+	        // .attr("dy", ".15em");
+	        // .attr("transform", "rotate(-60)");
 
 		svg.append("g")
   			.call(d3.axisLeft(yScale));
 
 		// add data columns
+		// completed
 		svg.append('g')
 	    .selectAll("rect")
 	    .data(data)
 	    .enter()
 	    .append("rect")
-		 .attr("fill", "#D41B2C")
+		 .attr("fill", colors(yA))
 		 .attr("x", function (d) { return xScale(d[xVar]); })
 	    .attr("y", function (d) { return yScale(d[yA]); })
 		 .attr("width", xScale.bandwidth())
@@ -119,14 +127,15 @@ import { timeParse, timeFormat } from 'd3-time-format';
         })
     	  .on("mouseout", function(d){
 			  tooltip.style("display", "none")
-		  });;
+		  });
 
+		  // in progress
 		 svg.append('g')
  	    .selectAll("rect")
  	    .data(data)
  	    .enter()
  	    .append("rect")
-		 .attr("fill", "#CFC7BF")
+		 .attr("fill", colors(yB))
  		 .attr("x", function (d) { return xScale(d[xVar]); })
  	    .attr("y", function (d) {
 			 return yScale(+d[yB] + +d[yA])
@@ -139,6 +148,39 @@ import { timeParse, timeFormat } from 'd3-time-format';
     	  .on("mouseout", function(d){
 			  tooltip.style("display", "none")
 		  });
+
+		  // positive
+  		svg.append('g')
+  	    .selectAll("rect")
+  	    .data(data)
+  	    .enter()
+  	    .append("rect")
+  		 .attr("fill", colors(yC))
+  		 .attr("x", function (d) { return xScale(d[xVar]); })
+  	    .attr("y", function (d) { return yScale(d[yC]); })
+  		 .attr("width", xScale.bandwidth())
+  		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yC]) })
+  		 .on("mousemove", function(d){
+              showTip(d, tooltip, d3.mouse(this))
+          })
+      	  .on("mouseout", function(d){
+  			  tooltip.style("display", "none")
+  		  });
+
+		  svg.append("g")
+		    .attr("class", "legendOrdinal")
+		    .attr("transform", "translate(" + (-padding.left/2 - 0) + "," + 0 + ")");
+
+		  var legendOrdinal = d3.legendColor()
+		  	 .scale(colors)
+			 .orient("horizontal")
+		  	 .shape("rect")
+			 .shapeWidth(3 * (width/19))
+			 .shapePadding(2 * width/19)
+			 .shapeHeight(10);
+
+		  svg.select(".legendOrdinal")
+		    .call(legendOrdinal);
 
 		 // svg.append("path")
        //  .datum(data.filter(function(d,i){
@@ -168,6 +210,12 @@ import { timeParse, timeFormat } from 'd3-time-format';
 		border-radius:10px;
 		padding: 10px;
 		width:200px;
+	}
+
+	.chart :global(.legendCells .cell) {
+		font-size:0.65rem;
+		fill: #777;
+		text-transform:uppercase;
 	}
 </style>
 
