@@ -3,7 +3,7 @@
 	import { scaleLinear, scaleBand } from 'd3-scale';
 	import { axisLeft, axisRight, axisTop, axisBottom } from 'd3-axis';
 	import { select, mouse } from 'd3-selection';
-import { timeParse, timeFormat } from 'd3-time-format';
+   import { timeParse, timeFormat } from 'd3-time-format';
 	import { line, curveMonotoneX, curveNatural } from 'd3-shape';
 	import { path } from 'd3-path';
 	import { interpolateRound } from 'd3-interpolate';
@@ -67,10 +67,11 @@ import { timeParse, timeFormat } from 'd3-time-format';
     	.nice();
 
 	function showTip(d, target, mouse) {
+		console.log(mouse)
 		target
 		  .style("position", "absolute")
-		  .style("left", mouse[0] + "px")
-		  .style("top", mouse[1] - 90 + "px")
+		  .style("left", (mouse[0] - document.getElementById('covid-testing-dashboard').getBoundingClientRect().x + 10) + "px")
+		  .style("top", (mouse[1] - document.getElementById('covid-testing-dashboard').getBoundingClientRect().x - 80) + "px")
 		  .style("display", "inline-block")
 		  .html(
 			  "<h4>" + d[xVar] + "</h4>" +
@@ -159,7 +160,7 @@ import { timeParse, timeFormat } from 'd3-time-format';
   		 .attr("width", xScale.bandwidth())
   		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yC]) })
   		 .on("mousemove", function(d){
-              showTip(d, tooltip, d3.mouse(this))
+            showTip(d, tooltip, d3.mouse(this))
           })
       	  .on("mouseout", function(d){
   			  tooltip.style("display", "none")
