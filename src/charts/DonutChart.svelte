@@ -92,6 +92,7 @@
 
 
 		donutcaption.append("div")
+			.style("line-height", "1rem")
 			.text("NU positive rate as of " + data["Date"] + ": ")
 
 		donutcaption.append("div")
@@ -102,7 +103,7 @@
 			.text((data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 
 		donutcaption.append("div")
-
+			.style("line-height", "1rem")
 			.style("font-size", "0.84rem")
 			.text("Massachusetts positive rate as of " + data["Date"] + ": ")
 

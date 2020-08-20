@@ -6,8 +6,12 @@
 </script>
 
 <style>
-   h2 {
+   h2.graphictitle {
       margin-bottom:2rem;
+      display: block;
+      font-size:1.5em;
+      font-weight:700;
+      font-family: "akkurat",sans-serif
    }
 </style>
 
