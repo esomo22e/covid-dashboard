@@ -67,14 +67,14 @@
     	.nice();
 
 	function showTip(d, target, mouse) {
-		console.log(mouse)
+		console.log(document.getElementById('covid-testing-dashboard').offsetTop)
 		target
 		  .style("position", "absolute")
-		  .style("left", (mouse[0] - document.getElementById('covid-testing-dashboard').getBoundingClientRect().x + 10) + "px")
-		  .style("top", (mouse[1] - document.getElementById('covid-testing-dashboard').getBoundingClientRect().x - 80) + "px")
+		  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft - 100) + "px")
+		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 80) + "px")
 		  .style("display", "inline-block")
 		  .html(
-			  "<h4>" + d[xVar] + "</h4>" +
+			  "<div class='tipdate'>" + d[xVar] + "</div>" +
 			  yB + ": " + d[yB] + "<br/>" +
 			  yC + ": " + d[yC] + "<br/>" +
 			  yA + ": " + d[yA] + "<br/>"
@@ -208,13 +208,19 @@
 		border:2px solid black;
 		border-radius:10px;
 		padding: 10px;
-		width:200px;
+		width:300px;
 	}
 
 	.chart :global(.legendCells .cell) {
 		font-size:0.65rem;
 		fill: #777;
 		text-transform:uppercase;
+	}
+
+	.chart :global(.tipdate) {
+		font-size:1.2rem;
+		font-weight:bold;
+		margin:0 auto 0.5rem;
 	}
 </style>
 

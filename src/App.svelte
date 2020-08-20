@@ -12,7 +12,7 @@
 
 	$: coviddata = [];
 
-	csv("//huskynunews.wpengine.com/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
+	csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
 	// csv("datasets/testingdata.csv").then(function(data,i){
 		data.forEach(function(d,i){
 			Object.keys(d).forEach(function(j) {

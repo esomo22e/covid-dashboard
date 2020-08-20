@@ -30,23 +30,27 @@
 	data = data[data.length-1]
 
 
-	// function showTip(d, target, mouse) {
-	// 	target
-	// 	  .style("position", "absolute")
-	// 	  .style("left", mouse[0] + "px")
-	// 	  .style("top", mouse[1] - 90 + "px")
-	// 	  .style("display", "inline-block")
-	// 	  .html(
-	// 		  "<h4>" + d[xVar] + "</h4>" +
-	// 		  "Samples taken: " + d[yVar] + "<br/>" +
-	// 		  "Tests completed: " + d[yA] + "<br/>" +
-	// 		  "Tests in progress: " + d[yB] + "<br/>"
-	// 		);
-	// }
+	function showPctTip(d, target, mouse) {
+		target
+		  .style("position", "absolute")
+		  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft + 500) + "px")
+		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 270) + "px")
+		  .style("display", "inline-block")
+		  .html(
+			  "<div class='tipdate'>" + data["Date"] + "</div>" +
+			  "Negative rate: " + (data["Negative Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+			  "Inconclusive rate: " + (data["Inconclusive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+			  "Positive rate: " + (data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
+			);
+	}
 
 	onMount(generateDonut);
 
 	function generateDonut() {
+
+
+
+		var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
 
 		var svg = d3.select(el)
 			.append("svg")
@@ -84,7 +88,13 @@
 		    .innerRadius(width * 0.2)         // This is the size of the donut hole
 		    .outerRadius(width * 0.5)
 		  )
-	  	.attr('fill', function(d){ return(color(d.data.key)) })
+	  	  .attr('fill', function(d){ return(color(d.data.key)) })
+		  .on("mousemove", function(d){
+             showPctTip(d, tooltip, d3.mouse(this))
+         })
+     	  .on("mouseout", function(d){
+ 			  tooltip.style("display", "none")
+ 		  });
 
 		var donutcaption = d3.select(el)
 			.append("div")
@@ -116,16 +126,20 @@
 </script>
 
 <style>
+	.chart :global(.tipdate) {
+		font-size:1.2rem;
+		font-weight:bold;
+		margin:0 auto 0.5rem;
+	}
 
-
-	.chart :global(.tooltip) {
+	.chart :global(.pcttooltip) {
 		display:none;
 		position: absolute;
 		background-color: white;
 		border:2px solid black;
 		border-radius:10px;
 		padding: 10px;
-		width:200px;
+		width:300px;
 	}
 </style>
 
