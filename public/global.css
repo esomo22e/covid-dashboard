@@ -1,4 +1,4 @@
-.article-content, #covid-testing-dashboard{
+.article-content, #covid-testing-dashboard, #covid-test-brief{
 	max-width: 800px;
 	margin: 0 auto;
 }
@@ -13,7 +13,7 @@
 	font-family: "akkurat", -apple-system, sans-serif;
 }
 
-#covid-testing-dashboard {
+#covid-testing-dashboard, #covid-test-brief {
 	color: #333;
 	font-family: "akkurat", -apple-system, sans-serif;
 }
@@ -133,35 +133,3 @@
 		color: black;
 	}
 } /* end mobile table */
-
-#covid-testing-dashboard text.circlelegendTitle {
-	font-size:0.81rem;
-	margin-bottom:10px;
-}
-
-#covid-testing-dashboard .legendContainer {
-	border: 1px solid #bbb;
-	border-radius: 3px;
-	width: fit-content;
-	width: max-content;
-	padding:10px 10px 5px 10px;
-	margin:0 auto 2rem;
-}
-
-circle.circleswatch {
-	opacity: 0.8;
-	stroke: #000000;
-}
-
-.covid-testing-dashboardfilter {
-	padding:10px;
-	background-color: #eee;
-}
-
-.covid-testing-dashboardfilter span {
-	font-size:0.8rem;
-}
-
-.covid-testing-dashboardfilter input {
-	width: 100%;
-}

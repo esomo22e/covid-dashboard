@@ -2,32 +2,15 @@
 
 ---
 
-# svelte app
+# COVID-19 testing dashboard
 
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
-
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
-
-```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
-
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
+Please note that the four-square brief is duplicated in the index file as an example -- one <div> id is used for the full dashboard on its own page, while the other, first one is intended to be standalone on the /coronavirus/ page.
 
 ## Get started
 
-Install the dependencies...
 
 ```bash
-cd svelte-app
 npm install
-```
-
-...then start [Rollup](https://rollupjs.org):
-
-```bash
 npm run dev
 ```
 
