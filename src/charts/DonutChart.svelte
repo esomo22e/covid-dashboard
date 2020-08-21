@@ -105,7 +105,7 @@
 
 		donutcaption.append("div")
 			.style("line-height", "1rem")
-			.text("NU positive rate as of " + data["Date"] + ": ")
+			.text("Percentage of positive test results at Northeastern on " + data["Date"] + ": ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
@@ -117,7 +117,7 @@
 		donutcaption.append("div")
 			.style("line-height", "1rem")
 			.style("font-size", "0.84rem")
-			.text("Massachusetts positive rate as of " + data["Date"] + ": ")
+			.text("Massachusetts 7-day average on " + data["Date"] + ": ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.2rem")

@@ -9,4 +9,4 @@ const app = new App({
 // 	target: document.getElementById('covid-test-brief')
 // });
 
-export default { app };
+export default app;

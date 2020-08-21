@@ -6,28 +6,62 @@
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'
    import SvelteTable from "svelte-table"
+	import { csv, json } from 'd3-fetch'
+	import { groups } from 'd3-array'
+	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json'
 
 
-	import { csv } from 'd3-fetch'
 
 	$: coviddata = [];
 
-	csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
+
+
+
+
+	// const doc = new GoogleSpreadsheet('1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE');
+	// doc.useServiceAccountAuth('credentials.json');
+
+
+
 	// csv("datasets/testingdata.csv").then(function(data,i){
-		data.forEach(function(d,i){
-			Object.keys(d).forEach(function(j) {
-				if ((j == "Date") || (j == "Mass. Positive Rate")) {
-					d[j] = d[j]
-				} else {
-					d[j] = parseFloat(d[j])
-				}
+	// csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
+	// 	data.forEach(function(d,i){
+	// 		Object.keys(d).forEach(function(j) {
+	// 			if ((j == "Date") || (j == "Mass. Positive Rate")) {
+	// 				d[j] = d[j]
+	// 			} else {
+	// 				d[j] = parseFloat(d[j])
+	// 			}
+	//
+	// 		})
+	// 	});
+	//
+	// 	coviddata = data;
+	//
+	// });
 
-			})
-		});
+	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Inconclusive Tests", "Mass. Positive Rate"]
 
-		coviddata = data;
+	json(url).then(function(data,i){
+		let rowcount = ((data.feed.entry.length / 6)-1)
+		let loadeddata = []
 
-	});
+		for (let r=0; r < rowcount; r++) {
+			loadeddata[r] = {}
+		}
+
+		data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
+			let colno = parseFloat([d.gs$cell.col])-1
+
+			if ((colno < 1) || (colno > 4)) {
+				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
+			} else {
+				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.inputValue)
+			}
+		})
+
+		coviddata = loadeddata;
+	})
 
 	let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
 	let width1 = Math.min(width, 350);
@@ -122,7 +156,7 @@
 	  grid-template-rows: 1fr auto;
 	  gap: 20px 60px;
 	  grid-template-areas: "dash-brief dash-brief dash-brief" "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
-	  margin-bottom:40px;
+	  margin-bottom:15px;
 	}
 
 	@media screen and (max-width:600px) {
