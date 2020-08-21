@@ -101,11 +101,12 @@
 		var donutcaption = d3.select(el)
 			.append("div")
 			.style("text-align", "center")
+			.style("margin", "15px auto")
 
 
 		donutcaption.append("div")
-			.style("line-height", "1rem")
-			.text("Percentage of positive test results at Northeastern on " + data["Date"] + ": ")
+			.style("line-height", "1.25rem")
+			.text("Positive test results at Northeastern on " + data["Date"] + ": ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
