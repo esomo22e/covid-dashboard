@@ -105,8 +105,9 @@
 
 
 		donutcaption.append("div")
+			.style("font-size", "1rem")
 			.style("line-height", "1.25rem")
-			.text("Positive test results at Northeastern on " + data["Date"] + ": ")
+			.text("Percentage of positive test results at Northeastern on " + data["Date"] + ": ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
