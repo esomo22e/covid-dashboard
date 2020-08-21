@@ -120,7 +120,9 @@
 		 .attr("width", xScale.bandwidth())
 		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yA]) })
 		 .on("mousemove", function(d){
-            showTip(d, tooltip, d3.mouse(this))
+			   if (window.innerWidth > 600) {
+	            showTip(d, tooltip, d3.mouse(this))
+				}
         })
     	  .on("mouseout", function(d){
 			  tooltip.style("display", "none")

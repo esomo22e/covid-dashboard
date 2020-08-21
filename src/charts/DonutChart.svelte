@@ -90,7 +90,9 @@
 		  )
 	  	  .attr('fill', function(d){ return(color(d.data.key)) })
 		  .on("mousemove", function(d){
-             showPctTip(d, tooltip, d3.mouse(this))
+			    if (window.innerWidth > 600) {
+             	showPctTip(d, tooltip, d3.mouse(this))
+				}
          })
      	  .on("mouseout", function(d){
  			  tooltip.style("display", "none")
