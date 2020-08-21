@@ -67,7 +67,6 @@
     	.nice();
 
 	function showTip(d, target, mouse) {
-		console.log(document.getElementById('covid-testing-dashboard').offsetTop)
 		target
 		  .style("position", "absolute")
 		  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft - 100) + "px")

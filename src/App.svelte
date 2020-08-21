@@ -112,8 +112,6 @@
 	  }
   ]
 
-	// console.log(jsondata.default)
-	// console.log(coviddata)
 
 </script>
 
