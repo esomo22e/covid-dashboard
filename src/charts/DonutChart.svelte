@@ -37,10 +37,10 @@
 		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 275) + "px")
 		  .style("display", "inline-block")
 		  .html(
-			  "<div class='tipdate'>" + data["Date"] + "</div>" +
-			  "Negative rate: " + (data["Negative Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-			  "Inconclusive rate: " + (data["Inconclusive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-			  "Positive rate: " + (data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
+			  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +
+			  "Negative rate: " + (data["Total Negative"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+			  "Inconclusive rate: " + (data["Total Inconclusive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+			  "Positive rate: " + (data["Total Positive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
 			);
 	}
 

@@ -40,10 +40,10 @@
 	//
 	// });
 
-	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Inconclusive Tests", "Mass. Positive Rate"]
+	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Inconclusive Tests", "Mass. Positive Rate", "Total Tests", "Total Positive", "Total Negative","Total Inconclusive"]
 
 	json(url).then(function(data,i){
-		let rowcount = ((data.feed.entry.length / 6)-1)
+		let rowcount = ((data.feed.entry.length / 10)-1)
 		let loadeddata = []
 
 		for (let r=0; r < rowcount; r++) {
@@ -53,7 +53,7 @@
 		data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
 			let colno = parseFloat([d.gs$cell.col])-1
 
-			if ((colno == 0) || (colno == 5)) {
+			if ((colno === 0) || (colno === 5)) {
 				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
 			} else {
 				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.inputValue)
