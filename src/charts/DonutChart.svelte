@@ -62,7 +62,7 @@
 
 
 			// Create dummy data
-		var donutdata = {a: data["Positive Tests"], b: data["Negative Tests"], c: data["Inconclusive Tests"]}
+		var donutdata = {a: data["Total Positive"], b: data["Total Negative"], c: data["Total Inconclusive"]}
 
 		// set the color scale
 		var color = d3.scaleOrdinal()
@@ -107,19 +107,19 @@
 		donutcaption.append("div")
 			.style("font-size", "1rem")
 			.style("line-height", "1.25rem")
-			.text("Percentage of positive test results at Northeastern on " + data["Date"] + ": ")
+			.text("Percentage of positive test results at Northeastern: ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
 			.style("color", "#D41B2C")
 			.style("font-weight", "700")
 			.style("margin-bottom", "1rem")
-			.text((data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+			.text((data["Total Positive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 
 		donutcaption.append("div")
 			.style("line-height", "1rem")
 			.style("font-size", "0.84rem")
-			.text("Massachusetts 7-day average on " + data["Date"] + ": ")
+			.text("Massachusetts 7-day average: ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.2rem")

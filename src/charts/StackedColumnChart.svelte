@@ -94,17 +94,23 @@
 			.attr("transform",
 				  "translate(" + padding.left + "," + 0 + ")");
 
-		svg.append("g")
+		let axisBottomRender = svg.append("g")
 		   .attr("transform", "translate(0," + (height-padding.bottom) + ")")
-		   .call(d3.axisBottom(xScale).tickSize(0))
-			.selectAll("text")
-	        .style("text-anchor", "middle")
-	        // .attr("dx", "-.4em")
-	        // .attr("dy", ".15em");
-	        // .attr("transform", "rotate(-60)");
+		   .call(d3.axisBottom(xScale).tickSize(0));
 
-		svg.append("g")
-  			.call(d3.axisLeft(yScale));
+		axisBottomRender.selectAll("path")
+			.attr("stroke", "#ccc");
+
+		axisBottomRender.selectAll("text")
+	        .style("text-anchor", "middle")
+			  .attr("dy", 10)
+
+
+		let axisVerticalRender = svg.append("g")
+  			.call(d3.axisLeft(yScale).tickSize(0));
+
+		axisVerticalRender.selectAll("path")
+				.attr("stroke", "#ccc");
 
 		// add data columns
 		// positive
