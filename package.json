@@ -17,6 +17,7 @@
     "d3-scale": "*",
     "d3-selection": "*",
     "rollup": "^1.20.0",
+    "rollup-plugin-inject-process-env": "^1.3.0",
     "rollup-plugin-livereload": "^1.0.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
@@ -27,11 +28,11 @@
     "topojson": "^3.0.2"
   },
   "dependencies": {
+    "d3-array": "^2.5.1",
     "d3-interpolate": "^1.4.0",
     "d3-shape": "^1.3.7",
     "d3-svg-legend": "^2.25.6",
     "d3-transition": "^1.3.2",
-    "mapbox-gl": "^1.11.0",
     "sirv-cli": "^0.4.4"
   }
 }

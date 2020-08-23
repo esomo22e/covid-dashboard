@@ -34,13 +34,13 @@
 		target
 		  .style("position", "absolute")
 		  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft + 500) + "px")
-		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 270) + "px")
+		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 275) + "px")
 		  .style("display", "inline-block")
 		  .html(
-			  "<div class='tipdate'>" + data["Date"] + "</div>" +
-			  "Negative rate: " + (data["Negative Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-			  "Inconclusive rate: " + (data["Inconclusive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-			  "Positive rate: " + (data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
+			  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +
+			  "Negative rate: " + (data["Total Negative"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+			  "Inconclusive rate: " + (data["Total Inconclusive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+			  "Positive rate: " + (data["Total Positive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
 			);
 	}
 
@@ -62,7 +62,7 @@
 
 
 			// Create dummy data
-		var donutdata = {a: data["Positive Tests"], b: data["Negative Tests"], c: data["Inconclusive Tests"]}
+		var donutdata = {a: data["Total Positive"], b: data["Total Negative"], c: data["Total Inconclusive"]}
 
 		// set the color scale
 		var color = d3.scaleOrdinal()
@@ -90,7 +90,9 @@
 		  )
 	  	  .attr('fill', function(d){ return(color(d.data.key)) })
 		  .on("mousemove", function(d){
-             showPctTip(d, tooltip, d3.mouse(this))
+			    if (window.innerWidth > 600) {
+             	showPctTip(d, tooltip, d3.mouse(this))
+				}
          })
      	  .on("mouseout", function(d){
  			  tooltip.style("display", "none")
@@ -99,23 +101,25 @@
 		var donutcaption = d3.select(el)
 			.append("div")
 			.style("text-align", "center")
+			.style("margin", "15px auto")
 
 
 		donutcaption.append("div")
-			.style("line-height", "1rem")
-			.text("NU positive rate as of " + data["Date"] + ": ")
+			.style("font-size", "1rem")
+			.style("line-height", "1.25rem")
+			.text("Percentage of positive test results at Northeastern: ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
 			.style("color", "#D41B2C")
 			.style("font-weight", "700")
 			.style("margin-bottom", "1rem")
-			.text((data["Positive Tests"] / data["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+			.text((data["Total Positive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 
 		donutcaption.append("div")
 			.style("line-height", "1rem")
 			.style("font-size", "0.84rem")
-			.text("Massachusetts positive rate as of " + data["Date"] + ": ")
+			.text("Massachusetts 7-day average: ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.2rem")

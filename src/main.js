@@ -5,8 +5,8 @@ const app = new App({
 	target: document.getElementById('covid-testing-dashboard')
 });
 
-const brief = new Brief({
-	target: document.getElementById('covid-test-brief')
-});
+// const brief = new Brief({
+// 	target: document.getElementById('covid-test-brief')
+// });
 
-export default { app, brief };
+export default app;
