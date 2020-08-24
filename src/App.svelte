@@ -219,7 +219,7 @@
 			/>
 			<StackedColumnChart
 				width={width2}
-				height={width2}
+				height={width2 * 1.1}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Tests Completed"}
