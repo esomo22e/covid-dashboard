@@ -89,6 +89,7 @@
 		    .outerRadius(width * 0.5)
 		  )
 	  	  .attr('fill', function(d){ return(color(d.data.key)) })
+		  .attr('stroke-width', 0)
 		  .on("mousemove", function(d){
 			    if (window.innerWidth > 600) {
              	showPctTip(d, tooltip, d3.mouse(this))
