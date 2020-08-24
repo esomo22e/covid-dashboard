@@ -74,9 +74,9 @@
 		  .style("display", "inline-block")
 		  .html(
 			  "<div class='tipdate'>" + d[xVar] + "</div>" +
+			  yA + ": " + d[yA] + "<br/>" +
 			  yB + ": " + d[yB] + "<br/>" +
-			  yC + ": " + d[yC] + "<br/>" +
-			  yA + ": " + d[yA] + "<br/>"
+			  yC + ": " + d[yC] + "<br/>"
 			);
 	}
 

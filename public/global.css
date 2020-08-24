@@ -85,7 +85,7 @@
 } /* large-screen table */
 
 @media only screen and (max-width: 600px) {
-	#covid-testing-dashboard table, thead, tbody, th, td, tr {
+	/* #covid-testing-dashboard table, thead, tbody, th, td, tr {
 		display: block;
 	}
 	#covid-testing-dashboard thead tr {
@@ -120,7 +120,7 @@
 	#covid-testing-dashboard td:nth-of-type(4):before { content: "Acres of Parkland Per 1000 Residents";}
 	#covid-testing-dashboard td:nth-of-type(5):before { content: "Percent of Residents within Half-Mile of Park";} */
 
-	#covid-testing-dashboard .infocell {
+	/* #covid-testing-dashboard .infocell {
 		font-size:1.2rem;
 		font-weight: 700;
 		color: darkgreen;
@@ -131,5 +131,5 @@
 		text-transform:uppercase;
 		font-weight:normal;
 		color: black;
-	}
+	} */
 } /* end mobile table */

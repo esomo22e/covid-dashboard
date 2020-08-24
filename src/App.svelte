@@ -8,7 +8,12 @@
    import SvelteTable from "svelte-table"
 	import { csv, json } from 'd3-fetch'
 	import { groups } from 'd3-array'
-	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json'
+
+	const todaysDate = new Date();
+	// const dateCode = "" + (todaysDate.getMonth()+1) + todaysDate.getDate() + todaysDate.getHours()
+	const dateCode = todaysDate.getTime()
+
+	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json&date=' + dateCode
 
 
 
@@ -214,13 +219,13 @@
 			/>
 			<StackedColumnChart
 				width={width2}
-				height={width2 * 0.9}
+				height={width2}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Tests Completed"}
-				yA={"Positive Tests"}
-				yB={"Negative Tests"}
-				yC={"Inconclusive Tests"}
+				yA={"Negative Tests"}
+				yB={"Inconclusive Tests"}
+				yC={"Positive Tests"}
 			/>
 		</div>
 		<div class="dashboard-grid-item dash-donut">
