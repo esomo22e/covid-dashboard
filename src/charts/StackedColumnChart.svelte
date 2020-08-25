@@ -154,7 +154,7 @@
 
 		  svg.append("g")
 		    .attr("class", "legendOrdinal")
-		    .attr("transform", "translate(" + (-padding.left/2 - 0) + "," + 0 + ")");
+		    .attr("transform", "translate(" + ((width/15)+padding.left) + "," + 0 + ")");
 
 		  var legendOrdinal = d3.legendColor()
 		  	 .scale(colors)
