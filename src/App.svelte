@@ -211,7 +211,7 @@
 			<Brief
 				data={coviddata}
 			/>
-			 <p class="update-line"><i>Updated daily with the latest available numbers.</i></p>
+			 <p class="update-line"><i>Updated daily with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p>
 		</div>
 		<div class="dashboard-grid-item dash-bars" id="column-chart-container">
 			<GraphicTitle
