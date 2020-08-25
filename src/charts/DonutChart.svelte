@@ -108,7 +108,7 @@
 		donutcaption.append("div")
 			.style("font-size", "1rem")
 			.style("line-height", "1.25rem")
-			.text("Percentage of positive test results at Northeastern: ")
+			.text("7-day average of positive test results at Northeastern: ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
@@ -120,7 +120,7 @@
 		donutcaption.append("div")
 			.style("line-height", "1rem")
 			.style("font-size", "0.84rem")
-			.text("Massachusetts 7-day average: ")
+			.text("7-day average in Massachusetts: ")
 
 		donutcaption.append("div")
 			.style("font-size", "1.2rem")
