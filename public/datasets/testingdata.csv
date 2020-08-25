@@ -1,5 +1,8 @@
-﻿Date,Tests Completed,Positive Tests,Negative Tests,Inconclusive Tests,Mass. Positive Rate,Total Tests,Total Positive,Total Negative,Total Inconclusive
-8/17/20,1308,0,1308,0,1.40%,1308,0,1308,0
-8/18/20,1121,0,1121,0,1.30%,2429,0,2429,0
-8/19/20,1520,1,1519,0,1.20%,3949,1,3948,0
-8/20/20,1081,0,1081,0,1.20%,5030,1,5029,0
+﻿Date,Tests Completed,Positive Tests,Negative Tests,Inconclusive Tests,Mass. Positive Rate,Seven-Day Tests,Seven-Day Positive,Seven-Day Negative,Seven-Day Inconclusive,Total Tests,Total Positive,Total Negative,Total Inconclusive
+8/17/20,1308,0,1308,0,1.40%,1308,0,1308,0,1308,0,1308,0
+8/18/20,1121,0,1121,0,1.30%,2429,0,2429,0,2429,0,2429,0
+8/19/20,1520,1,1519,0,1.30%,3949,1,3948,0,3949,1,3948,0
+8/20/20,1528,0,1528,0,1.20%,5477,1,5476,0,5477,1,5476,0
+8/21/20,1380,0,1380,0,1.10%,6857,1,6856,0,6857,1,6856,0
+8/22/20,818,1,817,0,1.10%,7168,2,7166,0,7168,2,7166,0
+8/23/20,374,2,372,0,1.10%,8049,4,7436,0,8049,4,8045,0

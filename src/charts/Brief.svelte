@@ -10,7 +10,6 @@
 	  return {
 		  "Tests Completed": previousValue["Tests Completed"] + currentValue["Tests Completed"],
 		  "Negative Tests": previousValue["Negative Tests"] + currentValue["Negative Tests"],
-		  "Inconclusive Tests": previousValue["Inconclusive Tests"] + currentValue["Inconclusive Tests"],
 	    "Positive Tests": previousValue["Positive Tests"] + currentValue["Positive Tests"]
 	  }
 });
@@ -21,10 +20,10 @@
 <style>
 	#brief {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
 		grid-template-rows: 1fr;
 		gap: 10px 10px;
-		grid-template-areas: ". . . .";
+		grid-template-areas: ". . .";
 	}
 
 	.brief-grid-item {
@@ -82,10 +81,6 @@
 	<div class="brief-grid-item">
 		<h3>Negative Tests</h3>
 		<span class="brief-stat">{data["Negative Tests"]}</span>
-	</div>
-	<div class="brief-grid-item">
-		<h3>Inconclusive Tests</h3>
-		<span class="brief-stat">{data["Inconclusive Tests"]}</span>
 	</div>
 	<div class="brief-grid-item">
 		<h3>Positive Tests</h3>

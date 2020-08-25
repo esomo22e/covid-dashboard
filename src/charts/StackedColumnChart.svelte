@@ -41,7 +41,6 @@
 		export let yVar = {yVar};
 		export let yA = {yA};
 		export let yB = {yB};
-		export let yC = {yC};
 
 		export let avgdaycount = 7;
 
@@ -75,8 +74,7 @@
 		  .html(
 			  "<div class='tipdate'>" + d[xVar] + "</div>" +
 			  yA + ": " + d[yA] + "<br/>" +
-			  yB + ": " + d[yB] + "<br/>" +
-			  yC + ": " + d[yC] + "<br/>"
+			  yB + ": " + d[yB] + "<br/>"
 			);
 	}
 
@@ -152,26 +150,7 @@
     	  .on("mouseout", function(d){
 			  tooltip.style("display", "none")
 		  });
-		//
-		//   // inconclusive
-  		svg.append('g')
-  	    .selectAll("rect")
-  	    .data(data)
-  	    .enter()
-  	    .append("rect")
-  		 .attr("fill", colors(yC))
-  		 .attr("x", function (d) { return xScale(d[xVar]); })
-  	    .attr("y", function (d) {
-			 return yScale(+d[yC] + +d[yB] + +d[yA])
-		 })
-  		 .attr("width", xScale.bandwidth())
-  		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yC]) })
-  		 .on("mousemove", function(d){
-            showTip(d, tooltip, d3.mouse(this))
-          })
-      	  .on("mouseout", function(d){
-  			  tooltip.style("display", "none")
-  		  });
+
 
 		  svg.append("g")
 		    .attr("class", "legendOrdinal")
