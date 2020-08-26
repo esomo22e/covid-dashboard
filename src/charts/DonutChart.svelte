@@ -39,7 +39,6 @@
 		  .html(
 			  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +
 			  "Negative rate: " + (data["Total Negative"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-			  "Inconclusive rate: " + (data["Total Inconclusive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
 			  "Positive rate: " + (data["Total Positive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
 			);
 	}
@@ -47,7 +46,7 @@
 	onMount(generateDonut);
 
 	function generateDonut() {
-
+		console.log(data)
 
 
 		var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
@@ -62,15 +61,14 @@
 
 
 			// Create dummy data
-		var donutdata = {a: data["Total Positive"], b: data["Total Negative"], c: data["Total Inconclusive"]}
+		var donutdata = {a: data["Total Positive"], b: data["Total Negative"]}
 
 		// set the color scale
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
 		  .range([
 	           "#D41B2C",
-	           "#88c7f0",
-	           "#FF854F"
+	           "#88c7f0"
 	     ])
 
 		// Compute the position of each group on the pie:
@@ -115,7 +113,7 @@
 			.style("color", "#D41B2C")
 			.style("font-weight", "700")
 			.style("margin-bottom", "1rem")
-			.text((data["Total Positive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+			.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 
 		donutcaption.append("div")
 			.style("line-height", "1rem")
