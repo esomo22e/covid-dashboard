@@ -30,7 +30,7 @@
 
 	let el;
 
-	const padding = { top: 50, right: 0, bottom: 15, left: 40 };
+	const padding = { top: 50, right: 0, bottom: 40, left: 40 };
 
 
 
@@ -100,8 +100,10 @@
 			.attr("stroke", "#ccc");
 
 		axisBottomRender.selectAll("text")
-	        .style("text-anchor", "middle")
-			  .attr("dy", 10)
+	        .style("text-anchor", "end")
+			  .attr("transform", ("rotate(-45)"))
+			  .attr("dx", -2)
+			  .attr("dy", 6)
 
 
 		let axisVerticalRender = svg.append("g")

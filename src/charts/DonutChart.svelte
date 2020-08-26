@@ -38,8 +38,8 @@
 		  .style("display", "inline-block")
 		  .html(
 			  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +
-			  "Negative rate: " + (data["Total Negative"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-			  "Positive rate: " + (data["Total Positive"] / data["Total Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
+			  "Negative rate: " + (data["Seven-Day Negative"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+			  "Positive rate: " + (data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
 			);
 	}
 
@@ -61,7 +61,7 @@
 
 
 			// Create dummy data
-		var donutdata = {a: data["Total Positive"], b: data["Total Negative"]}
+		var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
 
 		// set the color scale
 		var color = d3.scaleOrdinal()
