@@ -63,6 +63,33 @@
 		background: no-repeat center/75% url('../img/brief4.png');
 	}
 
+
+
+	#breakdown {
+		display: grid;
+		grid-template-columns: 6fr 1fr;
+		grid-template-rows: 1fr 1fr 1fr;
+		gap: 4px;
+		grid-template-areas: ". ." ". ." ". .";
+		width: 150px;
+    	margin: 2.5rem auto 1.5rem;
+    	padding: 0;
+	}
+
+	#breakdown div {
+		margin:0;
+		padding:0;
+		font-size:0.8rem;
+		text-align:left;
+	}
+
+	#breakdown div.number {
+		margin:0;
+		padding:0;
+		font-size:0.75rem;
+		text-align:left;
+	}
+
 	@media screen and (max-width:600px) {
 		#brief {
 			grid-template-columns: 1fr 1fr 1fr;
@@ -89,11 +116,11 @@
 	<div class="brief-grid-item">
 		<div id="breakdown">
 			<div>Students:</div>
-			<div>{data["Total Students Positive"]}</div>
+			<div>6</div>
 			<div>Faculty/Staff:</div>
-			<div>{data["Total FacStaff Positive"]}</div>
+			<div>1</div>
 			<div>Contract Employees:</div>
-			<div>{data["Total Contracted Positive"]}</div>
+			<div>0</div>
 		</div>
 	</div>
 </div>
