@@ -69,12 +69,13 @@
 		padding:0;
 		font-size:0.8rem;
 		text-align:left;
+		line-height:1.5
 	}
 
 	#breakdown div.breakdownnumber {
 		margin:0;
 		padding:0;
-		font-size:0.75rem;
+		font-size:0.8rem;
 		text-align:left;
 		font-weight:900;
 	}

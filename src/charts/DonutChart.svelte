@@ -46,9 +46,6 @@
 	onMount(generateDonut);
 
 	function generateDonut() {
-		console.log(data)
-
-
 		var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
 
 		var donutcaption = d3.select(el)

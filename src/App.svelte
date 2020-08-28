@@ -28,49 +28,47 @@
 
 
 
-	csv("datasets/testingdata.csv").then(function(data,i){
+	// csv("datasets/testingdata.csv").then(function(data,i){
 	// csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
-		data.forEach(function(d,i){
-			Object.keys(d).forEach(function(j) {
-				if ((j == "Date") || (j == "Mass. Positive Rate")) {
-					d[j] = d[j]
-				} else {
-					d[j] = parseFloat(d[j])
-				}
+	// 	data.forEach(function(d,i){
+	// 		Object.keys(d).forEach(function(j) {
+	// 			if ((j == "Date") || (j == "Mass. Positive Rate")) {
+	// 				d[j] = d[j]
+	// 			} else {
+	// 				d[j] = parseFloat(d[j])
+	// 			}
+	//
+	// 		})
+	// 	});
+	//
+	// 	coviddata = data;
+	//
+	// });
 
-			})
-		});
+	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
 
-		coviddata = data;
+	json(url).then(function(data,i){
+		let rowcount = ((data.feed.entry.length / headings.length)-1)
+		let loadeddata = []
+		
+		for (let r=0; r < rowcount; r++) {
+			loadeddata[r] = {}
+		}
 
-	});
+		data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
+			let colno = parseFloat([d.gs$cell.col])-1
 
-	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative"]
+			if ((colno === 0) || (colno === 7)) {
+				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
+			} else {
+				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.numericValue)
+			}
+		})
 
-	// json(url).then(function(data,i){
-	// 	let rowcount = ((data.feed.entry.length / headings.length)-1)
-	// 	let loadeddata = []
-	//
-	// 	console.log(data.feed.entry)
-	//
-	// 	for (let r=0; r < rowcount; r++) {
-	// 		loadeddata[r] = {}
-	// 	}
-	//
-	// 	data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
-	// 		let colno = parseFloat([d.gs$cell.col])-1
-	//
-	// 		if ((colno === 0) || (colno === 4)) {
-	// 			loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
-	// 		} else {
-	// 			loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.numericValue)
-	// 		}
-	// 	})
-	//
-	//
-	//
-	// 	coviddata = loadeddata;
-	// })
+
+
+		coviddata = loadeddata;
+	})
 
 
 
