@@ -6,15 +6,8 @@
 
 	export let data = {data};
 
-	let newdata= data.reduce(function(previousValue, currentValue) {
-	  return {
-		  "Tests Completed": previousValue["Tests Completed"] + currentValue["Tests Completed"],
-		  "Negative Tests": previousValue["Negative Tests"] + currentValue["Negative Tests"],
-	    "Positive Tests": previousValue["Positive Tests"] + currentValue["Positive Tests"]
-	  }
-});
+	data = data[data.length-1]
 
-	data = newdata
 </script>
 
 <style>
@@ -103,22 +96,22 @@
 <div bind:this={el} class="brief" id="brief">
 	<div class="brief-grid-item">
 		<h3>Tests Completed</h3>
-		<span class="brief-stat">{data["Tests Completed"]}</span>
+		<span class="brief-stat">{data["Total Tests"].toLocaleString('en-US')}</span>
 	</div>
 	<div class="brief-grid-item">
 		<h3>Negative Tests</h3>
-		<span class="brief-stat">{data["Negative Tests"]}</span>
+		<span class="brief-stat">{data["Total Negative"].toLocaleString('en-US')}</span>
 	</div>
 	<div class="brief-grid-item">
 		<h3>Positive Tests</h3>
-		<span class="brief-stat">{data["Positive Tests"]}</span>
+		<span class="brief-stat">{data["Total Positive"].toLocaleString('en-US')}</span>
 		<div id="breakdown">
 			<div>Students:</div>
-			<div>6</div>
+			<div>{data["Total Students Positive"]}</div>
 			<div>Faculty/Staff:</div>
-			<div>1</div>
+			<div>{data["Total FacStaff Positive"]}</div>
 			<div>Contract Employees:</div>
-			<div>0</div>
+			<div>{data["Total Contracted Positive"]}</div>
 		</div>
 	</div>
 
