@@ -86,4 +86,14 @@
 		<h3>Positive Tests</h3>
 		<span class="brief-stat">{data["Positive Tests"]}</span>
 	</div>
+	<div class="brief-grid-item">
+		<div id="breakdown">
+			<div>Students:</div>
+			<div>{data["Total Students Positive"]}</div>
+			<div>Faculty/Staff:</div>
+			<div>{data["Total FacStaff Positive"]}</div>
+			<div>Contract Employees:</div>
+			<div>{data["Total Contracted Positive"]}</div>
+		</div>
+	</div>
 </div>
