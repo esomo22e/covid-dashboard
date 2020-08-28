@@ -21,7 +21,7 @@
 	#brief {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 1fr;
+		grid-template-rows: 0.5fr;
 		gap: 10px 10px;
 		grid-template-areas: ". . .";
 	}
@@ -112,8 +112,6 @@
 	<div class="brief-grid-item">
 		<h3>Positive Tests</h3>
 		<span class="brief-stat">{data["Positive Tests"]}</span>
-	</div>
-	<div class="brief-grid-item">
 		<div id="breakdown">
 			<div>Students:</div>
 			<div>6</div>
@@ -123,4 +121,5 @@
 			<div>0</div>
 		</div>
 	</div>
+
 </div>

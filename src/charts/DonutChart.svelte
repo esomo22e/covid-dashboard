@@ -51,6 +51,35 @@
 
 		var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
 
+		var donutcaption = d3.select(el)
+			.append("div")
+			.style("text-align", "center")
+			.style("margin", "0 auto 2rem")
+
+
+		donutcaption.append("div")
+			.style("font-size", "1rem")
+			.style("line-height", "1.25rem")
+			.text("7-day average of positive test results at Northeastern: ")
+
+		donutcaption.append("div")
+			.style("font-size", "1.5rem")
+			.style("color", "#D41B2C")
+			.style("font-weight", "700")
+			.style("margin-bottom", "1rem")
+			.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+
+		donutcaption.append("div")
+			.style("line-height", "1rem")
+			.style("font-size", "0.84rem")
+			.text("7-day average in Massachusetts: ")
+
+		donutcaption.append("div")
+			.style("font-size", "1.2rem")
+			.style("color", "#333")
+			.style("font-weight", "700")
+			.text((data["Mass. Positive Rate"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+
 		var svg = d3.select(el)
 			.append("svg")
 			.attr("width", width)
@@ -97,34 +126,7 @@
  			  tooltip.style("display", "none")
  		  });
 
-		var donutcaption = d3.select(el)
-			.append("div")
-			.style("text-align", "center")
-			.style("margin", "15px auto")
 
-
-		donutcaption.append("div")
-			.style("font-size", "1rem")
-			.style("line-height", "1.25rem")
-			.text("7-day average of positive test results at Northeastern: ")
-
-		donutcaption.append("div")
-			.style("font-size", "1.5rem")
-			.style("color", "#D41B2C")
-			.style("font-weight", "700")
-			.style("margin-bottom", "1rem")
-			.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
-
-		donutcaption.append("div")
-			.style("line-height", "1rem")
-			.style("font-size", "0.84rem")
-			.text("7-day average in Massachusetts: ")
-
-		donutcaption.append("div")
-			.style("font-size", "1.2rem")
-			.style("color", "#333")
-			.style("font-weight", "700")
-			.text((data["Mass. Positive Rate"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 	}
 </script>
 
