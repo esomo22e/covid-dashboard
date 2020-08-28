@@ -5,18 +5,16 @@
 	let el;
 
 	export let data = {data};
-
-	data = data[data.length-1]
-
+	data = data[data.length-1];
 </script>
 
 <style>
 	#brief {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		grid-template-rows: 0.5fr;
+		grid-template-columns: 1fr 1fr 1fr 150px;
+		grid-template-rows: 0.2fr;
 		gap: 10px 10px;
-		grid-template-areas: ". . .";
+		grid-template-areas: ". . . .";
 	}
 
 	.brief-grid-item {
@@ -30,7 +28,7 @@
 		font-size:1rem;
 		color: #D41B2C;
 		font-weight: 700;
-		margin:0 auto;
+		margin:0 auto ;
 	}
 
 	.brief-grid-item span.brief-stat {
@@ -56,16 +54,13 @@
 		background: no-repeat center/75% url('../img/brief4.png');
 	}
 
-
-
 	#breakdown {
 		display: grid;
 		grid-template-columns: 6fr 1fr;
 		grid-template-rows: 1fr 1fr 1fr;
 		gap: 4px;
 		grid-template-areas: ". ." ". ." ". .";
-		width: 150px;
-    	margin: 0.25rem auto 1.5rem;
+    	margin: 2rem auto 1.5rem;
     	padding: 0;
 	}
 
@@ -76,11 +71,12 @@
 		text-align:left;
 	}
 
-	#breakdown div.number {
+	#breakdown div.breakdownnumber {
 		margin:0;
 		padding:0;
 		font-size:0.75rem;
 		text-align:left;
+		font-weight:900;
 	}
 
 	@media screen and (max-width:600px) {
@@ -90,29 +86,39 @@
 			gap: 10px 10px;
 			grid-template-areas: ". ." ". .";
 		}
+
+		#breakdown {
+			margin-top:2.3rem
+		}
+
+		h3.posheader {
+			/* position:relative;
+			left:50%; */
+		}
 	}
 </style>
 
 <div bind:this={el} class="brief" id="brief">
 	<div class="brief-grid-item">
 		<h3>Tests Completed</h3>
-		<span class="brief-stat">{data["Total Tests"].toLocaleString('en-US')}</span>
+		<span class="brief-stat">{(data["Total Tests"]).toLocaleString('en-US')}</span>
 	</div>
 	<div class="brief-grid-item">
 		<h3>Negative Tests</h3>
-		<span class="brief-stat">{data["Total Negative"].toLocaleString('en-US')}</span>
+		<span class="brief-stat">{(data["Total Negative"]).toLocaleString('en-US')}</span>
 	</div>
 	<div class="brief-grid-item">
-		<h3>Positive Tests</h3>
-		<span class="brief-stat">{data["Total Positive"].toLocaleString('en-US')}</span>
+		<h3 class="posheader">Positive Tests</h3>
+		<span class="brief-stat">{(data["Total Positive"]).toLocaleString('en-US')}</span>
+	</div>
+	<div class="brief-grid-item">
 		<div id="breakdown">
 			<div>Students:</div>
-			<div>{data["Total Students Positive"]}</div>
+			<div class="breakdownnumber">{data["Total Students Positive"]}</div>
 			<div>Faculty/Staff:</div>
-			<div>{data["Total FacStaff Positive"]}</div>
+			<div class="breakdownnumber">{data["Total FacStaff Positive"]}</div>
 			<div>Contract Employees:</div>
-			<div>{data["Total Contracted Positive"]}</div>
+			<div class="breakdownnumber">{data["Total Contracted Positive"]}</div>
 		</div>
 	</div>
-
 </div>
