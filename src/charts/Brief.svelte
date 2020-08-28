@@ -37,7 +37,7 @@
 		font-size:1rem;
 		color: #D41B2C;
 		font-weight: 700;
-		margin:0 auto ;
+		margin:0 auto;
 	}
 
 	.brief-grid-item span.brief-stat {
@@ -92,10 +92,10 @@
 
 	@media screen and (max-width:600px) {
 		#brief {
-			grid-template-columns: 1fr 1fr 1fr;
-			grid-template-rows: 1fr;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr;
 			gap: 10px 10px;
-			grid-template-areas: ". . .";
+			grid-template-areas: ". ." ". .";
 		}
 	}
 </style>
