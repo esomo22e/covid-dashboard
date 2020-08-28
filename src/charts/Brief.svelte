@@ -72,7 +72,7 @@
 		gap: 4px;
 		grid-template-areas: ". ." ". ." ". .";
 		width: 150px;
-    	margin: 2.5rem auto 1.5rem;
+    	margin: 0.25rem auto 1.5rem;
     	padding: 0;
 	}
 
