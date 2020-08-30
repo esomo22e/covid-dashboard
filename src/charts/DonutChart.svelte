@@ -66,17 +66,6 @@
 			.style("margin-bottom", "1rem")
 			.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 
-		donutcaption.append("div")
-			.style("line-height", "1rem")
-			.style("font-size", "0.84rem")
-			.text("7-day average in Massachusetts: ")
-
-		donutcaption.append("div")
-			.style("font-size", "1.2rem")
-			.style("color", "#333")
-			.style("font-weight", "700")
-			.text((data["Mass. Positive Rate"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
-
 		var svg = d3.select(el)
 			.append("svg")
 			.attr("width", width)
