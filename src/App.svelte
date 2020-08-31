@@ -159,11 +159,11 @@
 			grid-template-columns: 1fr;
 		 	  grid-template-rows: 1fr;
 		 	  gap: 40px 60px;
-			grid-template-areas: "dash-brief" "dash-bars" "dash-donut";
+			grid-template-areas: "dash-brief" "dash-bars" "dash-donut" "dash-table";
 		}
 
 		.dash-table {
-			display:none;
+			overflow:scroll;
 		}
 	}
 
@@ -244,6 +244,6 @@
 	</div>
 {/if}
 <GraphicFooter
-	source={"Northeastern Life Sciences Testing Center"}
+	source={"Northeastern Life Sciences Testing Center and the Broad Institute"}
 	note={""}
 />
