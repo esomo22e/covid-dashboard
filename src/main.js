@@ -1,12 +1,16 @@
 import App from './App.svelte';
 import Brief from './BriefOnly.svelte';
 
-const app = new App({
-	target: document.getElementById('covid-testing-dashboard')
-});
 
-// const brief = new Brief({
+if (document.getElementById('covid-testing-dashboard')) {
+	const app = new App({
+		target: document.getElementById('covid-testing-dashboard')
+	});
+	export default app;
+}
+
+
+
+// const app = new Brief({
 // 	target: document.getElementById('covid-test-brief')
 // });
-
-export default app;
