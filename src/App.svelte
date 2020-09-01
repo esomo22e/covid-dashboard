@@ -52,6 +52,7 @@
 	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
 
 	json(url).then(function(data,i){
+		console.log(data)
 		let rowcount = ((data.feed.entry.length / headings.length)-1)
 		let loadeddata = []
 

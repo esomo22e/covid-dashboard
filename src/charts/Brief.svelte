@@ -5,7 +5,7 @@
 	let el;
 
 	export let data = {data};
-	data = data[data.length-1];
+	data = data[data.length-1]; // only get the latest day's info
 </script>
 
 <style>

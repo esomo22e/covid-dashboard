@@ -44,17 +44,6 @@
 
 		export let avgdaycount = 7;
 
-		// data.forEach(function(d,i){
-		// 	if (i > (avgdaycount-2)) {
-		// 		let array = [];
-		// 		for (let j=0;  j<avgdaycount; j++) {
-		// 			array.push( +data[i-j][yVar] )
-		// 		}
-		// 		let avg = array.reduce((a, b) => a + b, 0) / avgdaycount;
-		// 		data[i]["rollingavg"] = Math.round(avg);
-		// 	}
-		// })
-
 	$: xScale = d3.scaleBand()
 		.domain(data.map(function(o) { return o[xVar]; }))
 		.rangeRound([0, width - padding.left - padding.right])
@@ -113,7 +102,6 @@
 				.attr("stroke", "#ccc");
 
 		// add data columns
-		// positive
 		svg.append('g')
 	    .selectAll("rect")
 	    .data(data)
@@ -133,7 +121,6 @@
 			  tooltip.style("display", "none")
 		  });
 
-		  // negative
 		 svg.append('g')
  	    .selectAll("rect")
  	    .data(data)
@@ -152,7 +139,6 @@
     	  .on("mouseout", function(d){
 			  tooltip.style("display", "none")
 		  });
-
 
 		  svg.append("g")
 		    .attr("class", "legendOrdinal")
@@ -185,10 +171,6 @@
 </script>
 
 <style>
-	.chart :global(rect) {
-		/* fill: #cfbabc; */
-	}
-
 	.chart :global(.tooltip) {
 		display:none;
 		position: absolute;

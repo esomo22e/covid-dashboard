@@ -27,7 +27,7 @@
 	export let width = {width};
 	export let height = {height};
 
-	data = data[data.length-1]
+	data = data[data.length-1] // only use latest day's data
 
 
 	function showPctTip(d, target, mouse) {
@@ -53,7 +53,6 @@
 			.style("text-align", "center")
 			.style("margin", "0 auto 2rem")
 
-
 		donutcaption.append("div")
 			.style("font-size", "1rem")
 			.style("line-height", "1.25rem")
@@ -74,11 +73,8 @@
 			.append("g")
       	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-
-			// Create dummy data
 		var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
 
-		// set the color scale
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
 		  .range([
