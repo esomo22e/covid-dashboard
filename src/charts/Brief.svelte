@@ -11,7 +11,7 @@
 <style>
 	#brief {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 150px;
+		grid-template-columns: 1fr 1fr 1fr 145px;
 		grid-template-rows: 0.2fr;
 		gap: 10px 10px;
 		grid-template-areas: ". . . .";
@@ -56,7 +56,7 @@
 
 	#breakdown {
 		display: grid;
-		grid-template-columns: 6fr 1fr;
+		grid-template-columns: 8fr 1fr;
 		grid-template-rows: 1fr 1fr 1fr;
 		gap: 4px;
 		grid-template-areas: ". ." ". ." ". .";
@@ -76,7 +76,7 @@
 		margin:0;
 		padding:0;
 		font-size:0.8rem;
-		text-align:left;
+		text-align:right;
 		font-weight:900;
 	}
 
