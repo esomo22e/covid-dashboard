@@ -8,7 +8,7 @@
    import SvelteTable from "svelte-table"
 	import { csv, json } from 'd3-fetch'
 	import { groups } from 'd3-array'
-	import { colors, positivegroups } from './helpers/colors.js'
+	import { negativepositive, groupbylevel } from './helpers/colors.js'
 
 	const todaysDate = new Date();
 	// const dateCode = "" + (todaysDate.getMonth()+1) + todaysDate.getDate() + todaysDate.getHours()
@@ -220,7 +220,7 @@
 				xVar={"Date"}
 				yVar={"Tests Completed"}
 				yGroups={["Negative Tests", "Positive Tests"]}
-				colorscheme={colors}
+				colorscheme={negativepositive}
 			/>
 			<StackedColumnChart
 				width={width2}
@@ -229,7 +229,7 @@
 				xVar={"Date"}
 				yVar={"Positive Tests"}
 				yGroups={["Students Positive", "FacStaff Positive", "Contracted Positive"]}
-				colorscheme={positivegroups}
+				colorscheme={groupbylevel}
 			/>
 		</div>
 		<div class="dashboard-grid-item dash-donut">

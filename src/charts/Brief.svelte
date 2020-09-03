@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { colors } from '../helpers/colors.js'
 
 	let el;
 
