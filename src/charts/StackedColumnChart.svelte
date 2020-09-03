@@ -9,7 +9,6 @@
 	import { interpolateRound } from 'd3-interpolate';
 	import 'd3-transition'
 	import { legendColor } from 'd3-svg-legend';
-	import { colors } from '../helpers/colors.js'
 
 	let d3 = {
 		scaleLinear: scaleLinear,
@@ -41,8 +40,23 @@
 		export let yVar = {yVar};
 		export let yA = {yA};
 		export let yB = {yB};
+		export let yC = {yC};
+		export let colors = {colors};
+		export let colorsteps = colors.domain().length;
 
 		export let avgdaycount = 7;
+
+
+		// data.forEach(function(d,i){
+		// 	if (i > (avgdaycount-2)) {
+		// 		let array = [];
+		// 		for (let j=0;  j<avgdaycount; j++) {
+		// 			array.push( +data[i-j][yVar] )
+		// 		}
+		// 		let avg = array.reduce((a, b) => a + b, 0) / avgdaycount;
+		// 		data[i]["rollingavg"] = Math.round(avg);
+		// 	}
+		// })
 
 	$: xScale = d3.scaleBand()
 		.domain(data.map(function(o) { return o[xVar]; }))
@@ -61,15 +75,28 @@
 		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 100) + "px")
 		  .style("display", "inline-block")
 		  .html(
-			  "<div class='tipdate'>" + d[xVar] + "</div>" +
-			  yA + ": " + d[yA] + "<br/>" +
-			  yB + ": " + d[yB] + "<br/>"
+			  function() {
+				  if (yC !== null) {
+					  return "<div class='tipdate'>" + d[xVar] + "</div>" +
+					  yA + ": " + d[yA] + "<br/>" +
+					  yB + ": " + d[yB] + "<br/>" +
+					  yC + ": " + d[yC] + "<br/>"
+				  } else {
+					  return "<div class='tipdate'>" + d[xVar] + "</div>" +
+					  yA + ": " + d[yA] + "<br/>" +
+					  yB + ": " + d[yB] + "<br/>"
+				  }
+			  }
+
 			);
 	}
 
 	onMount(generateBarChart);
 
 	function generateBarChart() {
+
+		console.log(data.map(function(o) { return o[xVar]; }))
+
 
 		var tooltip = d3.select(el).append("div").attr("class", "tooltip");
 
@@ -96,12 +123,15 @@
 
 
 		let axisVerticalRender = svg.append("g")
-  			.call(d3.axisLeft(yScale).tickSize(0));
+  			.call(d3.axisLeft(yScale)
+				.ticks(Math.min(6, yScale.domain()[1]))
+				.tickSize(0));
 
 		axisVerticalRender.selectAll("path")
 				.attr("stroke", "#ccc");
 
 		// add data columns
+		// positive
 		svg.append('g')
 	    .selectAll("rect")
 	    .data(data)
@@ -121,6 +151,7 @@
 			  tooltip.style("display", "none")
 		  });
 
+		  // negative
 		 svg.append('g')
  	    .selectAll("rect")
  	    .data(data)
@@ -140,16 +171,39 @@
 			  tooltip.style("display", "none")
 		  });
 
+		  if (yC !== null) {
+			  // negative
+			 svg.append('g')
+	 	    .selectAll("rect")
+	 	    .data(data)
+	 	    .enter()
+	 	    .append("rect")
+			 .attr("fill", colors(yC))
+	 		 .attr("x", function (d) { return xScale(d[xVar]); })
+	 	    .attr("y", function (d) {
+				 return yScale(+d[yC] + +d[yB] + +d[yA])
+			 })
+	 		 .attr("width", xScale.bandwidth())
+	 		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yC]) })
+			 .on("mousemove", function(d){
+	            showTip(d, tooltip, d3.mouse(this))
+	        })
+	    	  .on("mouseout", function(d){
+				  tooltip.style("display", "none")
+			  });
+		  }
+
+
 		  svg.append("g")
 		    .attr("class", "legendOrdinal")
-		    .attr("transform", "translate(" + ((width/15)+padding.left) + "," + 0 + ")");
+		    .attr("transform", "translate(" + 0 + "," + 0 + ")");
 
 		  var legendOrdinal = d3.legendColor()
 		  	 .scale(colors)
 			 .orient("horizontal")
 		  	 .shape("rect")
-			 .shapeWidth(3 * (width/15))
-			 .shapePadding(2 * width/15)
+			 .shapeWidth((width-125) / colorsteps)
+			 .shapePadding(80 / colorsteps)
 			 .shapeHeight(10);
 
 		  svg.select(".legendOrdinal")
@@ -171,6 +225,10 @@
 </script>
 
 <style>
+	.chart :global(rect) {
+		/* fill: #cfbabc; */
+	}
+
 	.chart :global(.tooltip) {
 		display:none;
 		position: absolute;
