@@ -219,20 +219,16 @@
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Tests Completed"}
-				yA={"Negative Tests"}
-				yB={"Positive Tests"}
-				yC={null}
+				yGroups={["Negative Tests", "Positive Tests"]}
 				colors={colors}
 			/>
 			<StackedColumnChart
 				width={width2}
-				height={width2 * 0.4}
+				height={width2 * 0.45}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Positive Tests"}
-				yA={"Students Positive"}
-				yB={"FacStaff Positive"}
-				yC={"Contracted Positive"}
+				yGroups={["Students Positive", "FacStaff Positive", "Contracted Positive"]}
 				colors={positivegroups}
 			/>
 		</div>

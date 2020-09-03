@@ -38,9 +38,7 @@
 		export let height = {height};
 		export let xVar = {xVar};
 		export let yVar = {yVar};
-		export let yA = {yA};
-		export let yB = {yB};
-		export let yC = {yC};
+		export let yGroups = {yGroups};
 		export let colors = {colors};
 		export let colorsteps = colors.domain().length;
 
@@ -76,16 +74,10 @@
 		  .style("display", "inline-block")
 		  .html(
 			  function() {
-				  if (yC !== null) {
-					  return "<div class='tipdate'>" + d[xVar] + "</div>" +
-					  yA + ": " + d[yA] + "<br/>" +
-					  yB + ": " + d[yB] + "<br/>" +
-					  yC + ": " + d[yC] + "<br/>"
-				  } else {
-					  return "<div class='tipdate'>" + d[xVar] + "</div>" +
-					  yA + ": " + d[yA] + "<br/>" +
-					  yB + ": " + d[yB] + "<br/>"
-				  }
+					  return "<div class='tipdate'>" + d[xVar] + "</div>"
+					  // yA + ": " + d[yA] + "<br/>" +
+					  // yB + ": " + d[yB] + "<br/>" +
+					  // yC + ": " + d[yC] + "<br/>"
 			  }
 
 			);
@@ -131,67 +123,30 @@
 				.attr("stroke", "#ccc");
 
 		// add data columns
-		// positive
-		svg.append('g')
-	    .selectAll("rect")
-	    .data(data)
-	    .enter()
-	    .append("rect")
-		 .attr("fill", colors(yA))
-		 .attr("x", function (d) { return xScale(d[xVar]); })
-	    .attr("y", function (d) { return yScale(d[yA]); })
-		 .attr("width", xScale.bandwidth())
-		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yA]) })
-		 .on("mousemove", function(d){
-			   if (window.innerWidth > 600) {
-	            showTip(d, tooltip, d3.mouse(this))
-				}
-        })
-    	  .on("mouseout", function(d){
-			  tooltip.style("display", "none")
-		  });
+		for (let i=0; i<yGroups.length; i++) {
+			let group = yGroups[i]
 
-		  // negative
-		 svg.append('g')
- 	    .selectAll("rect")
- 	    .data(data)
- 	    .enter()
- 	    .append("rect")
-		 .attr("fill", colors(yB))
- 		 .attr("x", function (d) { return xScale(d[xVar]); })
- 	    .attr("y", function (d) {
-			 return yScale(+d[yB] + +d[yA])
-		 })
- 		 .attr("width", xScale.bandwidth())
- 		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yB]) })
-		 .on("mousemove", function(d){
-            showTip(d, tooltip, d3.mouse(this))
-        })
-    	  .on("mouseout", function(d){
-			  tooltip.style("display", "none")
-		  });
-
-		  if (yC !== null) {
-			  // negative
-			 svg.append('g')
-	 	    .selectAll("rect")
-	 	    .data(data)
-	 	    .enter()
-	 	    .append("rect")
-			 .attr("fill", colors(yC))
-	 		 .attr("x", function (d) { return xScale(d[xVar]); })
-	 	    .attr("y", function (d) {
-				 return yScale(+d[yC] + +d[yB] + +d[yA])
+			svg.append('g')
+		    .selectAll("rect")
+		    .data(data)
+		    .enter()
+		    .append("rect")
+			 .attr("fill", colors(group))
+			 .attr("x", function (d) { return xScale(d[xVar]); })
+		    .attr("y", function (d) { return yScale(d[group]); })
+			 .attr("width", xScale.bandwidth())
+			 .attr("height", function(d) {
+				 return height - padding.bottom - yScale(d[group]) 
 			 })
-	 		 .attr("width", xScale.bandwidth())
-	 		 .attr("height", function(d) { return height - padding.bottom - yScale(d[yC]) })
 			 .on("mousemove", function(d){
-	            showTip(d, tooltip, d3.mouse(this))
+				   if (window.innerWidth > 600) {
+		            showTip(d, tooltip, d3.mouse(this))
+					}
 	        })
 	    	  .on("mouseout", function(d){
 				  tooltip.style("display", "none")
 			  });
-		  }
+		}
 
 
 		  svg.append("g")
