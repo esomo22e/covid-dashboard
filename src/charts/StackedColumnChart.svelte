@@ -124,20 +124,25 @@
 
 		// add data columns
 		for (let i=0; i<yGroups.length; i++) {
-			let group = yGroups[i]
 
 			svg.append('g')
 		    .selectAll("rect")
 		    .data(data)
 		    .enter()
 		    .append("rect")
-			 .attr("fill", colors(group))
+			 .attr("fill", colors(yGroups[i]))
 			 .attr("x", function (d) { return xScale(d[xVar]); })
-		    .attr("y", function (d) { return yScale(d[group]); })
-			 .attr("width", xScale.bandwidth())
-			 .attr("height", function(d) {
-				 return height - padding.bottom - yScale(d[group]) 
+		    .attr("y", function (d) {
+				 let barheight = 0;
+				 for (let j=i; j>-1; j = j-1) {
+					 barheight += d[yGroups[j]]
+				 }
+				 return yScale(barheight)
 			 })
+			 .attr("width", xScale.bandwidth())
+ 		 	  .attr("height", function(d) {
+				  return height - padding.bottom - yScale(d[yGroups[i]]);
+			  })
 			 .on("mousemove", function(d){
 				   if (window.innerWidth > 600) {
 		            showTip(d, tooltip, d3.mouse(this))
