@@ -3,6 +3,7 @@
 	import Brief from './charts/Brief.svelte'
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
+		import LineChart from './charts/MultiLineChart.svelte'
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'
    import SvelteTable from "svelte-table"
@@ -230,6 +231,16 @@
 				yVar={"Positive Tests"}
 				yGroups={["Students Positive", "FacStaff Positive", "Contracted Positive"]}
 				colorscheme={groupbylevel}
+			/>
+			<LineChart
+				width={width2}
+				height={width2 * 0.45}
+				data={coviddata}
+				title={"Title"}
+				xVar={"Date"}
+				lineA={"Negative Tests"}
+				lineB={"Inconclusive Tests"}
+				lineC={"Positive Tests"}
 			/>
 		</div>
 		<div class="dashboard-grid-item dash-donut">
