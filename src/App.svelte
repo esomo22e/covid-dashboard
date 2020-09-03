@@ -220,7 +220,7 @@
 				xVar={"Date"}
 				yVar={"Tests Completed"}
 				yGroups={["Negative Tests", "Positive Tests"]}
-				colors={colors}
+				colorscheme={colors}
 			/>
 			<StackedColumnChart
 				width={width2}
@@ -229,7 +229,7 @@
 				xVar={"Date"}
 				yVar={"Positive Tests"}
 				yGroups={["Students Positive", "FacStaff Positive", "Contracted Positive"]}
-				colors={positivegroups}
+				colorscheme={positivegroups}
 			/>
 		</div>
 		<div class="dashboard-grid-item dash-donut">

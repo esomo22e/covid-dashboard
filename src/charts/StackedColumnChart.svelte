@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import { scaleLinear, scaleBand } from 'd3-scale';
+	import { scaleLinear, scaleBand, scaleOrdinal } from 'd3-scale';
 	import { axisLeft, axisRight, axisTop, axisBottom } from 'd3-axis';
 	import { select, mouse } from 'd3-selection';
    import { timeParse, timeFormat } from 'd3-time-format';
@@ -13,6 +13,7 @@
 	let d3 = {
 		scaleLinear: scaleLinear,
 		scaleBand: scaleBand,
+		scaleOrdinal: scaleOrdinal,
 		select: select,
 		mouse: mouse,
 		axisLeft: axisLeft,
@@ -39,8 +40,8 @@
 		export let xVar = {xVar};
 		export let yVar = {yVar};
 		export let yGroups = {yGroups};
-		export let colors = {colors};
-		export let colorsteps = colors.domain().length;
+		export let colorscheme = {colorscheme};
+		export let colorsteps = yGroups.length;
 
 		export let avgdaycount = 7;
 
@@ -66,6 +67,10 @@
 		.range([height - padding.bottom, padding.top])
     	.nice();
 
+	$: colors = d3.scaleOrdinal()
+		   .domain(yGroups)
+		   .range(colorscheme)
+
 	function showTip(d, target, mouse) {
 		target
 		  .style("position", "absolute")
@@ -83,9 +88,9 @@
 			);
 	}
 
-	onMount(generateBarChart);
+	onMount(generateColumnChart);
 
-	function generateBarChart() {
+	function generateColumnChart() {
 
 		console.log(data.map(function(o) { return o[xVar]; }))
 
