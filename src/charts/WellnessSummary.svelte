@@ -30,7 +30,7 @@
 	  grid-template-columns: repeat(3, 1fr);
 	  grid-template-rows: 0.33fr 1fr;
 	  gap: 0.5rem 10px;
-	  background-color: #F7F7F7;
+	  background-color: #f1f1f1;
      padding: 10px;
 	  border-radius:3px;
 	}
@@ -57,17 +57,23 @@
 	.datapt h4 {
 		text-transform:uppercase;
 		font-size:0.6rem;
-		color: #666;
+		color: #555;
 	    display: block;
 	    height: 1rem;
 		 margin:0.5rem 0 0.2rem 0;
 		 position:relative;
+		 border:unset;
+		 letter-spacing:unset;
 	}
 
 	.datapt h4 > span {
 		position:absolute;
 		bottom:0;
 		left:0;
+	}
+
+	.datapt > div {
+		font-weight:700;
 	}
 
 
@@ -92,63 +98,63 @@
 		<h3>Wellness Beds</h3>
 		<div class="datapt">
 			<h4><span>In Use</span></h4>
-			<div>24</div>
+			<div>{data["Wellness Beds In Use"]}</div>
 		</div>
 		<div class="datapt">
 			<h4><span>Available</span></h4>
-			<div>552</div>
+			<div>{data["Wellness Beds Available"]}</div>
 		</div>
 	</div>
 	<div class="summary-item">
 		<h3>Students in Isolation</h3>
 		<div class="datapt">
 			<h4><span>On Campus</span></h4>
-			<div>7</div>
+			<div>{data["Students in Isolation On Campus"]}</div>
 		</div>
 		<div class="datapt">
 			<h4><span>Off Campus</span></h4>
-			<div>14</div>
+			<div>{data["Students in Isolation Off Campus"]}</div>
 		</div>
 	</div>
 	<div class="summary-item">
 		<h3>Students Recovered</h3>
 		<div class="datapt">
 			<h4><span>On Campus</span></h4>
-			<div>7</div>
+			<div>{data["Students Recovered On Campus"]}</div>
 		</div>
 		<div class="datapt">
 			<h4><span>Off Campus</span></h4>
-			<div>-</div>
+			<div>{data["Students Recovered Off Campus"]}</div>
 		</div>
 	</div>
 	<div class="summary-item">
 		<h3>Students Currently in Quarantine, On Campus</h3>
 		<div class="datapt">
 			<h4><span>Newly Identified</span></h4>
-			<div>0</div>
+			<div>{data["Students Currently in Quarantine, On Campus (Newly Identified)"]}</div>
 		</div>
 		<div class="datapt">
 			<h4><span>Traced Contacts</span></h4>
-			<div>17</div>
+			<div>{data["Students Currently in Quarantine, On Campus (Traced Contacts)"]}</div>
 		</div>
 		<div class="datapt">
 			<h4><span>Self-Reported</span></h4>
-			<div>0</div>
+			<div>{data["Students Currently in Quarantine, On Campus (Self-Reported)"]}</div>
 		</div>
 	</div>
 	<div class="summary-item">
 		<h3>Students Currently in Quarantine, Off Campus</h3>
 		<div class="datapt">
 			<h4><span>Newly Identified</span></h4>
-			<div>6</div>
+			<div>{data["Students Currently in Quarantine, Off Campus (Newly Identified)"]}</div>
 		</div>
 		<div class="datapt">
 			<h4><span>Traced Contacts</span></h4>
-			<div>41</div>
+			<div>{data["Students Currently in Quarantine, Off Campus (Traced Contacts)"]}</div>
 		</div>
 		<div class="datapt">
 			<h4><span>Self-Reported</span></h4>
-			<div>4</div>
+			<div>{data["Students Currently in Quarantine, Off Campus (Self-Reported)"]}</div>
 		</div>
 	</div>
 </div>

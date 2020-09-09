@@ -7,7 +7,7 @@
 
 <style>
    h2.graphictitle {
-      margin-bottom:2rem;
+      margin:0 0 2rem 0;
       display: block;
       font-size:1.5em;
       font-weight:700;
