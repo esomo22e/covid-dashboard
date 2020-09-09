@@ -95,14 +95,14 @@
 
 <div bind:this={el} class="wellness-summary" id="wellness-summary">
 	<div class="summary-item">
-		<h3>Wellness Beds</h3>
+		<h3>Students in Quarantine</h3>
 		<div class="datapt">
-			<h4><span>In Use</span></h4>
-			<div>{data["Wellness Beds In Use"]}</div>
+			<h4><span>On Campus</span></h4>
+			<div>{data["Students in Quarantine On Campus"]}</div>
 		</div>
 		<div class="datapt">
-			<h4><span>Available</span></h4>
-			<div>{data["Wellness Beds Available"]}</div>
+			<h4><span>Off Campus</span></h4>
+			<div>{data["Students in Quarantine Off Campus"]}</div>
 		</div>
 	</div>
 	<div class="summary-item">
@@ -125,36 +125,6 @@
 		<div class="datapt">
 			<h4><span>Off Campus</span></h4>
 			<div>{data["Students Recovered Off Campus"]}</div>
-		</div>
-	</div>
-	<div class="summary-item">
-		<h3>Students Currently in Quarantine, On Campus</h3>
-		<div class="datapt">
-			<h4><span>Newly Identified</span></h4>
-			<div>{data["Students Currently in Quarantine, On Campus (Newly Identified)"]}</div>
-		</div>
-		<div class="datapt">
-			<h4><span>Traced Contacts</span></h4>
-			<div>{data["Students Currently in Quarantine, On Campus (Traced Contacts)"]}</div>
-		</div>
-		<div class="datapt">
-			<h4><span>Self-Reported</span></h4>
-			<div>{data["Students Currently in Quarantine, On Campus (Self-Reported)"]}</div>
-		</div>
-	</div>
-	<div class="summary-item">
-		<h3>Students Currently in Quarantine, Off Campus</h3>
-		<div class="datapt">
-			<h4><span>Newly Identified</span></h4>
-			<div>{data["Students Currently in Quarantine, Off Campus (Newly Identified)"]}</div>
-		</div>
-		<div class="datapt">
-			<h4><span>Traced Contacts</span></h4>
-			<div>{data["Students Currently in Quarantine, Off Campus (Traced Contacts)"]}</div>
-		</div>
-		<div class="datapt">
-			<h4><span>Self-Reported</span></h4>
-			<div>{data["Students Currently in Quarantine, Off Campus (Self-Reported)"]}</div>
 		</div>
 	</div>
 </div>
