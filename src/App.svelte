@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Brief from './charts/Brief.svelte'
+	import WellnessSummary from './charts/WellnessSummary.svelte'
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
 	import GraphicTitle from './components/GraphicTitle.svelte'
@@ -32,47 +33,49 @@
 
 
 
-	// csv("datasets/testingdata.csv").then(function(data,i){
+	csv("datasets/testingdata.csv").then(function(data,i){
 	// csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
-	// 	data.forEach(function(d,i){
-	// 		Object.keys(d).forEach(function(j) {
-	// 			if ((j == "Date") || (j == "Mass. Positive Rate")) {
-	// 				d[j] = d[j]
-	// 			} else {
-	// 				d[j] = parseFloat(d[j])
-	// 			}
+		data.forEach(function(d,i){
+			Object.keys(d).forEach(function(j) {
+				if ((j == "Date") || (j == "Mass. Positive Rate")) {
+					d[j] = d[j]
+				} else {
+					d[j] = parseFloat(d[j])
+				}
+
+			})
+		});
+
+		coviddata = data;
+
+	});
+
+	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive", "Wellness Beds In Use",	"Wellness Beds Available",	"Students in Isolation On Campus",	"Students in Isolation Off Campus",	"Students Recovered On Campus",	"Students Recovered Off Campus", "Students Currently in Quarantine, On Campus (Newly Identified)", "Students Currently in Quarantine, On Campus (Traced Contacts)",	"Students Currently in Quarantine, On Campus (Self-Reported)", "Students Currently in Quarantine, Off Campus (Newly Identified)", "Students Currently in Quarantine, Off Campus (Traced Contacts)", "Students Currently in Quarantine, Off Campus (Self-Reported)", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
+
+	console.log(headings)
+
+	// json(url).then(function(data,i){
+	// 	let rowcount = ((data.feed.entry.length / headings.length)-1)
+	// 	let loadeddata = []
 	//
-	// 		})
-	// 	});
+	// 	for (let r=0; r < rowcount; r++) {
+	// 		loadeddata[r] = {}
+	// 	}
 	//
-	// 	coviddata = data;
+	// 	data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
+	// 		let colno = parseFloat([d.gs$cell.col])-1
 	//
-	// });
-
-	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
-
-	json(url).then(function(data,i){
-		let rowcount = ((data.feed.entry.length / headings.length)-1)
-		let loadeddata = []
-
-		for (let r=0; r < rowcount; r++) {
-			loadeddata[r] = {}
-		}
-
-		data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
-			let colno = parseFloat([d.gs$cell.col])-1
-
-			if ((colno === 0) || (colno === 7)) {
-				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
-			} else {
-				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.numericValue)
-			}
-		})
-
-
-
-		coviddata = loadeddata;
-	})
+	// 		if ((colno === 0) || (colno > 6 && colno < 19)) {
+	// 			loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
+	// 		} else {
+	// 			loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.numericValue)
+	// 		}
+	// 	})
+	//
+	//
+	//
+	// 	coviddata = loadeddata;
+	// })
 
 
 
@@ -154,7 +157,7 @@
 	  grid-template-columns: 1fr 1fr 1fr;
 	  grid-template-rows: 1fr auto;
 	  gap: 20px 60px;
-	  grid-template-areas: "dash-brief dash-brief dash-brief" "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
+	  grid-template-areas: "dash-brief dash-brief dash-brief" "dash-wellness dash-wellness dash-wellness" "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
 	  margin-bottom:15px;
 	}
 
@@ -163,13 +166,15 @@
 			grid-template-columns: 1fr;
 		 	  grid-template-rows: 1fr;
 		 	  gap: 40px 60px;
-			grid-template-areas: "dash-brief" "dash-bars" "dash-donut" "dash-table";
+			grid-template-areas: "dash-brief" "dash-wellness" "dash-bars" "dash-donut" "dash-table";
 		}
 
 		.dash-table {
 			overflow:scroll;
 		}
 	}
+
+	.dash-wellness { grid-area: dash-wellness; }
 
 	.dash-brief { grid-area: dash-brief; }
 
@@ -205,9 +210,18 @@
 			<Brief
 				data={coviddata}
 			/>
+
 			 <p class="update-line"><i>Updated daily with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p>
 		</div>
 		{#if fullDash }
+		<div class="dashboard-grid-item dash-wellness">
+			<GraphicTitle
+				title={"Wellness and Contact Tracing"}
+			/>
+			<WellnessSummary
+				data={coviddata}
+			/>
+		</div>
 		<div class="dashboard-grid-item dash-bars" id="column-chart-container">
 			<GraphicTitle
 				title={"Test Results by Date"}
