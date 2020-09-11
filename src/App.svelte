@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import Brief from './charts/Brief.svelte'
+	import WellnessSummary from './charts/WellnessSummary.svelte'
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
 	import GraphicTitle from './components/GraphicTitle.svelte'
@@ -49,7 +50,7 @@
 	//
 	// });
 
-	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
+	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive",  "Students in Isolation On Campus",	"Students in Isolation Off Campus", "Students in Quarantine On Campus",	"Students in Quarantine Off Campus",	"Students Recovered On Campus",	"Students Recovered Off Campus", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
 
 	json(url).then(function(data,i){
 		let rowcount = ((data.feed.entry.length / headings.length)-1)
@@ -62,7 +63,7 @@
 		data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
 			let colno = parseFloat([d.gs$cell.col])-1
 
-			if ((colno === 0) || (colno === 7)) {
+			if ((colno === 0) || (colno > 6 && colno < 14)) {
 				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
 			} else {
 				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.numericValue)
@@ -154,7 +155,7 @@
 	  grid-template-columns: 1fr 1fr 1fr;
 	  grid-template-rows: 1fr auto;
 	  gap: 20px 60px;
-	  grid-template-areas: "dash-brief dash-brief dash-brief" "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
+	  grid-template-areas: "dash-brief dash-brief dash-brief" "dash-wellness dash-wellness dash-wellness" "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
 	  margin-bottom:15px;
 	}
 
@@ -163,13 +164,15 @@
 			grid-template-columns: 1fr;
 		 	  grid-template-rows: 1fr;
 		 	  gap: 40px 60px;
-			grid-template-areas: "dash-brief" "dash-bars" "dash-donut" "dash-table";
+			grid-template-areas: "dash-brief" "dash-wellness" "dash-bars" "dash-donut" "dash-table";
 		}
 
 		.dash-table {
 			overflow:scroll;
 		}
 	}
+
+	.dash-wellness { grid-area: dash-wellness; }
 
 	.dash-brief { grid-area: dash-brief; }
 
@@ -180,11 +183,13 @@
 	.dash-table { grid-area: dash-table; }
 
 	.dashboard-grid-item {
+		margin-bottom:2rem;
 	}
 
 	.update-line {
 		font-size:0.85rem;
 		color: #555;
+		margin:0;
 	}
 
 </style>
@@ -205,9 +210,18 @@
 			<Brief
 				data={coviddata}
 			/>
+
 			 <p class="update-line"><i>Updated daily with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p>
 		</div>
 		{#if fullDash }
+		<div class="dashboard-grid-item dash-wellness">
+			<GraphicTitle
+				title={"Wellness and Contact Tracing"}
+			/>
+			<WellnessSummary
+				data={coviddata}
+			/>
+		</div>
 		<div class="dashboard-grid-item dash-bars" id="column-chart-container">
 			<GraphicTitle
 				title={"Test Results by Date"}

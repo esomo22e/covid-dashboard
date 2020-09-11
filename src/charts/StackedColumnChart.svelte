@@ -192,6 +192,12 @@
 		font-weight:bold;
 		margin:0 auto 0.5rem;
 	}
+
+	@media screen and (max-width:600px) {
+		.chart :global(.tick:nth-child(2n-1) text) {
+		    visibility: hidden;
+		}
+	}
 </style>
 
 <div bind:this={el} class="chart"></div>
