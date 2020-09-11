@@ -34,7 +34,7 @@
 		target
 		  .style("position", "absolute")
 		  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft + 500) + "px")
-		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 750) + "px")
+		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 670) + "px")
 		  .style("display", "inline-block")
 		  .html(
 			  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +

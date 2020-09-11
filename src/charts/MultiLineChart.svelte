@@ -91,7 +91,7 @@ function generateLineChart() {
 					"<div>Northeastern 7-Day Moving Average: " + thisDate[0]["Week Positive Rate"] + "</div>"
 				)
 				.style("left", (d3.mouse(this)[0] + document.getElementById('covid-testing-dashboard').offsetLeft - 100) + "px")
-				.style("top", (d3.mouse(this)[1] + document.getElementById('covid-testing-dashboard').offsetTop + 675) + "px")
+				.style("top", (d3.mouse(this)[1] + document.getElementById('covid-testing-dashboard').offsetTop + 600) + "px")
 				.style("opacity", 1)
 				.style("display", "block");
 
