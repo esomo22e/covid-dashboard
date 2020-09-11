@@ -81,7 +81,6 @@ function showTip(d, target, mouse) {
 			function(g) {
 				let arr = [];
 				for (g=0; g<yGroups.length; g++) {
-					console.log(g)
 					arr.push("<br/>" + yGroups[g] + ": " + d[yGroups[g]])
 				}
 				return "<div class='tipdate'>" + d[xVar] + "</div>" + arr.join(' ')
