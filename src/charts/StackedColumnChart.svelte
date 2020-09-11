@@ -75,7 +75,7 @@ function showTip(d, target, mouse) {
 	target
 		.style("position", "absolute")
 		.style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft - 100) + "px")
-		.style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 100) + "px")
+		.style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 250) + "px")
 		.style("display", "inline-block")
 		.html(
 			function(g) {
@@ -106,6 +106,7 @@ function generateColumnChart() {
 
 	let axisBottomRender = svg.append("g")
 		.attr("transform", "translate(0," + (height-padding.bottom) + ")")
+		.attr("class","horizontalAxis")
 		.call(d3.axisBottom(xScale).tickSize(0));
 
 	axisBottomRender.selectAll("path")
@@ -119,9 +120,12 @@ function generateColumnChart() {
 
 
 	let axisVerticalRender = svg.append("g")
-		.call(d3.axisLeft(yScale)
-		.ticks(Math.min(6, yScale.domain()[1]))
-		.tickSize(0));
+		.attr("class","verticalAxis")
+		.call(
+			d3.axisLeft(yScale)
+				.ticks(Math.min(6, yScale.domain()[1]))
+				.tickSize(0)
+		);
 
 	axisVerticalRender.selectAll("path")
 		.attr("stroke", "#ccc");
@@ -215,7 +219,7 @@ function generateColumnChart() {
 }
 
 @media screen and (max-width:600px) {
-	.chart :global(.tick:nth-child(2n-1) text) {
+	.chart :global(.horizontalAxis .tick:nth-child(2n-1) text) {
 		 visibility: hidden;
 	}
 }
