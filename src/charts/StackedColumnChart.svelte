@@ -75,7 +75,7 @@ function showTip(d, target, mouse) {
 	target
 		.style("position", "absolute")
 		.style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft - 100) + "px")
-		.style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 250) + "px")
+		.style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 450) + "px")
 		.style("display", "inline-block")
 		.html(
 			function(g) {
