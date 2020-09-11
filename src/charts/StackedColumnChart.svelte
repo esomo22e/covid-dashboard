@@ -78,11 +78,13 @@ function showTip(d, target, mouse) {
 		.style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 100) + "px")
 		.style("display", "inline-block")
 		.html(
-			function() {
-				return "<div class='tipdate'>" + d[xVar] + "</div>"
-				// yA + ": " + d[yA] + "<br/>" +
-				// yB + ": " + d[yB] + "<br/>" +
-				// yC + ": " + d[yC] + "<br/>"
+			function(g) {
+				let arr = [];
+				for (g=0; g<yGroups.length; g++) {
+					console.log(g)
+					arr.push("<br/>" + yGroups[g] + ": " + d[yGroups[g]])
+				}
+				return "<div class='tipdate'>" + d[xVar] + "</div>" + arr.join(' ')
 			}
 
 		);
@@ -209,7 +211,7 @@ function generateColumnChart() {
 .chart :global(.tipdate) {
 	font-size:1.2rem;
 	font-weight:bold;
-	margin:0 auto 0.5rem;
+	margin:0 auto;
 }
 
 @media screen and (max-width:600px) {
