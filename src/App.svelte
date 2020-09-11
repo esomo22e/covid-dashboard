@@ -230,14 +230,14 @@
 			/>
 			<StackedColumnChart
 				width={width2}
-				height={width2 * 0.8}
+				height={width2 * 1}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Tests Completed"}
 				yGroups={["Negative Tests", "Positive Tests"]}
 				colorscheme={negativepositive}
 			/>
-			<StackedColumnChart
+			<!-- <StackedColumnChart
 				width={width2}
 				height={width2 * 0.45}
 				data={coviddata}
@@ -255,7 +255,7 @@
 				lineA={"Negative Tests"}
 				lineB={"Inconclusive Tests"}
 				lineC={"Positive Tests"}
-			/>
+			/> -->
 		</div>
 		<div class="dashboard-grid-item dash-donut">
 			<GraphicTitle
