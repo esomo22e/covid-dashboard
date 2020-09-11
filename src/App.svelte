@@ -4,11 +4,13 @@
 	import WellnessSummary from './charts/WellnessSummary.svelte'
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
+		import LineChart from './charts/MultiLineChart.svelte'
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'
    import SvelteTable from "svelte-table"
 	import { csv, json } from 'd3-fetch'
 	import { groups } from 'd3-array'
+	import { negativepositive, groupbylevel } from './helpers/colors.js'
 
 	const todaysDate = new Date();
 	// const dateCode = "" + (todaysDate.getMonth()+1) + todaysDate.getDate() + todaysDate.getHours()
@@ -228,12 +230,31 @@
 			/>
 			<StackedColumnChart
 				width={width2}
-				height={width2 * 1.1}
+				height={width2 * 0.8}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Tests Completed"}
-				yA={"Negative Tests"}
-				yB={"Positive Tests"}
+				yGroups={["Negative Tests", "Positive Tests"]}
+				colorscheme={negativepositive}
+			/>
+			<StackedColumnChart
+				width={width2}
+				height={width2 * 0.45}
+				data={coviddata}
+				xVar={"Date"}
+				yVar={"Positive Tests"}
+				yGroups={["Students Positive", "FacStaff Positive", "Contracted Positive"]}
+				colorscheme={groupbylevel}
+			/>
+			<LineChart
+				width={width2}
+				height={width2 * 0.45}
+				data={coviddata}
+				title={"Title"}
+				xVar={"Date"}
+				lineA={"Negative Tests"}
+				lineB={"Inconclusive Tests"}
+				lineC={"Positive Tests"}
 			/>
 		</div>
 		<div class="dashboard-grid-item dash-donut">

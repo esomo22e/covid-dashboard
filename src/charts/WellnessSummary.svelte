@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	import { colors } from '../helpers/colors.js'
 	import { digitFormat } from '../helpers/digitFormat.js'
 
 	let el;
