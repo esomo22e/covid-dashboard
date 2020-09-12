@@ -10,6 +10,7 @@
    import SvelteTable from "svelte-table"
 	import { csv, json } from 'd3-fetch'
 	import { groups } from 'd3-array'
+	import { timeParse, timeFormat } from 'd3-time-format';
 	import { negativepositive, groupbylevel } from './helpers/colors.js'
 
 	const todaysDate = new Date();
@@ -77,6 +78,9 @@
 		coviddata = loadeddata;
 	})
 
+	const parseTime = timeParse("%-m/%d/%y");
+	const formatDate = timeFormat("%-m/%d/%y");
+
 
 
 
@@ -94,9 +98,11 @@
 	  {
 	    key: "Date",
 	    title: "Date",
-	    value: v => v["Date"],
+	    value: v => formatDate(parseTime(v["Date"])),
+		 renderValue: v => v["Date"],
 	    sortable: true,
-	    headerClass: "text-left"
+	    headerClass: "text-left",
+		 class: "date-col"
 	  },
 	  {
 	    key: "Tests Completed",
@@ -193,6 +199,8 @@
 		color: #555;
 		margin:0;
 	}
+
+	
 
 </style>
 

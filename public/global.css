@@ -42,7 +42,7 @@
 }
 
 #covid-testing-dashboard td:first-child {
-	text-align:left;
+	text-align:right;
 	background-color: unset;
    color: unset;
    font-weight: unset;
