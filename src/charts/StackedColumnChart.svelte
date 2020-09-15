@@ -3,7 +3,6 @@ import { onMount } from 'svelte';
 import { scaleLinear, scaleBand, scaleOrdinal } from 'd3-scale';
 import { axisLeft, axisRight, axisTop, axisBottom } from 'd3-axis';
 import { select, mouse } from 'd3-selection';
-import { timeParse, timeFormat } from 'd3-time-format';
 import { line, curveMonotoneX, curveNatural } from 'd3-shape';
 import { path } from 'd3-path';
 import { interpolateRound } from 'd3-interpolate';

@@ -27,13 +27,8 @@
 
 	$: coviddata = [];
 
-
-
-
-
-	// const doc = new GoogleSpreadsheet('1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE');
-	// doc.useServiceAccountAuth('credentials.json');
-
+	const parseTime = timeParse("%-m/%d/%y");
+	const formatDate = timeFormat("%-m/%d/%y");
 
 
 	// csv("datasets/testingdata.csv").then(function(data,i){
@@ -66,20 +61,19 @@
 		data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
 			let colno = parseFloat([d.gs$cell.col])-1
 
-			if ((colno === 0) || (colno > 6 && colno < 14)) {
+			if (colno === 0) {
+				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = formatDate(parseTime(d.gs$cell.inputValue))
+			} else if (colno > 6 && colno < 14) {
 				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
 			} else {
 				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.numericValue)
 			}
 		})
 
-
-
 		coviddata = loadeddata;
 	})
 
-	const parseTime = timeParse("%-m/%d/%y");
-	const formatDate = timeFormat("%-m/%d/%y");
+
 
 
 
@@ -98,8 +92,7 @@
 	  {
 	    key: "Date",
 	    title: "Date",
-	    value: v => formatDate(parseTime(v["Date"])),
-		 renderValue: v => v["Date"],
+	    value: v => v["Date"],
 	    sortable: true,
 	    headerClass: "text-left",
 		 class: "date-col"
@@ -200,7 +193,7 @@
 		margin:0;
 	}
 
-	
+
 
 </style>
 
