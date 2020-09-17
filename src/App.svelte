@@ -14,7 +14,6 @@
 	import { negativepositive, groupbylevel } from './helpers/colors.js'
 
 	const todaysDate = new Date();
-	// const dateCode = "" + (todaysDate.getMonth()+1) + todaysDate.getDate() + todaysDate.getHours()
 	const dateCode = todaysDate.getTime()
 
 	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json&date=' + dateCode
@@ -70,8 +69,18 @@
 			}
 		})
 
+		let len = loadeddata.length;
+
+
+		for (let k=0; k < (len-31); k++) {
+			console.log(k)
+			loadeddata.shift()
+		}
+
 		coviddata = loadeddata;
 	})
+
+
 
 
 
