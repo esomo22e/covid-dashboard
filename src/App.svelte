@@ -18,12 +18,6 @@
 
 	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json&date=' + dateCode
 
-  //Check if the test brief should show (if the id exists)
-	let fullDash = true;
-	if (document.getElementById('covid-test-brief')) {
-		fullDash = false;
-	}
-
 	$: coviddata = [];
 
 	const parseTime = timeParse("%-m/%d/%y");
@@ -69,13 +63,13 @@
 			}
 		})
 
-		let len = loadeddata.length;
-
-
-		for (let k=0; k < (len-31); k++) {
-			console.log(k)
-			loadeddata.shift()
-		}
+		// only use last 31 days of data
+		// let len = loadeddata.length;
+		//
+		// for (let k=0; k < (len-31); k++) {
+		// 	console.log(k)
+		// 	loadeddata.shift()
+		// }
 
 		coviddata = loadeddata;
 	})
@@ -225,7 +219,6 @@
 
 			 <p class="update-line"><i>Updated daily with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p>
 		</div>
-		{#if fullDash }
 		<div class="dashboard-grid-item dash-wellness">
 			<GraphicTitle
 				title={"Wellness and Contact Tracing"}
@@ -291,12 +284,9 @@
 			>
 			</SvelteTable>
 		</div>
-		{/if}
 	</div>
 {/if}
-	{#if fullDash }
 <GraphicFooter
 	source={"Northeastern Life Sciences Testing Center and the Broad Institute"}
 	note={""}
 />
-{/if}
