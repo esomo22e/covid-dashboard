@@ -222,11 +222,11 @@ function generateColumnChart() {
 	margin:0 auto;
 }
 
-@media screen and (max-width:600px) {
-	.chart :global(.horizontalAxis .tick:nth-child(2n-1) text) {
-		 visibility: hidden;
-	}
+
+.chart :global(.horizontalAxis .tick:nth-last-child(2n) text) {
+	 visibility: hidden;
 }
+
 </style>
 
 <div bind:this={el} class="chart"></div>
