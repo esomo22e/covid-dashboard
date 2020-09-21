@@ -44,6 +44,12 @@ export let colorsteps = yGroups.length;
 
 export let avgdaycount = 7;
 
+// let len = data.length;
+//
+// for (let k=0; k < (len-31); k++) {
+// 	data.shift()
+// }
+
 
 // data.forEach(function(d,i){
 // 	if (i > (avgdaycount-2)) {

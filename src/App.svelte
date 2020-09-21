@@ -69,14 +69,6 @@
 			}
 		})
 
-		let len = loadeddata.length;
-
-
-		for (let k=0; k < (len-31); k++) {
-			console.log(k)
-			loadeddata.shift()
-		}
-
 		coviddata = loadeddata;
 	})
 
