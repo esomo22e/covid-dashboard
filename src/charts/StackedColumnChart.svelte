@@ -119,8 +119,8 @@ function generateColumnChart() {
 	axisBottomRender.selectAll("text")
 		.style("text-anchor", "end")
 		.attr("transform", ("rotate(-45)"))
-		.attr("dx", -2)
-		.attr("dy", 6)
+		.attr("dx", -3)
+		.attr("dy", 3.5)
 
 
 	let axisVerticalRender = svg.append("g")
