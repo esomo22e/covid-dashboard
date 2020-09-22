@@ -41,11 +41,8 @@ export let yVar = {yVar};
 export let yGroups = {yGroups};
 export let colorscheme = {colorscheme};
 export let colorsteps = yGroups.length;
+export let len = data.length;
 
-export let avgdaycount = 7;
-
-// let len = data.length;
-//
 // for (let k=0; k < (len-31); k++) {
 // 	data.shift()
 // }
