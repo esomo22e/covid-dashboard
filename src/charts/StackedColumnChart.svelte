@@ -44,6 +44,12 @@ export let colorsteps = yGroups.length;
 
 export let avgdaycount = 7;
 
+// let len = data.length;
+//
+// for (let k=0; k < (len-31); k++) {
+// 	data.shift()
+// }
+
 
 // data.forEach(function(d,i){
 // 	if (i > (avgdaycount-2)) {
@@ -216,11 +222,11 @@ function generateColumnChart() {
 	margin:0 auto;
 }
 
-@media screen and (max-width:600px) {
-	.chart :global(.horizontalAxis .tick:nth-child(2n-1) text) {
-		 visibility: hidden;
-	}
+
+.chart :global(.horizontalAxis .tick:nth-last-child(2n) text) {
+	 visibility: hidden;
 }
+
 </style>
 
 <div bind:this={el} class="chart"></div>
