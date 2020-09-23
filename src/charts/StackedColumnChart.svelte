@@ -224,6 +224,16 @@ function generateColumnChart() {
 	 visibility: hidden;
 }
 
+@media screen and (max-width:600px) {
+	.chart :global(.horizontalAxis .tick text) {
+		 visibility: hidden;
+	}
+
+	.chart :global(.horizontalAxis .tick:nth-last-child(4n+1) text) {
+		 visibility: visible;
+	}
+}
+
 </style>
 
 <div bind:this={el} class="chart"></div>
