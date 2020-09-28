@@ -14,8 +14,10 @@
  	   grid-template-columns: repeat(3, 1fr);
 		grid-template-rows: auto;
 		gap: 20px 20px;
-		grid-template-areas: ". . ." ". ."
+		grid-template-areas: ". . ." "update-line update-line update-line"
 	}
+
+	.update-line { grid-area: update-line; }
 
 	.summary-item {
 	  display: grid;
@@ -116,4 +118,5 @@
 			<div>{digitFormat(data["Students Recovered Off Campus"])}</div>
 		</div>
 	</div>
+	<p class="update-line"><i>Beginning on September 25th, off-campus students are encouraged to isolate and quarantine in on-campus wellness housing.</i></p>
 </div>

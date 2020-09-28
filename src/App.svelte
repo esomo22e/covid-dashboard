@@ -182,12 +182,6 @@
 		margin-bottom:2rem;
 	}
 
-	.update-line {
-		font-size:0.85rem;
-		color: #555;
-		margin:0;
-	}
-
 
 
 </style>

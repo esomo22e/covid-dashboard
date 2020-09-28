@@ -56,7 +56,7 @@ $: xScale = d3.scaleTime()
 	.range([columnAlign, width - padding.left - padding.right - columnAlign]);
 
 $: yScale = d3.scaleLinear()
-	.domain([0, 2.5])
+	.domain([0, 2])
 	.range([height - padding.bottom, padding.top]);
 
 onMount(generateLineChart);
@@ -127,7 +127,8 @@ function generateLineChart() {
 
 	let axisBottomRender = svg.append("g")
 		.attr("transform", "translate(0," + (height-padding.bottom) + ")")
-		.call(d3.axisBottom(xScale).tickSize(0).tickFormat(d3.timeFormat("%m/%d/%y")));
+		.attr("class","horizontalAxis")
+		.call(d3.axisBottom(xScale).ticks(50).tickSize(0).tickFormat(d3.timeFormat("%-m/%d/%y")));
 
 	axisBottomRender.selectAll("path")
 		.attr("stroke", "#ccc")
@@ -317,6 +318,20 @@ var tooltipgrid = svg.append("rect")
 	font-size:1.2rem;
 	font-weight:bold;
 	margin:0 auto 0.5rem;
+}
+
+.chart :global(.horizontalAxis .tick:nth-last-child(2n) text) {
+	 visibility: hidden;
+}
+
+@media screen and (max-width:600px) {
+	.chart :global(.horizontalAxis .tick text) {
+		 visibility: hidden;
+	}
+
+	.chart :global(.horizontalAxis .tick:nth-last-child(4n+1) text) {
+		 visibility: visible;
+	}
 }
 </style>
 

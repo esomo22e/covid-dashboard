@@ -7,6 +7,12 @@
     margin-top: unset;
 }
 
+.update-line {
+	font-size:0.85rem;
+	color: #555;
+	margin:0;
+}
+
 #covid-testing-dashboard > svg, #covid-testing-dashboard > #svgContainer, .tick text {
 	max-width: 1000px;
 	margin: 0 auto;
