@@ -71,7 +71,11 @@
 
 	@media screen and (max-width:600px) {
 		#wellness-summary {
-	 	   grid-template-columns: 1fr;
+	 	   display:block;
+		}
+
+		.summary-item {
+			margin-bottom:0.5rem
 		}
 
 		.summary-item:nth-child(1) { grid-area: unset; }
@@ -118,5 +122,5 @@
 			<div>{digitFormat(data["Students Recovered Off Campus"])}</div>
 		</div>
 	</div>
-	<p class="update-line"><i>Beginning on September 25th, off-campus students are encouraged to isolate and quarantine in on-campus wellness housing.</i></p>
 </div>
+<p class="update-line"><i>Beginning on September 25th, off-campus students are encouraged to isolate and quarantine in on-campus wellness housing.</i></p>

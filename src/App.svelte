@@ -20,8 +20,8 @@
 
 	$: coviddata = [];
 
-	const parseTime = timeParse("%-m/%d/%y");
-	const formatDate = timeFormat("%-m/%d/%y");
+	const parseTime = timeParse("%m/%d/%y");
+	const formatDate = timeFormat("%m/%d/%y");
 
 
 	// csv("datasets/testingdata.csv").then(function(data,i){
