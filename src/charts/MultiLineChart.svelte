@@ -320,16 +320,16 @@ var tooltipgrid = svg.append("rect")
 	margin:0 auto 0.5rem;
 }
 
-.chart :global(.horizontalAxis .tick:nth-last-child(2n) text) {
+.chart :global(.horizontalAxis .tick text) {
 	 visibility: hidden;
 }
 
-@media screen and (max-width:600px) {
-	.chart :global(.horizontalAxis .tick text) {
-		 visibility: hidden;
-	}
+.chart :global(.horizontalAxis .tick:nth-last-child(4n+1) text) {
+	 visibility: visible;
+}
 
-	.chart :global(.horizontalAxis .tick:nth-last-child(4n+1) text) {
+@media screen and (max-width:600px) {
+	.chart :global(.horizontalAxis .tick:nth-last-child(7n+1) text) {
 		 visibility: visible;
 	}
 }
