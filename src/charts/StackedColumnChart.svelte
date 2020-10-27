@@ -229,8 +229,11 @@ function generateColumnChart() {
 }
 
 @media screen and (max-width:600px) {
-
 	.chart :global(.horizontalAxis .tick:nth-last-child(4n+1) text) {
+		 visibility: hidden;
+	}
+
+	.chart :global(.horizontalAxis .tick:nth-last-child(7n+1) text) {
 		 visibility: visible;
 	}
 }
