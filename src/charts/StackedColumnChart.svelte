@@ -61,7 +61,7 @@ export let len = data.length;
 
 $: xScale = d3.scaleBand()
 	.domain(data.map(function(o) { return o[xVar]; }))
-	.rangeRound([0, width - padding.left - padding.right])
+	.range([1, width - padding.left - padding.right])
 	.padding(0.1);
 
 $: yScale = d3.scaleLinear()
