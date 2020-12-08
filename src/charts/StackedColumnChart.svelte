@@ -76,8 +76,8 @@ $: colors = d3.scaleOrdinal()
 function showTip(d, target, mouse) {
 	target
 		.style("position", "absolute")
-		.style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft - 100) + "px")
-		.style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 370) + "px")
+		.style("left", (mouse[0] - 100) + "px")
+		.style("top", (mouse[1] - 125) + "px")
 		.style("display", "inline-block")
 		.html(
 			function(g) {
@@ -193,6 +193,9 @@ function generateColumnChart() {
 </script>
 
 <style>
+.chart :global() {
+	position:relative;
+}
 .chart :global(rect) {
 	/* fill: #cfbabc; */
 }
