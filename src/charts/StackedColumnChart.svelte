@@ -77,7 +77,7 @@ function showTip(d, target, mouse) {
 	target
 		.style("position", "absolute")
 		.style("left", (mouse[0] - 100) + "px")
-		.style("top", (mouse[1] - 125) + "px")
+		.style("top", (mouse[1] - 175) + "px")
 		.style("display", "inline-block")
 		.html(
 			function(g) {
