@@ -77,7 +77,7 @@ function showTip(d, target, mouse) {
 	target
 		.style("position", "absolute")
 		.style("left", (mouse[0] - 100) + "px")
-		.style("top", (mouse[1] - 175) + "px")
+		.style("top", (mouse[1] - 150) + "px")
 		.style("display", "inline-block")
 		.html(
 			function(g) {
@@ -108,7 +108,15 @@ function generateColumnChart() {
 	let axisBottomRender = svg.append("g")
 		.attr("transform", "translate(0," + (height-padding.bottom) + ")")
 		.attr("class","horizontalAxis")
-		.call(d3.axisBottom(xScale).tickSize(0));
+		.call(
+			d3.axisBottom(xScale)
+				.tickValues(xScale.domain().filter(function(d,i){
+					let tickCount = Math.round(xScale.domain().length/10);
+					let lastTick = xScale.domain().length-1;
+					return ((i % tickCount) === (lastTick % tickCount))
+				}))
+				.tickSize(0)
+		);
 
 	axisBottomRender.selectAll("path")
 		.attr("stroke", "#ccc");
@@ -222,7 +230,7 @@ function generateColumnChart() {
 	margin:0 auto;
 }
 
-.chart :global(.horizontalAxis .tick text) {
+/* .chart :global(.horizontalAxis .tick text) {
 	 visibility: hidden;
 }
 
@@ -239,7 +247,7 @@ function generateColumnChart() {
 	.chart :global(.horizontalAxis .tick:nth-last-child(14n+1) text) {
 		 visibility: visible;
 	}
-}
+} */
 
 </style>
 
