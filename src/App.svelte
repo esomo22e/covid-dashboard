@@ -130,15 +130,6 @@
 		 ),
 	    sortable: true,
 	    headerClass: "text-left"
-	  },
-	  {
-	    key: "Mass. Positive Rate",
-	    title: "MA Positive Rate",
-	    value: v => (
-			 ((parseFloat(v["Mass. Positive Rate"])*10)/1000).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:1})
-		 ),
-	    sortable: true,
-	    headerClass: "text-left"
 	  }
   ]
 

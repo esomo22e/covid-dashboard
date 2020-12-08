@@ -30,23 +30,23 @@
 	data = data[data.length-1] // only use latest day's data
 
 
-	function showPctTip(d, target, mouse) {
-		target
-		  .style("position", "absolute")
-		  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft + 500) + "px")
-		  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 670) + "px")
-		  .style("display", "inline-block")
-		  .html(
-			  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +
-			  "Negative rate: " + (data["Seven-Day Negative"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-			  "Positive rate: " + (data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
-			);
-	}
+	// function showPctTip(d, target, mouse) {
+	// 	target
+	// 	  .style("position", "absolute")
+	// 	  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft + 500) + "px")
+	// 	  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 670) + "px")
+	// 	  .style("display", "inline-block")
+	// 	  .html(
+	// 		  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +
+	// 		  "Negative rate: " + (data["Seven-Day Negative"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
+	// 		  "Positive rate: " + (data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
+	// 		);
+	// }
 
 	onMount(generateDonut);
 
 	function generateDonut() {
-		var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
+		// var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
 
 		var donutcaption = d3.select(el)
 			.append("div")
@@ -96,14 +96,14 @@
 		  )
 	  	  .attr('fill', function(d){ return(color(d.data.key)) })
 		  .attr('stroke-width', 0)
-		  .on("mousemove", function(d){
-			    if (window.innerWidth > 600) {
-             	showPctTip(d, tooltip, d3.mouse(this))
-				}
-         })
-     	  .on("mouseout", function(d){
- 			  tooltip.style("display", "none")
- 		  });
+		  // .on("mousemove", function(d){
+			//     if (window.innerWidth > 600) {
+        //      	showPctTip(d, tooltip, d3.mouse(this))
+			// 	}
+        //  })
+     	  // .on("mouseout", function(d){
+ 			//   tooltip.style("display", "none")
+ 		  // });
 
 
 	}
