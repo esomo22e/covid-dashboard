@@ -87,7 +87,8 @@
 	  {
 	    key: "Date",
 	    title: "Date",
-	    value: v => v["Date"],
+	    value: v => new Date(v["Date"]),
+		 renderValue: v => v["Date"],
 	    sortable: true,
 	    headerClass: "text-left",
 		 class: "date-col"
