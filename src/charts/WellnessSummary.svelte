@@ -32,9 +32,6 @@
 	.summary-item h3 { grid-area: 1 / 1 / 2 / 4; }
 	.datapt:nth-child(2) { grid-area: 2 / 1 / 3 / 2; }
 	.datapt:nth-child(3)  { grid-area: 2 / 2 / 3 / 3; }
-	/* .datapt:nth-child(4)  { grid-area: 2 / 3 / 3 / 4; } */
-
-
 
 
 	#wellness-summary h3 {
@@ -66,8 +63,6 @@
 	.datapt > div {
 		font-weight:700;
 	}
-
-
 
 	@media screen and (max-width:600px) {
 		#wellness-summary {

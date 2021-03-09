@@ -4,7 +4,7 @@
 	import WellnessSummary from './charts/WellnessSummary.svelte'
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
-		import LineChart from './charts/MultiLineChart.svelte'
+	import LineChart from './charts/MultiLineChart.svelte'
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'
    import SvelteTable from "svelte-table"
@@ -14,7 +14,7 @@
 	import { negativepositive, groupbylevel } from './helpers/colors.js'
 
 	const todaysDate = new Date();
-	const dateCode = todaysDate.getTime()
+	const dateCode = todaysDate.getTime();
 
 	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json&date=' + dateCode
 
@@ -23,7 +23,7 @@
 	const parseTime = timeParse("%m/%d/%y");
 	const formatDate = timeFormat("%m/%d/%y");
 
-
+	// USE THE BELOW CODE WHEN TESTING WITH LOCAL DATASHEET INSTEAD OF GOOGLE
 	// csv("datasets/testingdata.csv").then(function(data,i){
 	// csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
 	// 	data.forEach(function(d,i){
@@ -41,8 +41,13 @@
 	//
 	// });
 
+
+
+	// NEED THESE TO CYCLE THROUGH THE HEADERS OF THE GOOGLE SHEET
 	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive",  "Students in Isolation On Campus",	"Students in Isolation Off Campus", "Students in Quarantine On Campus",	"Students in Quarantine Off Campus",	"Students Recovered On Campus",	"Students Recovered Off Campus", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
 
+
+	// THIS ACCESSES AND PROCESSES THE GOOGLE SHEET
 	json(url).then(function(data,i){
 		let rowcount = ((data.feed.entry.length / headings.length)-1)
 		let loadeddata = []
@@ -69,11 +74,7 @@
 
 
 
-
-
-
-
-
+	// I can't figure out a better way to dynamically figure out the width of CSS grid items, so here we are
 	let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
 	let width1 = Math.min(width, 350);
 	let width2 = width;
@@ -83,6 +84,9 @@
 		width2 = (width * 0.66) - 60
 	}
 
+
+
+	// These are the columns for the table portion
 	const columns = [
 	  {
 	    key: "Date",
@@ -138,21 +142,42 @@
 </script>
 
 <style>
+	.dash-wellness { grid-area: dash-wellness; }
+	.dash-brief { grid-area: dash-brief; }
+	.dash-bars { grid-area: dash-bars; }
+	.dash-donut { grid-area: dash-donut; }
+	.dash-table { grid-area: dash-table; }
+
+	.dashboard-grid-item {
+		margin-bottom:2rem;
+	}
+
 	#dashboard-grid {
 	  display: grid;
 	  grid-template-columns: 1fr 1fr 1fr;
 	  grid-template-rows: 1fr auto;
 	  gap: 20px 60px;
-	  grid-template-areas: "dash-brief dash-brief dash-brief" "dash-wellness dash-wellness dash-wellness" "dash-bars dash-bars dash-donut" "dash-table dash-table dash-table";
+	  grid-template-areas:
+		  "dash-brief dash-brief dash-brief"
+		  "dash-wellness dash-wellness dash-wellness"
+		  "dash-bars dash-bars dash-donut"
+		  "dash-table dash-table dash-table"
+		;
 	  margin-bottom:15px;
 	}
 
 	@media screen and (max-width:600px) {
 		#dashboard-grid {
 			grid-template-columns: 1fr;
-		 	  grid-template-rows: 1fr;
-		 	  gap: 40px 60px;
-			grid-template-areas: "dash-brief" "dash-wellness" "dash-bars" "dash-donut" "dash-table";
+		 	grid-template-rows: 1fr;
+		 	gap: 40px 60px;
+			grid-template-areas:
+				"dash-brief"
+				"dash-wellness"
+				"dash-bars"
+				"dash-donut"
+				"dash-table"
+			;
 		}
 
 		.dash-table {
@@ -160,41 +185,16 @@
 		}
 	}
 
-	.dash-wellness { grid-area: dash-wellness; }
-
-	.dash-brief { grid-area: dash-brief; }
-
-	.dash-bars { grid-area: dash-bars; }
-
-	.dash-donut { grid-area: dash-donut; }
-
-	.dash-table { grid-area: dash-table; }
-
-	.dashboard-grid-item {
-		margin-bottom:2rem;
-	}
-
 
 
 </style>
 
-
-<!-- {#if coviddata.length > 0}
-	<ColumnChart
-		width={width}
-		height={width * 0.66}
-		data={coviddata.filter(function(d,i){return i > (coviddata.length-36)})}
-		xVar={"date"}
-		yVar={"newcases"}
-	/>
-{/if} -->
 {#if coviddata.length > 0}
 	<div id="dashboard-grid">
 		<div class="dashboard-grid-item dash-brief">
 			<Brief
 				data={coviddata}
 			/>
-
 			 <p class="update-line"><i>Updated daily with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p>
 		</div>
 		<div class="dashboard-grid-item dash-wellness">

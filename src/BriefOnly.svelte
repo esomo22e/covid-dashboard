@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-	import Brief from './charts/BriefHomepage.svelte'
+	import BriefHomepage from './charts/BriefHomepage.svelte'
 	import { csv, json } from 'd3-fetch'
 	import { timeParse, timeFormat } from 'd3-time-format';
 
@@ -41,7 +41,6 @@
 
 
 		for (let k=0; k < (len-31); k++) {
-			console.log(k)
 			loadeddata.shift()
 		}
 
@@ -57,7 +56,7 @@
 
 
 {#if coviddata.length > 0}
-			<Brief
+			<BriefHomepage
 				data={coviddata}
 			/>
 {/if}
