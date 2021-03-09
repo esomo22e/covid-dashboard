@@ -48,6 +48,7 @@ In standard Svelte style, all of the .svelte files start with a JavaScript secti
 ### App.Svelte
 
 This is the big file that runs our live dashboard page. Other components of that dashboard are nested inside.
+- Note that the SvelteTable component, inside of this file, is not a custom component but is provided by a plugin. The configuration for that particular piece of the dashboard is provided by the `columns` variable, which provides an array of objects inside of App.svelte.
 
 ### BriefOnly.svelte
 
