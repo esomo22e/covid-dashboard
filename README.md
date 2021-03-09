@@ -22,6 +22,14 @@ npm run build
 
 Then upload the /public/ folder to the FTP host.
 
+## Daily data updates
+
+The data that powers this dashboard does NOT live in this Github repo or on our FTP server. We're using Google Sheets to keep this powered.
+
+Each day, the cells in the Google Sheet that are filled in white are the ones that need to be manually updated. The cells that are filled in red rely on formulas to compute totals and 7-day averages; to fill those in, once the white ones are all entered for the day, you can highlight the red cells from the previous day and then drag those down -- the formulas should auto-populate.
+
+As an extra attempt to try to prevent typos and mathematic errors in the Google Sheet, the cells for "Tests Completed" and "Positive Tests" use conditional formatting to display green text if the test numbers add up correctly, and red numbers if they do not.
+
 ## General principles
 
 - Graphics themselves are largely built in the templates seen in the /charts/ folder. The top-level files mostly handle the loading of data.
