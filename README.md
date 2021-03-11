@@ -20,7 +20,9 @@ To create an optimised version of the app:
 npm run build
 ```
 
-Then upload the /public/ folder to the FTP host.
+Then upload the /public/ folder to the FTP server.
+
+NOTE: if you make any changes that are uploaded to the FTP server, it's always a good idea to then go into the Testing Dashboard's WordPress page, and bump up the version query string that's at the end of the URLs in the "external resources", e.g. if it's currently at `?ver=1.25`, pop it up to `?ver=1.26`. This helps to ensure that users don't get served with cached versions of the JS and CSS files that might cause the dashboard to look strange for them. 
 
 ## Daily data updates
 
