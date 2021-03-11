@@ -18,6 +18,7 @@
 
 	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json&date=' + dateCode
 
+	// the dollar sign is a Svelte-y way of declaring a variable that will be dynamic
 	$: coviddata = [];
 
 	const parseTime = timeParse("%m/%d/%y");
@@ -86,7 +87,7 @@
 
 
 
-	// These are the columns for the table portion
+	// These are the columns for the table portion; this configuration is passed to the SvelteTable plugin
 	const columns = [
 	  {
 	    key: "Date",
