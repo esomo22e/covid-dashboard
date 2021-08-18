@@ -1,10 +1,11 @@
 <script>
 	import { onMount } from 'svelte';
-	import Brief from './charts/Brief.svelte'
-	import WellnessSummary from './charts/WellnessSummary.svelte'
+
+	import DotPlot from './charts/DotPlot.svelte'
+
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
-	import LineChart from './charts/MultiLineChart.svelte'
+
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'
    import SvelteTable from "svelte-table"
@@ -13,10 +14,18 @@
 	import { timeParse, timeFormat } from 'd3-time-format';
 	import { negativepositive, groupbylevel } from './helpers/colors.js'
 
+  // import { DatePicker, DatePickerInput } from "carbon-components-svelte";
+  // import beyonkSvelteCalendar from 'https://cdn.skypack.dev/@beyonk/svelte-calendar';
+  import Datepicker from 'svelte-calendar';
+
+  let formattedSelected = "";
+  let dateChosen = false;
+
+
 	const todaysDate = new Date();
 	const dateCode = todaysDate.getTime();
 
-	const url = 'https://spreadsheets.google.com/feeds/cells/1C8PDCqHB9DbUYbvrEMN2ZKyeDGAMAxdcNkmO2QSZJsE/1/public/full?alt=json&date=' + dateCode
+	const url = 'https://spreadsheets.google.com/feeds/cells/1REJNqVcREni8IlxiObIbm5M6xU0lb8BeKfxJO0lNvXk/1/public/full?alt=json&date=' + dateCode
 
 	// the dollar sign is a Svelte-y way of declaring a variable that will be dynamic
 	$: coviddata = [];
@@ -24,59 +33,88 @@
 	const parseTime = timeParse("%m/%d/%y");
 	const formatDate = timeFormat("%m/%d/%y");
 
-	// USE THE BELOW CODE WHEN TESTING WITH LOCAL DATASHEET INSTEAD OF GOOGLE
-	// csv("datasets/testingdata.csv").then(function(data,i){
-	// csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard/datasets/testingdata.csv").then(function(data,i){
-	// 	data.forEach(function(d,i){
-	// 		Object.keys(d).forEach(function(j) {
-	// 			if ((j == "Date") || (j == "Mass. Positive Rate")) {
-	// 				d[j] = d[j]
-	// 			} else {
-	// 				d[j] = parseFloat(d[j])
-	// 			}
-	//
-	// 		})
-	// 	});
-	//
-	// 	coviddata = data;
-	//
-	// });
+
+	csv("datasets/testingdata.csv").then(function(data,i){
+	// csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard-weekly/datasets/testingdata.csv").then(function(data,i){
+		data.forEach(function(d,i){
+			Object.keys(d).forEach(function(j) {
+				if ((j == "Date") || (j == "Mass. Positive Rate")) {
+					d[j] = d[j]
+				} else {
+					d[j] = parseFloat(d[j])
+				}
+
+			})
+		});
+
+		coviddata = data;
+
+		// console.log(coviddata)
+
+	});
 
 
+	// $: filteredData = coviddata.filter(d => {(["8/20/20"].indexOf(d["Date"]) > -1)});
+// $: filteredData0 = coviddata.filter(function(d){
+// 	// console.log(formattedSelected)
+// 	console.log(d.Date)
+// 	if(d.Date >= formattedSelected && d.Date <= "09/1/21") {
+// 		return d;
+// 	}
+// });
+// console.log(filteredData0);
+// $: filteredData = coviddata.filter(d => {(["8/20/20"].indexOf(d["Date"]) > -1)});
+// $: filteredData = coviddata.filter(function(d){
+// 	const START_DATE = new Date(formattedSelected).getTime();
+// 	const END_DATE = new Date("09/1/21").getTime();
+// 	const COMPARE_DATE = new Date(d.Date).getTime();
+// 	if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
+// 		// console.log(END_DATE)
+// 		// console.log("Date", new Date(COMPARE_DATE).toString(),d);
+// 		// console.log("Date", new Date(COMPARE_DATE).toString());
+//
+// 		console.log(d)
+// 		return d;
+// 	}
+// });
 
-	// NEED THESE TO CYCLE THROUGH THE HEADERS OF THE GOOGLE SHEET
-	const headings = ["Date", "Tests Completed", "Positive Tests", "Negative Tests", "Students Positive",	"FacStaff Positive",	"Contracted Positive",  "Students in Isolation On Campus",	"Students in Isolation Off Campus", "Students in Quarantine On Campus",	"Students in Quarantine Off Campus",	"Students Recovered On Campus",	"Students Recovered Off Campus", "Mass. Positive Rate", "Seven-Day Tests", "Seven-Day Positive", "Seven-Day Negative", "Total Tests", "Total Positive", "Total Negative", "Total Students Positive",	"Total FacStaff Positive",	"Total Contracted Positive"]
 
-
-	// THIS ACCESSES AND PROCESSES THE GOOGLE SHEET
-	json(url).then(function(data,i){
-		let rowcount = ((data.feed.entry.length / headings.length)-1)
-		let loadeddata = []
-
-		for (let r=0; r < rowcount; r++) {
-			loadeddata[r] = {}
+$: filteredData = coviddata.filter(function(d){
+console.log('filtering');
+console.log("formattedSelected", formattedSelected)
+	if ("08/18/2021" === formattedSelected || "" === formattedSelected) {
+		return d;
+	} else {
+		return;
+	}
+	if(0 < formattedSelected.length ) {
+		// const START_DATE = new Date(formattedSelected).getTime();
+		const START_DATE = new Date("08/17/21").getTime();
+		// console.log(START_DATE)
+		const END_DATE = new Date("09/1/21").getTime();
+		const COMPARE_DATE = new Date(d.Date).getTime();
+		console.log("COMPARE_DATE", new Date(COMPARE_DATE).toString());
+		console.log("START_DATE", new Date(START_DATE).toString());
+		console.log("END_DATE", new Date(END_DATE).toString());
+		if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
+			console.log("Including Datum", d);
+			return d;
 		}
+	} else {
+		return d;
+	}
+///
 
-		data.feed.entry.filter(d => (d.gs$cell.row !== "1")).forEach(function(d,i){
-			let colno = parseFloat([d.gs$cell.col])-1
+});
+// console.log(filteredData)
+	// NEED THESE TO CYCLE THROUGH THE HEADERS OF THE GOOGLE SHEET
 
-			if (colno === 0) {
-				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = formatDate(parseTime(d.gs$cell.inputValue))
-			} else if (colno > 6 && colno < 14) {
-				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = d.gs$cell.inputValue
-			} else {
-				loadeddata[parseFloat([d.gs$cell.row])-2][headings[colno]] = parseFloat(d.gs$cell.numericValue)
-			}
-		})
-
-		coviddata = loadeddata;
-	})
 
 
 
 
 	// I can't figure out a better way to dynamically figure out the width of CSS grid items, so here we are
-	let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
+	let width = document.getElementById('covid-testing-dashboard-weekly').getBoundingClientRect().width;
 	let width1 = Math.min(width, 350);
 	let width2 = width;
 
@@ -87,57 +125,6 @@
 
 
 
-	// These are the columns for the table portion; this configuration is passed to the SvelteTable plugin
-	const columns = [
-	  {
-	    key: "Date",
-	    title: "Date",
-	    value: v => new Date(v["Date"]),
-		 renderValue: v => v["Date"],
-	    sortable: true,
-	    headerClass: "text-left",
-		 class: "date-col"
-	  },
-	  {
-	    key: "Tests Completed",
-	    title: "Tests Completed",
-	    value: v => v["Tests Completed"],
-	    sortable: true,
-	    headerClass: "text-left"
-	  },
-	  {
-	    key: "Negative Tests",
-	    title: "Negative Tests",
-	    value: v => v["Negative Tests"],
-	    sortable: true,
-	    headerClass: "text-left"
-	  },
-	  {
-	    key: "Negative Rate",
-	    title: "Negative Rate",
-	    value: v => (
-			 (v["Negative Tests"] / v["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
-		 ),
-	    sortable: true,
-	    headerClass: "text-left"
-	  },
-	  {
-	    key: "Positive Tests",
-	    title: "Positive Tests",
-	    value: v => v["Positive Tests"],
-	    sortable: true,
-	    headerClass: "text-left"
-	  },
-	  {
-	    key: "Positive Rate",
-	    title: "Positive Rate",
-	    value: v => (
-			 (v["Positive Tests"] / v["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
-		 ),
-	    sortable: true,
-	    headerClass: "text-left"
-	  }
-  ]
 
 
 </script>
@@ -157,7 +144,7 @@
 	  display: grid;
 	  grid-template-columns: 1fr 1fr 1fr;
 	  grid-template-rows: 1fr auto;
-	  gap: 20px 60px;
+	  gap: 0 60px;
 	  grid-template-areas:
 		  "dash-brief dash-brief dash-brief"
 		  "dash-wellness dash-wellness dash-wellness"
@@ -166,6 +153,51 @@
 		;
 	  margin-bottom:15px;
 	}
+
+
+	.dashboard-legend{
+		display: flex;
+		padding: 10px 0;
+	}
+
+	.legendCells{
+		width: 100%;
+		padding: 0 50px 0 0;
+	}
+
+	.cell-label{
+		text-anchor: middle;
+		font-size: 0.65rem;
+	    color: #777;
+	    text-transform: uppercase;
+		padding: 10px 0;
+		text-align: center;
+		font-family: "akkurat", -apple-system, sans-serif;
+		/* opacity: 50%; */
+
+	}
+
+	.cell1{
+		width: 100%;
+		height: 10px;
+			background-color: rgb(136, 199, 240);
+	}
+
+	.cell2{
+		width: 100%;
+		height: 10px;
+
+		background-color: rgb(212, 27, 44);
+
+	}
+
+	/* p.seven-line-2{
+		display: none;
+	}
+
+	p.seven-line{
+		display: block;
+	} */
 
 	@media screen and (max-width:600px) {
 		#dashboard-grid {
@@ -184,6 +216,15 @@
 		.dash-table {
 			overflow:scroll;
 		}
+
+		/* p.seven-line{
+			display: none;
+		}
+
+		p.seven-line-2{
+			display: block;
+		} */
+
 	}
 
 
@@ -192,33 +233,58 @@
 
 {#if coviddata.length > 0}
 	<div id="dashboard-grid">
-		<div class="dashboard-grid-item dash-brief">
-			<Brief
-				data={coviddata}
-			/>
-			 <p class="update-line"><i>Updated daily with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p>
-		</div>
-		<div class="dashboard-grid-item dash-wellness">
-			<GraphicTitle
-				title={"Wellness and Contact Tracing"}
-			/>
-			<WellnessSummary
-				data={coviddata}
-			/>
-		</div>
+	<div class="dashboard-grid-item dash-brief">
+		<!-- <Brief
+			data={coviddata}
+		/> -->
+		<p class="update-line"><i>Last updated 5/25/21. The results for the previous week (Sunday-Saturday) are posted every Tuesday.</i></p>
+
+		 <!-- <p class="update-line"><i>Updated weekly with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p> -->
+	</div>
+
 		<div class="dashboard-grid-item dash-bars" id="column-chart-container">
 			<GraphicTitle
-				title={"Test Results by Date"}
+				title={"Test Results by Week"}
 			/>
+			<!-- <input bind:value={formattedSelected}> -->
+
+			<Datepicker bind:formattedSelected bind:dateChosen>
+  <button class='custom-button'>
+ {formattedSelected}
+  </button>
+
+</Datepicker>
+
+
+			<div class = "dashboard-legend">
+			<div class ="legendCells">
+			<div class = "cell1"></div>
+			<div class = "cell-label">NEGATIVE TESTS</div>
+
+			</div>
+			<div class ="legendCells">
+			<div class = "cell2"></div>
+			<div class = "cell-label">POSITIVE TESTS</div>
+
+			</div>
+
+			</div>
+			<!-- {console.log(filteredData0)} -->
+
+			{console.log(filteredData)}
 			<StackedColumnChart
+
 				width={width2}
 				height={width2 * 1}
-				data={coviddata}
-				xVar={"Date"}
-				yVar={"Tests Completed"}
-				yGroups={["Negative Tests", "Positive Tests"]}
+				data={filteredData}
+				xVar={'Date'}
+				yVar={"Seven-Day Tests"}
+				yGroups={["Seven-Day Negative", "Seven-Day Positive"]}
 				colorscheme={negativepositive}
 			/>
+
+			<p class="seven-line"><i>Each bar represents seven days of testing data, Sunday-Saturday, starting on the date noted.</i></p>
+
 			<!-- <StackedColumnChart
 				width={width2}
 				height={width2 * 0.45}
@@ -239,6 +305,8 @@
 				lineC={"Positive Tests"}
 			/> -->
 		</div>
+
+
 		<div class="dashboard-grid-item dash-donut">
 			<GraphicTitle
 				title={"Current Positive Rate"}
@@ -252,7 +320,30 @@
 				yA={"Tests Completed"}
 				yB={"Tests in Progress"}
 			/>
+
+
 		</div>
+		<!-- <DotPlot
+data={coviddata}
+width = {width}
+height = {width}
+datapoints={["Tests Completed", "Tests in Progress"]}
+category={"Date"}
+/> -->
+		</div>
+
+		<!-- <p class="seven-line"><i>Each bar represents seven days of testing data, Sunday-Saturday, starting on the date noted.</i></p> -->
+
+		<!-- <div class="dashboard-grid-item dash-wellness">
+			<GraphicTitle
+				title={"Wellness and Contact Tracing"}
+			/>
+			<WellnessSummary
+				data={coviddata}
+			/>
+		</div> -->
+		<!-- <div id="dashboard-grid">
+
 		<div class="dashboard-grid-item dash-table">
 			<SvelteTable
 			   columns={columns}
@@ -263,7 +354,10 @@
 			>
 			</SvelteTable>
 		</div>
-	</div>
+
+	</div> -->
+
+
 {/if}
 <GraphicFooter
 	source={"Northeastern Life Sciences Testing Center and the Broad Institute"}
