@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 
-	import DotPlot from './charts/DotPlot.svelte'
 
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
 	import DonutChart from './charts/DonutChart.svelte'
