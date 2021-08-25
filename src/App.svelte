@@ -3,7 +3,24 @@
 
 
 	import StackedColumnChart from './charts/StackedColumnChart.svelte'
+	import StackedColumnChart2 from './charts/StackedColumnChart2.svelte'
+	import WellnessSummary from './charts/WellnessSummary.svelte'
+
 	import DonutChart from './charts/DonutChart.svelte'
+	import DonutChart1 from './charts/DonutChart1.svelte'
+	import DonutChart2 from './charts/DonutChart2.svelte'
+	import DonutChart3 from './charts/DonutChart3.svelte'
+
+
+	import DonutChart_Pos from './charts/DonutChart_pos.svelte'
+	import DonutChart_Pos2 from './charts/DonutChart_pos2.svelte'
+	import DonutChart_Pos3 from './charts/DonutChart_pos3.svelte'
+
+
+	import DonutChart_total from './charts/DonutChart_total.svelte'
+
+
+	import WaffleChart from './charts/WaffleChart.svelte'
 
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'
@@ -11,18 +28,32 @@
 	import { csv, json } from 'd3-fetch'
 	import { groups } from 'd3-array'
 	import { timeParse, timeFormat } from 'd3-time-format';
-	import { negativepositive, groupbylevel } from './helpers/colors.js'
+	import { negativepositive, negativepositive2, groupbylevel } from './helpers/colors.js'
+	import * as waffledata from '../public/datasets/waffledata.json'
+	import * as testData from '../public/datasets/testingdata2.json'
 
   // import { DatePicker, DatePickerInput } from "carbon-components-svelte";
   // import beyonkSvelteCalendar from 'https://cdn.skypack.dev/@beyonk/svelte-calendar';
   import Datepicker from 'svelte-calendar';
+  // let formattedSelected = new Date();
 
-  let formattedSelected = "";
+  const todaysDate = new Date();
+  const dateCode = todaysDate.getTime();
+      // Set this at midnight (local time zone)
+      // const today = new Date();
+      todaysDate.setHours(0);
+      todaysDate.setMinutes(0);
+      todaysDate.setSeconds(0);
+      todaysDate.setMilliseconds(0);
+  let formattedSelected = todaysDate;
+  // let testDate = "09/01/21"
+  // console.log(testDate)
+  // console.log(formattedSelected)
   let dateChosen = false;
 
 
-	const todaysDate = new Date();
-	const dateCode = todaysDate.getTime();
+		console.log(waffledata.default[0])
+
 
 	const url = 'https://spreadsheets.google.com/feeds/cells/1REJNqVcREni8IlxiObIbm5M6xU0lb8BeKfxJO0lNvXk/1/public/full?alt=json&date=' + dateCode
 
@@ -33,7 +64,7 @@
 	const formatDate = timeFormat("%m/%d/%y");
 
 
-	csv("datasets/testingdata.csv").then(function(data,i){
+	csv("datasets/covidupdate_testData.csv").then(function(data,i){
 	// csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard-weekly/datasets/testingdata.csv").then(function(data,i){
 		data.forEach(function(d,i){
 			Object.keys(d).forEach(function(j) {
@@ -48,63 +79,65 @@
 
 		coviddata = data;
 
-		// console.log(coviddata)
-
+		console.log(coviddata)
 	});
 
 
-	// $: filteredData = coviddata.filter(d => {(["8/20/20"].indexOf(d["Date"]) > -1)});
-// $: filteredData0 = coviddata.filter(function(d){
+	// $: filteredData = coviddata.filter(d => (["8/20/20", "9/1/20", "9/6/20"].indexOf(d["Date"]) > -1));
+	// console.log(filteredData)
+// $: filteredData = coviddata.filter(function(d){
 // 	// console.log(formattedSelected)
-// 	console.log(d.Date)
-// 	if(d.Date >= formattedSelected && d.Date <= "09/1/21") {
+// 	// console.log(d.Date)
+// 	if(d.Date >= formatDate(formattedSelected) && d.Date <= "09/01/21") {
+// 		console.log(d.Date)
 // 		return d;
 // 	}
 // });
 // console.log(filteredData0);
-// $: filteredData = coviddata.filter(d => {(["8/20/20"].indexOf(d["Date"]) > -1)});
+// $: filteredData = coviddata.filter(d => ([formatDate(formattedSelected)].indexOf(d["Date"]) > -1));
+$: filteredData = coviddata.filter(function(d){
+	const START_DATE = new Date(formattedSelected).getTime();
+	const END_DATE = new Date("09/10/21").getTime();
+	const COMPARE_DATE = new Date(d.Date).getTime();
+	if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
+		// console.log(END_DATE)
+		// console.log("Date", new Date(COMPARE_DATE).toString(),d);
+		// console.log("Date", new Date(COMPARE_DATE).toString());
+
+		console.log(d.Date)
+		return d;
+	}
+});
+
+console.log(filteredData)
+
+
 // $: filteredData = coviddata.filter(function(d){
-// 	const START_DATE = new Date(formattedSelected).getTime();
-// 	const END_DATE = new Date("09/1/21").getTime();
-// 	const COMPARE_DATE = new Date(d.Date).getTime();
-// 	if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
-// 		// console.log(END_DATE)
-// 		// console.log("Date", new Date(COMPARE_DATE).toString(),d);
-// 		// console.log("Date", new Date(COMPARE_DATE).toString());
-//
-// 		console.log(d)
+// // console.log('filtering');
+// // console.log("formattedSelected", formattedSelected)
+// // 	if ("08/18/2021" === formattedSelected || "" === formattedSelected) {
+// // 		return d;
+// // 	} else {
+// // 		return;
+// // 	}
+// 	if(0 < formattedSelected.length ) {
+// 		// const START_DATE = new Date(formattedSelected).getTime();
+// 		const START_DATE = new Date("08/17/21").getTime();
+// 		// console.log(START_DATE)
+// 		const END_DATE = new Date("09/1/21").getTime();
+// 		const COMPARE_DATE = new Date(d.Date).getTime();
+// 		// console.log("COMPARE_DATE", new Date(COMPARE_DATE).toString());
+// 		// console.log("START_DATE", new Date(START_DATE).toString());
+// 		// console.log("END_DATE", new Date(END_DATE).toString());
+// 		if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
+// 			console.log("Including Datum", d);
+// 			return d;
+// 		}
+// 	} else {
 // 		return d;
 // 	}
+//
 // });
-
-
-$: filteredData = coviddata.filter(function(d){
-console.log('filtering');
-console.log("formattedSelected", formattedSelected)
-	if ("08/18/2021" === formattedSelected || "" === formattedSelected) {
-		return d;
-	} else {
-		return;
-	}
-	if(0 < formattedSelected.length ) {
-		// const START_DATE = new Date(formattedSelected).getTime();
-		const START_DATE = new Date("08/17/21").getTime();
-		// console.log(START_DATE)
-		const END_DATE = new Date("09/1/21").getTime();
-		const COMPARE_DATE = new Date(d.Date).getTime();
-		console.log("COMPARE_DATE", new Date(COMPARE_DATE).toString());
-		console.log("START_DATE", new Date(START_DATE).toString());
-		console.log("END_DATE", new Date(END_DATE).toString());
-		if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
-			console.log("Including Datum", d);
-			return d;
-		}
-	} else {
-		return d;
-	}
-///
-
-});
 // console.log(filteredData)
 	// NEED THESE TO CYCLE THROUGH THE HEADERS OF THE GOOGLE SHEET
 
@@ -113,62 +146,228 @@ console.log("formattedSelected", formattedSelected)
 
 
 	// I can't figure out a better way to dynamically figure out the width of CSS grid items, so here we are
-	let width = document.getElementById('covid-testing-dashboard-weekly').getBoundingClientRect().width;
-	let width1 = Math.min(width, 350);
-	let width2 = width;
+	// I can't figure out a better way to dynamically figure out the width of CSS grid items, so here we are
+	let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
+	let width_donut = Math.min(width, 175);
+	let width_stacked = width;
+	let height = 500;
+	 height = Math.min(height, 500);
 
 	if (window.innerWidth > 600) {
-		width1 = width * 0.33;
-		width2 = (width * 0.66) - 60
+		width_donut = width * 0.22;
+		width_stacked = (width * 0.5)
+		height = width * 0.6;
 	}
 
 
-
+	// These are the columns for the table portion; this configuration is passed to the SvelteTable plugin
+	const columns = [
+	  {
+	    key: "Date",
+	    title: "Date",
+	    value: v => new Date(v["Date"]),
+		 renderValue: v => v["Date"],
+	    sortable: true,
+	    headerClass: "text-left",
+		 class: "date-col"
+	  },
+	  {
+	    key: "Tests Completed",
+	    title: "Tests Completed",
+	    value: v => v["Tests Completed"],
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Negative Tests",
+	    title: "Negative Tests",
+	    value: v => v["Negative Tests"],
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Negative Rate",
+	    title: "Negative Rate",
+	    value: v => (
+			 (v["Negative Tests"] / v["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
+		 ),
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Positive Tests",
+	    title: "Positive Tests",
+	    value: v => v["Positive Tests"],
+	    sortable: true,
+	    headerClass: "text-left"
+	  },
+	  {
+	    key: "Positive Rate",
+	    title: "Positive Rate",
+	    value: v => (
+			 (v["Positive Tests"] / v["Tests Completed"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2})
+		 ),
+	    sortable: true,
+	    headerClass: "text-left"
+	  }
+  ]
 
 
 </script>
 
 <style>
-	.dash-wellness { grid-area: dash-wellness; }
-	.dash-brief { grid-area: dash-brief; }
-	.dash-bars { grid-area: dash-bars; }
-	.dash-donut { grid-area: dash-donut; }
-	.dash-table { grid-area: dash-table; }
 
-	.dashboard-grid-item {
-		margin-bottom:2rem;
-	}
+	.dash-test { grid-area: dash-test; }
+	.dash-positive { grid-area: dash-positive; }
+	/* .dash-donut { grid-area: dash-donut; } */
+	.dash-variants { grid-area: dash-variants; }
+	.dash-vac-rate { grid-area: dash-vac-rate; }
+	.dash-wellness { grid-area: dash-wellness; }
+	.dash-table { grid-area: dash-table; }
 
 	#dashboard-grid {
 	  display: grid;
-	  grid-template-columns: 1fr 1fr 1fr;
+	  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
 	  grid-template-rows: 1fr auto;
 	  gap: 0 60px;
 	  grid-template-areas:
-		  "dash-brief dash-brief dash-brief"
-		  "dash-wellness dash-wellness dash-wellness"
-		  "dash-bars dash-bars dash-donut"
-		  "dash-table dash-table dash-table"
+		  "dash-test"
+		  "dash-positive"
+		  "dash-variants"
+		  "dash-vac-rate"
+		  "dash-wellness"
+		 "dash-table"
 		;
-	  margin-bottom:15px;
+	  /* margin-bottom:15px; */
 	}
 
-
-	.dashboard-legend{
-		display: flex;
-		padding: 10px 0;
+	.dashboard-grid-item {
+	margin-bottom:2rem;
 	}
 
-	.legendCells{
+	.dash-test{
+		display: grid;
+		grid-auto-rows: 1fr;
+		 grid-template-columns: 1.2fr 0.8fr;
+		grid-template-rows: 1fr;
+		gap: 0px 40px;
+		grid-template-areas:
+		  "dash-stats dash-bars";
+		  grid-area: dash-test;
+
+
+	}
+
+	#dash-test-item{
 		width: 100%;
-		padding: 0 50px 0 0;
+
 	}
 
-	.cell-label{
+	.dash-stats{
+		display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	gap: 10px 0px;
+	grid-template-areas:
+	  "."
+	  "."
+	  ".";
+	}
+
+	#dash-stats-item{
+		padding: 10px;
+	}
+	.donut-item{
+		display:flex;
+		background-color: #e0ecf4;
+		/* padding: 10px; */
+	 /* display: grid;
+	 grid-template-columns: 0.2fr 1.8fr;
+	 grid-template-rows: 1fr;
+	 gap: 0px 0px;
+	 grid-template-areas:
+	   ". ."; */
+	 /* grid-area: dash-test;  */
+	}
+
+	.dash-brief{
+		color: #f7fcfd;
+		background-color:#6e016b;
+		/* padding: 10px */
+		/* padding: 20px; */
+	}
+
+	.covid-links {
+		display: flex;
+	}
+
+	.covid-links a{
+		font-weight: 600;
+		color: #f7fcfd;
+		margin: 0 10px;
+	}
+
+	/* Dashboard Positive since 9/1 */
+	.dash-pos-donuts{
+
+
+	  display: grid;
+	  grid-template-columns: 1fr 1fr 1fr;
+	  grid-template-rows: 1fr ;
+	  gap: 0px 40px;
+	  grid-template-areas:
+		". . .";
+	    /* justify-items: center;
+		  align-items: center; */
+	  /* margin: 0 auto; */
+	  /* width: 50%;
+	  margin: 0 auto; */
+	}
+
+	.donut-positive-item{
+		display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+	}
+
+	.dash-vac-chart{
+		display: grid;
+  	  grid-template-columns: 1fr 1fr;
+  	  grid-template-rows: 1fr ;
+  	  gap: 0px 40px;
+	}
+
+	span#cell{
+		height: 30px;
+width: 30px;
+border-radius: 50%;
+display: block;
+margin: 0 auto;
+/* justify-content: center;
+  align-items: center; */
+	}
+
+	span.dot-1{
+		background-color: #bfd3e6;
+
+
+	}
+
+	span.dot-2{
+		background: #8c96c6;
+
+	}
+
+	span.dot-3{
+		background: #6e016b;
+
+	}
+
+	.cell-label-var{
 		text-anchor: middle;
 		font-size: 0.65rem;
-	    color: #777;
-	    text-transform: uppercase;
+		color: #777;
+		text-transform: uppercase;
 		padding: 10px 0;
 		text-align: center;
 		font-family: "akkurat", -apple-system, sans-serif;
@@ -176,27 +375,13 @@ console.log("formattedSelected", formattedSelected)
 
 	}
 
-	.cell1{
-		width: 100%;
-		height: 10px;
-			background-color: rgb(136, 199, 240);
+	h3.vac-title{
+		margin: 0 20px
 	}
 
-	.cell2{
-		width: 100%;
-		height: 10px;
-
-		background-color: rgb(212, 27, 44);
-
+	.stacked-cont{
+		margin: 2em 0;
 	}
-
-	/* p.seven-line-2{
-		display: none;
-	}
-
-	p.seven-line{
-		display: block;
-	} */
 
 	@media screen and (max-width:600px) {
 		#dashboard-grid {
@@ -204,27 +389,112 @@ console.log("formattedSelected", formattedSelected)
 		 	grid-template-rows: 1fr;
 		 	gap: 40px 60px;
 			grid-template-areas:
-				"dash-brief"
-				"dash-wellness"
-				"dash-bars"
-				"dash-donut"
-				"dash-table"
-			;
+  			  "dash-test"
+  			  "dash-positive"
+  			  "dash-variants"
+  			  "dash-vac-rate"
+  			  "dash-wellness"
+  			 "dash-table"
+  			;
+  		  /* margin-bottom:15px; */
+  		}
+
+		.dashboard-grid-item {
+			margin-bottom:1rem;
+			width: 100vw;
 		}
 
 		.dash-table {
 			overflow:scroll;
 		}
 
-		/* p.seven-line{
-			display: none;
+		.dash-stats{
+			display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		gap: 10px 0px;
+		grid-template-areas:
+		  "."
+		  "."
+		  ".";
 		}
 
-		p.seven-line-2{
-			display: block;
-		} */
+		.donut-item{
+			flex-flow:wrap-reverse;
+		}
 
+		#dash-test-item{
+			width: 100vw;
+			margin: 1rem 0;
+
+		}
+
+		.dash-test{
+			display: grid;
+			grid-auto-rows: 1fr;
+			 grid-template-columns: 1fr;
+			grid-template-rows: 1fr 0.65fr;
+			gap: 0px 40px;
+			grid-template-areas:
+			  "dash-stats"
+			   "dash-bars";
+			  grid-area: dash-test;
+
+
+		}
+
+		.donut-chart{
+			margin: 1em auto;
+		}
+
+		.dash-positive{
+			width: 100vw;
+		}
+		.dash-pos-donuts{
+
+
+		  display: grid;
+		  grid-template-columns: 0.5fr 0.5fr;
+		  grid-template-rows: 0.5fr 0.5fr;
+		  grid-template-areas:
+			". ."
+			". .";
+
+		  /* gap: 0px 40px; */
+		  /* grid-template-areas:
+  		  "."
+  		  "."
+  		  "."; */
+		    /* justify-items: center;
+			  align-items: center; */
+		  /* margin: 0 auto; */
+		  /* width: 50%;
+		  margin: 0 auto; */
+		}
+
+		span#cell{
+			height: 20px;
+			width: 20px;
 	}
+
+	.dash-vac-chart{
+		display: grid;
+  	  grid-template-columns: 1fr;
+  	  grid-template-rows: 1fr ;
+  	  gap: 0px 40px;
+	}
+
+
+
+
+	.dash-stacked-vaccination{
+		width: 90%;
+		margin: 0 auto;
+	}
+}
+
+
+
 
 
 
@@ -232,87 +502,40 @@ console.log("formattedSelected", formattedSelected)
 
 {#if coviddata.length > 0}
 	<div id="dashboard-grid">
-	<div class="dashboard-grid-item dash-brief">
-		<!-- <Brief
-			data={coviddata}
-		/> -->
-		<p class="update-line"><i>Last updated 5/25/21. The results for the previous week (Sunday-Saturday) are posted every Tuesday.</i></p>
 
-		 <!-- <p class="update-line"><i>Updated weekly with the latest available numbers. Data includes students, faculty, staff, and contract employees.</i></p> -->
-	</div>
+	<!-- Dash Test Information - hospitalization, 7 day testing, and stacked bar chart -->
+		<div class="dashboard-grid-item dash-test">
 
-		<div class="dashboard-grid-item dash-bars" id="column-chart-container">
-			<GraphicTitle
-				title={"Test Results by Week"}
-			/>
-			<!-- <input bind:value={formattedSelected}> -->
+		<!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
+	<div class = "dash-stats" id = "dash-test-item">
+		<div class = "donut-item" id = "dash-stats-item">
 
-			<Datepicker bind:formattedSelected bind:dateChosen>
-  <button class='custom-button'>
- {formattedSelected}
-  </button>
-
-</Datepicker>
-
-
-			<div class = "dashboard-legend">
-			<div class ="legendCells">
-			<div class = "cell1"></div>
-			<div class = "cell-label">NEGATIVE TESTS</div>
-
-			</div>
-			<div class ="legendCells">
-			<div class = "cell2"></div>
-			<div class = "cell-label">POSITIVE TESTS</div>
-
-			</div>
-
-			</div>
-			<!-- {console.log(filteredData0)} -->
-
-			{console.log(filteredData)}
-			<StackedColumnChart
-
-				width={width2}
-				height={width2 * 1}
-				data={filteredData}
-				xVar={'Date'}
-				yVar={"Seven-Day Tests"}
-				yGroups={["Seven-Day Negative", "Seven-Day Positive"]}
-				colorscheme={negativepositive}
-			/>
-
-			<p class="seven-line"><i>Each bar represents seven days of testing data, Sunday-Saturday, starting on the date noted.</i></p>
-
-			<!-- <StackedColumnChart
-				width={width2}
-				height={width2 * 0.45}
+		<div class = "donut-chart">
+			<DonutChart1
+				width={width_donut}
+				height={width_donut}
 				data={coviddata}
 				xVar={"Date"}
-				yVar={"Positive Tests"}
-				yGroups={["Students Positive", "FacStaff Positive", "Contracted Positive"]}
-				colorscheme={groupbylevel}
+				yVar={"Samples Taken"}
+				yA={"Tests Completed"}
+				yB={"Tests in Progress"}
 			/>
-			<LineChart
-				width={width2}
-				height={width2 * 0.45}
-				data={coviddata}
-				title={"Title"}
-				xVar={"Date"}
-				lineA={"Negative Tests"}
-				lineB={"Inconclusive Tests"}
-				lineC={"Positive Tests"}
-			/> -->
-		</div>
+			</div>
+
+			<div class = "donut-content">
+			<h3>Hospitalizations</h3>
+			<p class="update-line"><i>Suspendisse egestas est metus, sit amet ultricies magna blandit vitae. Nam quis leo at arcu ultricies bibendum. Curabitur fringilla arcu ligula, ac suscipit purus scelerisque nec. Proin lacinia efficitur consequat.</i></p>
+			</div>
+			</div>
 
 
-		<div class="dashboard-grid-item dash-donut">
-			<GraphicTitle
-				title={"Current Positive Rate"}
-			/>
-			<DonutChart
-				width={width1}
-				height={width1}
+			<div class = "donut-item" id = "dash-stats-item">
+
+			<div class = "donut-chart">
+
+			<DonutChart2
+				width={width_donut}
+				height={width_donut}
 				data={coviddata}
 				xVar={"Date"}
 				yVar={"Samples Taken"}
@@ -320,41 +543,283 @@ console.log("formattedSelected", formattedSelected)
 				yB={"Tests in Progress"}
 			/>
 
+			</div>
+			<div class = "donut-content" id = "dash-stats-item">
+			<h3>Seven-Day Positive Test</h3>
+			<p class="update-line"><i>Suspendisse egestas est metus, sit amet ultricies magna blandit vitae. Nam quis leo at arcu ultricies bibendum. Curabitur fringilla arcu ligula, ac suscipit purus scelerisque nec. Proin lacinia efficitur consequat.</i></p>
+			</div>
+			</div>
+
+			<div class="dash-brief" id = "dash-stats-item">
+
+				<h3>Get Tested</h3>
+
+				 <p class="update-line-brief"><i>Suspendisse egestas est metus, sit amet ultricies magna blandit vitae. Nam quis leo at arcu ultricies bibendum. Curabitur fringilla arcu ligula, ac suscipit purus scelerisque nec. Proin lacinia efficitur consequat.</i></p>
+				 <div class = "covid-links">
+				 <p class = "schedule-test"><a href = "https://northeastern.sharepoint.com/sites/covidscheduler/SitePages/Home.aspx?wa=wsignin1.0">Schedule a Test</a></p>
+				 <p class = "wellness-check"><a href = "https://neuidmsso.neu.edu/idp/profile/SAML2/Redirect/SSO?execution=e3s1">Daily Wellness Check</a></p>
+				 </div>
+			</div>
+			</div>
+
+
+			<!-- Dashboard Stacked Bar Chart -->
+
+			<div class="dash-bars" id = "dash-test-item">
+				<GraphicTitle
+					title={"Test Results by Date"}
+				/>
+				<!-- <input bind:value={formattedSelected}> -->
+				<!-- <button on:click={() => addNode()}>Add Node</button> -->
+				<div id = "button-chart-container">
+				<button>7 Days</button>
+				<button>30 Days</button>
+				<button>Semester</button>
+				<button>Custom</button>
+				</div>
+				<Datepicker bind:formattedSelected bind:dateChosen>
+				  <button class='custom-button'>
+				 {formattedSelected}
+				  </button>
+	  	  		</Datepicker>
+
+
+				<div class = "dashboard-legend">
+				<div class ="legendCells">
+				<div class = "cell1"></div>
+				<div class = "cell-label">NEGATIVE TESTS</div>
+
+				</div>
+				<div class ="legendCells">
+				<div class = "cell2"></div>
+				<div class = "cell-label">POSITIVE TESTS</div>
+
+				</div>
+
+				</div>
+				<!-- {console.log(filteredData0)} -->
+				<!-- {console.log(filteredData)} -->
+				<StackedColumnChart
+
+					width={width_stacked}
+					height={height}
+					data={filteredData}
+					xVar={'Date'}
+					yVar={"Seven-Day Tests"}
+					yGroups={["Seven-Day Negative", "Seven-Day Positive"]}
+					colorscheme={negativepositive}
+				/>
+
+
+			</div>
+
+
+			</div>
+
+
+
+
+
+
+
+		<!-- Dash Positive (Students, Faculty/Staff, and Contractor) -->
+		<div class="dashboard-grid-item dash-positive">
+
+		<GraphicTitle
+		    title={"Total Positive Since 9/1"}
+		/>
+		<div class="dash-pos-donuts">
+		<div class="donut-positive-item">
+
+		<div class = "donut-chart">
+
+		<DonutChart_Pos
+		    width={width_donut}
+		    height={width_donut}
+		    data={coviddata}
+		    yA={"Students Total Positive"}
+		    yB={"Students Total Negative"}
+		/>
+		</div>
+		</div>
+
+		<div class="donut-positive-item">
+			<div class = "donut-chart">
+		<DonutChart_Pos2
+		    width={width_donut}
+		    height={width_donut}
+		    data={coviddata}
+		    yA={"Tests Completed"}
+		    yB={"Tests in Progress"}
+		/>
+		</div>
+		</div>
+
+		<div class="donut-positive-item">
+		<div class = "donut-chart">
+
+		<DonutChart_Pos3
+		    width={width_donut}
+		    height={width_donut}
+		    data={coviddata}
+		    yA={"Tests Completed"}
+		    yB={"Tests in Progress"}
+		/>
+		</div>
+		</div>
 
 		</div>
-		<!-- <DotPlot
-data={coviddata}
-width = {width}
-height = {width}
-datapoints={["Tests Completed", "Tests in Progress"]}
-category={"Date"}
-/> -->
 		</div>
 
-		<!-- <p class="seven-line"><i>Each bar represents seven days of testing data, Sunday-Saturday, starting on the date noted.</i></p> -->
 
-		<!-- <div class="dashboard-grid-item dash-wellness">
-			<GraphicTitle
-				title={"Wellness and Contact Tracing"}
-			/>
-			<WellnessSummary
-				data={coviddata}
-			/>
-		</div> -->
-		<!-- <div id="dashboard-grid">
+		<!-- Waffle Charts of Variants -->
+		<div class="dashboard-grid-item dash-variants">
+
+		<GraphicTitle
+		    title={"Variants"}
+		/>
+		<WaffleChart
+		data={coviddata[coviddata.length-1]}
+		width = {width}
+		columns={25}
+		groups = {["SARS-COV-2", "SARS-COV-2 Alpha","SARS-COV-2 Delta"]}
+		/>
+
+
+
+		<div class = "dashboard-legend">
+		<div class ="legendCells">
+		<span id = "cell" class = "dot-1"></span>
+		<div class = "cell-label-var">SARS-CoV-2</div>
+
+		</div>
+		<div class ="legendCells">
+		<span id = "cell" class = "dot-2"></span>
+		<div class = "cell-label-var">SARS-CoV-2 Alpha</div>
+
+		</div>
+		<div class ="legendCells">
+		<span id = "cell" class = "dot-3"></span>
+		<div class = "cell-label-var">SARS-CoV-2 Delta</div>
+
+		</div>
+		</div>
+		</div>
+
+
+		<!-- Total Vaccination Rates -->
+
+		<div class="dashboard-grid-item dash-vac-rate">
+
+		<GraphicTitle
+		title={"Total Vaccination Rate"}
+		/>
+		<div class = "dash-vac-chart">
+		<div class = "donut-chart">
+
+		<DonutChart_total
+		width={width_donut * 2.25}
+		height={width_donut * 2.25}
+		data={coviddata}
+		xVar={"Date"}
+		yVar={"Samples Taken"}
+		yA={"Tests Completed"}
+		yB={"Tests in Progress"}
+		/>
+		</div>
+
+		<div class = "dash-stacked-vaccination">
+
+		<div class = "stacked-cont">
+
+		<h3 class = "vac-title">Student Vaccination Rate</h3>
+
+
+		<StackedColumnChart2
+
+		width={width_stacked}
+		height={150}
+		data={testData.default}
+		xVar={'Date'}
+		yVar={"Total Student Vaccinate"}
+		yGroups={[ "Total Student Vaccinated", "Student Vaccinated"]}
+		colorscheme={negativepositive}
+		/>
+		 </div>
+
+		 <div class = "stacked-cont">
+
+		<h3 class = "vac-title">Faculty/Staff Vaccination Rate</h3>
+
+		<StackedColumnChart2
+
+		width={width_stacked}
+		height={150}
+		data={testData.default}
+		xVar={'Date'}
+		yVar={"Total FacStaff Vaccinated"}
+		yGroups={[ "Total FacStaff Vaccinated", "FacStaff Vaccinated"]}
+		colorscheme={negativepositive}
+		/>
+		</div>
+
+		<div class = "stacked-cont">
+
+		<h3 class = "vac-title">Student Vaccination Rate</h3>
+
+		<StackedColumnChart2
+
+		width={width_stacked}
+		height={150}
+		data={testData.default}
+		xVar={'Date'}
+		yVar={"Total Contractor Vaccinated"}
+		yGroups={["Total Contractor Vaccinated", "Contractor Vaccinated"]}
+		colorscheme={negativepositive}
+		/>
+		</div>
+
+		</div>
+		</div>
+
+		</div>
+
+		<!-- Dashboard Item -Wellness Summary -->
+
+		<div class="dashboard-grid-item dash-wellness">
+		    <!-- <GraphicTitle
+		        title={"Wellness and Contact Tracing"}
+		    /> -->
+		    <WellnessSummary
+		        data={coviddata}
+		    />
+		</div>
+
+		<!-- Dashboard Item -Svelte Table -->
 
 		<div class="dashboard-grid-item dash-table">
-			<SvelteTable
-			   columns={columns}
-			   rows={coviddata}
-				sortBy={"Date"}
-			   sortOrder={-1}
-			   classNameCell={"infocell"}
-			>
-			</SvelteTable>
+		<SvelteTable
+		columns={columns}
+		rows={coviddata}
+		sortBy={"Date"}
+		sortOrder={-1}
+		classNameCell={"infocell"}
+		>
+		</SvelteTable>
 		</div>
 
-	</div> -->
+
+
+
+
+
+
+
+
+
+
+
+</div>
 
 
 {/if}

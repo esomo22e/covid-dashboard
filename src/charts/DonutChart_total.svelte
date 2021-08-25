@@ -74,16 +74,18 @@
 			.append("g")
       	.attr("transform", "translate(" + width / 2.2 + "," + height / 2 + ")");
 
-		var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
+		var donutdata = {a: data["Total Vaccinated"], b: data["Total Non-Vaccinated"]}
 
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
-		  .range(negativepositive.reverse())
+		  .range(["#6e016b", "#9ebcda"])
 
 		// Compute the position of each group on the pie:
 		var pie = d3.pie()
 		  .value(function(d) {return d.value; })
 		var data_ready = pie(d3.entries(donutdata))
+
+		var total_vac = data["Total Vaccinated"] + data["Total Non-Vaccinated"];
 
 		// Build the pie chart: Basically, each part of the pie is a path that we build using the arc function.
  		svg
@@ -103,7 +105,10 @@
 		.style("font-size", "1.5rem")
 		.style("font-weight", "700")
 		.attr("text-anchor", "middle")
-		.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+		.text((data["Total Vaccinated"] / (total_vac)).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+
+		console.log(total_vac)
+		// .text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 		// .style("color", "#D41B2C")
 
 		  // .on("mousemove", function(d){

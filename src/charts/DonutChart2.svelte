@@ -78,7 +78,8 @@
 
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
-		  .range(negativepositive.reverse())
+		  .range(["#6e016b", "#9ebcda"])
+		  // .range(negativepositive.reverse())
 
 		// Compute the position of each group on the pie:
 		var pie = d3.pie()

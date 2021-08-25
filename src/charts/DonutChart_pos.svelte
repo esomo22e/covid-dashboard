@@ -23,6 +23,7 @@
 
 
 
+
 	export let data = {data};
 	export let width = {width};
 	export let height = {height};
@@ -48,22 +49,26 @@
 	function generateDonut() {
 		// var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
 
-		// var donutcaption = d3.select(el)
-		// 	.append("div")
-		// 	.style("text-align", "center")
-		// 	.style("margin", "0 auto 2rem")
-		//
-		// // donutcaption.append("div")
-		// // 	.style("font-size", "1rem")
-		// // 	.style("line-height", "1.25rem")
-		// // 	.text("7-day average of positive test results at Northeastern: ")
-		// //
+		var donutcaption = d3.select(el)
+			.append("div")
+			.attr("class", "donut-title")
+			.style("text-align", "center")
+			// .style("margin", "0 auto 1rem")
+
 		// donutcaption.append("div")
-		// 	.style("font-size", "1.5rem")
-		// 	.style("color", "#D41B2C")
-		// 	.style("font-weight", "700")
-		// 	.style("margin-bottom", "0rem")
-		// 	.text("Students")
+		// 	.style("font-size", "1rem")
+		// 	.style("line-height", "1.25rem")
+		// 	.text("7-day average of positive test results at Northeastern: ")
+		//
+		donutcaption.append("div")
+			.style("font-size", "1.5rem")
+			.style("color", "#6e016b")
+			.style("font-weight", "700")
+			.style("margin-bottom", "0rem")
+			.text(function(d){
+
+				return "Students"
+			})
 		// 	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 		var svg = d3.select(el)
@@ -74,11 +79,14 @@
 			.append("g")
       	.attr("transform", "translate(" + width / 2.2 + "," + height / 2 + ")");
 
-		var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
+		// var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
+		var donutdata = {a: data["Students Total Positive"], b: data["Students Total Negative"]}
 
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
-		  .range(negativepositive.reverse())
+		  .range(["#6e016b", "#9ebcda"])
+
+		  // .range(negativepositive.reverse())
 
 		// Compute the position of each group on the pie:
 		var pie = d3.pie()
@@ -103,7 +111,8 @@
 		.style("font-size", "1.5rem")
 		.style("font-weight", "700")
 		.attr("text-anchor", "middle")
-		.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+		.text((data["Students Total Positive"] ).toLocaleString())
+		// .text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 		// .style("color", "#D41B2C")
 
 		  // .on("mousemove", function(d){

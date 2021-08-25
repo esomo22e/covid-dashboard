@@ -1,0 +1,40 @@
+[{
+        "Date": "08/17/21",
+        "Tests Completed": 1308,
+        "Positive Tests": 0,
+        "Negative Tests": 1308,
+        "Students Positive": 0,
+        "FacStaff Positive": 0,
+        "Contracted Positive": 0,
+        "Students in Quarantine On Campus": "-",
+        "Students in Quarantine Off Campus": "-",
+        "Students in Isolation On Campus": "-",
+        "Students in Isolation Off Campus": "-",
+        "Students Recovered On Campus": "-",
+        "Students Recovered Off Campus": "-",
+        "Mass. Positive Rate": "1.40%",
+        "Seven-Day Tests": 1308,
+        "Seven-Day Positive": 50,
+        "Seven-Day Negative": 1308,
+        "Total Tests": 1308,
+        "Total Positive": 0,
+        "Total Negative": 1308,
+        "Total Students Positive": 0,
+        "Total FacStaff Positive": 0,
+        "Total Contracted Positive": 0,
+        "Fac/Staff Non-Vaccinated": 400,
+        "Fac/Staff Vaccinated": 231,
+
+        "Total Contractor Vaccinated": 100,
+        "Contractor Vaccinated": 98.5,
+        "Contractor Non-Vaccinated": 1.5,
+
+        "Total Student Vaccinated": 100,
+        "Student Vaccinated": 94.2,
+        "Student Non-Vaccinated": 5.8,
+
+        "Total FacStaff Vaccinated": 100,
+        "FacStaff Vaccinated": 96.8,
+        "FacStaff Non-Vaccinated": 3.2
+    }
+]

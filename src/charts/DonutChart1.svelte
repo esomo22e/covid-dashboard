@@ -74,11 +74,11 @@
 			.append("g")
       	.attr("transform", "translate(" + width / 2.2 + "," + height / 2 + ")");
 
-		var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
+		var donutdata = {a: data["Hospital"], b: data["Non-hospital"]}
 
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
-		  .range(negativepositive.reverse())
+		  .range(["#6e016b", "#9ebcda"])
 
 		// Compute the position of each group on the pie:
 		var pie = d3.pie()
@@ -103,7 +103,9 @@
 		.style("font-size", "1.5rem")
 		.style("font-weight", "700")
 		.attr("text-anchor", "middle")
-		.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+		.text((data["Hospital"]).toLocaleString())
+
+		// .text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 		// .style("color", "#D41B2C")
 
 		  // .on("mousemove", function(d){

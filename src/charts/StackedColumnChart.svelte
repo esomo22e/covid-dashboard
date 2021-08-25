@@ -110,11 +110,12 @@ function generateColumnChart() {
 		.attr("class","horizontalAxis")
 		.call(
 			d3.axisBottom(xScale)
-				.tickValues(xScale.domain().filter(function(d,i){
-					let tickCount = Math.round(xScale.domain().length/10);
-					let lastTick = xScale.domain().length-1;
-					return ((i % tickCount) === (lastTick % tickCount))
-				}))
+				// .tickValues(xScale.domain().filter(function(d,i){
+				// 	console.log(d)
+				// 	// let tickCount = Math.round(xScale.domain().length/10);
+				// 	// let lastTick = xScale.domain().length-1;
+				// 	// return ((i % tickCount) === (lastTick % tickCount))
+				// }))
 				.tickSize(0)
 		);
 
@@ -170,20 +171,20 @@ function generateColumnChart() {
 	}
 
 
-	svg.append("g")
-		.attr("class", "legendOrdinal")
-		.attr("transform", "translate(" + 0 + "," + 0 + ")");
-
-	var legendOrdinal = d3.legendColor()
-		.scale(colors)
-		.orient("horizontal")
-		.shape("rect")
-		.shapeWidth((width-125) / colorsteps)
-		.shapePadding(120 / colorsteps)
-		.shapeHeight(10);
-
-	svg.select(".legendOrdinal")
-		.call(legendOrdinal);
+	// svg.append("g")
+	// 	.attr("class", "legendOrdinal")
+	// 	.attr("transform", "translate(" + 0 + "," + 0 + ")");
+	//
+	// var legendOrdinal = d3.legendColor()
+	// 	.scale(colors)
+	// 	.orient("horizontal")
+	// 	.shape("rect")
+	// 	.shapeWidth((width-125) / colorsteps)
+	// 	.shapePadding(120 / colorsteps)
+	// 	.shapeHeight(10);
+	//
+	// svg.select(".legendOrdinal")
+	// 	.call(legendOrdinal);
 
 	// svg.append("path")
 	//  .datum(data.filter(function(d,i){
@@ -197,6 +198,53 @@ function generateColumnChart() {
 	//    .x(function(d) { return xScale(d[xVar]) + (xScale.bandwidth()/2); })
 	//    .y(function(d) { return yScale(d["rollingavg"]); })
 	// )
+
+
+
+
+	// $: filteredData = coviddata.filter(d => {(["8/20/20"].indexOf(d["Date"]) > -1)});
+	// $: filteredData = coviddata.filter(function(d){
+	// 	const START_DATE = new Date(formattedSelected).getTime();
+	// 	const END_DATE = new Date("09/1/21").getTime();
+	// 	const COMPARE_DATE = new Date(d.Date).getTime();
+	// 	if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
+	// 		// console.log(END_DATE)
+	// 		// console.log("Date", new Date(COMPARE_DATE).toString(),d);
+	// 		// console.log("Date", new Date(COMPARE_DATE).toString());
+	//
+	// 		console.log(d)
+	// 		return d;
+	// 	}
+	// });
+
+
+	// $: filteredData = coviddata.filter(function(d){
+	// // console.log('filtering');
+	// // console.log("formattedSelected", formattedSelected)
+	// // 	if ("08/18/2021" === formattedSelected || "" === formattedSelected) {
+	// // 		return d;
+	// // 	} else {
+	// // 		return;
+	// // 	}
+	// 	if(0 < formattedSelected.length ) {
+	// 		// const START_DATE = new Date(formattedSelected).getTime();
+	// 		const START_DATE = new Date("08/17/21").getTime();
+	// 		// console.log(START_DATE)
+	// 		const END_DATE = new Date("09/1/21").getTime();
+	// 		const COMPARE_DATE = new Date(d.Date).getTime();
+	// 		// console.log("COMPARE_DATE", new Date(COMPARE_DATE).toString());
+	// 		// console.log("START_DATE", new Date(START_DATE).toString());
+	// 		// console.log("END_DATE", new Date(END_DATE).toString());
+	// 		if(COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE) {
+	// 			console.log("Including Datum", d);
+	// 			return d;
+	// 		}
+	// 	} else {
+	// 		return d;
+	// 	}
+	//
+	// });
+	// console.log(filteredData)
 }
 </script>
 
