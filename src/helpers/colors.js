@@ -2,7 +2,7 @@
 //          "#88c7f0",
 //          "#D41B2C"
 //    ]
-export const negativepositive = [
+export const negativePositive = [
    "#9ebcda",
    "#6e016b"
    ]

@@ -5,7 +5,7 @@
 	import { entries } from 'd3-collection';
 	import { path } from 'd3-path';
 	import { pie, arc } from 'd3-shape';
-	import { negativepositive } from '../helpers/colors.js'
+	import { negativePositive } from '../helpers/colors.js'
 
 	let d3 = {
 		scaleOrdinal: scaleOrdinal,
@@ -78,7 +78,7 @@
 
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
-		  .range(negativepositive.reverse())
+		  .range(negativePositive.reverse())
 
 		// Compute the position of each group on the pie:
 		var pie = d3.pie()

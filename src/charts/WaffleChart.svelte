@@ -63,9 +63,6 @@
 	onMount(generateWaffleChart);
 
 	function generateWaffleChart() {
-		console.log(rows)
-		console.log(height);
-		console.log(total)
 		let svg = d3.select(el)
 			.append("svg")
 			.attr("width", width)
@@ -75,60 +72,12 @@
 			.attr("transform",
 			  "translate(" + padding.left + "," + padding.top + ")")
 
-
-		// for (let i=0; i < total; i++) {
-		// 	gviz.append("circle")
-		// 		.attr("class", "circle" + i)
-		// 		.attr("cy", 		Math.floor(i / rows) * (squaresize+1))
-		// 		.attr("cx", 		(i % rows) * (squaresize+1))
-		// 		.attr("r", squaresize/2)
-		// 		// .attr("r",  squaresize)
-		// 		.attr("fill", 	 colorScale(i))
-		// }
-
-
-
-
-
-		// let svg = d3.select(el)
-		// 		.append("svg")
-		// 		.attr("width", width)
-		// 		.attr("height", height + padding.top);
-		//
-		// 	let gviz = svg.append("g")
-		// 		.attr("transform",
-		// 		  "translate(" + padding.left + "," + padding.top + ")")
-		//
-		//
 		gviz.append("text")
 		.style("fill", "#6e016b")
 		.style("font-size", "1.5rem")
 		.style("font-weight", "700")
 		// .attr("text-anchor", "middle")
 		.text(total + " cases")
-
-		// const legend1 = d3.legendColor()
-		// 	.scale(colorScale)
-		// 	.orient("horizontal")
-		// 	.shapeWidth((width)/4)
-		// 	.shapePadding(120/4)
-		// 	.labelWrap((width)/4)
-		//
-		// 	const legendContainer1 = gviz.append("svg")
-		// 	.attr("width", width)
-		// 	.attr("class","legendContainer1")
-		// 	.attr("height", function(d){
-		// 		if( width > 600){
-		// 			return 80;
-		//
-		// 		}
-		// 		else{
-		// 			return 70;
-		// 		}
-		// 	})
-		// 	.append("g")
-		// 	.attr("transform", "translate(" + (width/4)  + ",0)")
-		// 	.call(legend1)
 
 
 			for (let i=0; i < total; i++) {
@@ -146,51 +95,6 @@
 					.attr("fill", 	 colorScale(i))
 			}
 
-
-		// if (width >= 750) {
-		// 	let glabels = svg.append("g")
-		// 		.selectAll("text")
-		// 		.data(groups)
-		// 		.enter()
-		// 		.append("text")
-		// 		.text(function(d,i){
-		// 			return d + ": " + data[d]
-		// 		})
-		// 		.attr("x", function(d,i){
-		// 			let number = [0, ((thresholds[1] + thresholds[2]) / 2), thresholds[3]]
-		// 			return xScale(number[i])
-		// 		})
-		// 		.attr("y", 12)
-		// 		.attr("fill", "black")
-		// 		.attr("text-anchor", function(d,i) {
-		// 			return ["start", "middle", "end"][i]
-		// 		})
-		// }
-
-
-
-
-
-
-
-		// const legend = d3.legendColor()
-		// 	.scale(colorScale)
-		// 	.orient("horizontal")
-		// 	.shapeWidth(40)
-		// 	.shapePadding(60)
-		// 	.labelWrap(80)
-		//
-		// const legendContainer = d3.select(el).append("svg")
-		// 	.attr("width",
-		// 		(
-		// 			(colorScale.domain().length * 40) + (colorScale.domain().length * 60)
-		// 		)
-		// 	)
-		// 	.attr("class","legendContainer")
-		// 	.attr("height", 50)
-		// 	.append("g")
-		// 	.attr("transform", "translate(" + (padding.left + (10))  + ",0)")
-		// 	.call(legend)
 
 	} // generateBarChart
 </script>

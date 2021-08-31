@@ -89,7 +89,7 @@ data={testData.default}
 xVar={'Date'}
 yVar={"Seven-Day Tests"}
 yGroups={["Seven-Day Negative", "Seven-Day Positive"]}
-colorscheme={negativepositive}
+colorscheme={negativePositive}
 />
 </div>
 </div>
