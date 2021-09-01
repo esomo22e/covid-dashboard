@@ -202,7 +202,7 @@ console.log(filteredData)
 
 <style>
 
-	.dash-test { grid-area: dash-test; }
+	.panel-testing-results { grid-area: dash-test; }
 	.dash-positive { grid-area: dash-positive; }
 	/* .dash-donut { grid-area: dash-donut; } */
 	.dash-variants { grid-area: dash-variants; }
@@ -232,7 +232,7 @@ console.log(filteredData)
 
 
 
-.dash-test{
+.panel-testing-results{
 	display: grid;
 	grid-auto-rows: 1fr;
 	 grid-template-columns: 1.5fr 0.5fr;
@@ -427,7 +427,7 @@ grid-template-areas:
 	<div id="dashboard-grid">
 
 <!-- Dash Test Information - hospitalization, 7 day testing, and stacked bar chart -->
-	<div class="dashboard-grid-item dash-test">
+	<div class="dashboard-grid-item panel-testing-results">
 
 	<!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
 <div class = "dash-stats" id = "dash-test-item">

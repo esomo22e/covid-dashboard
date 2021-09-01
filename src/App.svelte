@@ -250,7 +250,10 @@
 
     }
 
-    .dash-test {
+    /**
+     * Dashboard layout
+    */
+    .panel-testing-results {
         grid-area: dash-test;
     }
 
@@ -294,7 +297,7 @@
         margin-bottom: 2rem;
     }
 
-    .dash-test {
+    .panel-testing-results {
         display: grid;
         grid-auto-rows: 1fr;
         grid-template-columns: 1.2fr 0.8fr;
@@ -307,7 +310,7 @@
 
     }
 
-    #dash-test-item {
+    .dash-test-item {
         width: 100%;
 
     }
@@ -323,7 +326,7 @@
 	  ".";
     }
 
-    #dash-stats-item {
+    .dash-stats-item {
         padding: 10px;
     }
 
@@ -387,7 +390,7 @@
         gap: 0px 40px;
     }
 
-    span#cell {
+    span.cell {
         height: 30px;
         width: 30px;
         border-radius: 50%;
@@ -508,7 +511,7 @@
 
         }
 
-        .dash-test {
+        .panel-testing-results {
             display: grid;
             grid-auto-rows: 1fr;
             grid-template-columns: 1fr;
@@ -632,11 +635,11 @@
     <div id="dashboard-grid">
 
         <!-- Dash Test Information - hospitalization, 7 day testing, and stacked bar chart -->
-        <div class="dashboard-grid-item dash-test">
+        <div class="dashboard-grid-item panel-testing-results">
 
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
-            <div class="dash-stats" id="dash-test-item">
-                <div class="donut-item" id="dash-stats-item">
+            <div class="dash-stats dash-test-item">
+                <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
                         <DonutChart1
@@ -661,7 +664,7 @@
                 </div>
 
 
-                <div class="donut-item" id="dash-stats-item">
+                <div class="donut-item dash-stats-item" >
 
                     <div class="donut-chart">
 
@@ -676,7 +679,7 @@
                         />
 
                     </div>
-                    <div class="donut-content" id="dash-stats-item">
+                    <div class="donut-content dash-stats-item" >
                         <h3>Seven-Day Positive Test</h3>
                         <p class="update-line"><i>Suspendisse egestas est metus,
                             sit amet ultricies magna blandit vitae. Nam quis leo
@@ -686,7 +689,7 @@
                     </div>
                 </div>
 
-                <div class="dash-brief" id="dash-stats-item">
+                <div class="dash-brief dash-stats-item" >
 
                     <h3>Wellness Beds in Use</h3>
 
@@ -707,9 +710,9 @@
             </div>
 
 
-            <!-- Dashboard Stacked Bar Chart -->
+            <!-- Dashboard Filterable Test Results Stacked Bar Chart -->
             <div class="chart-wrapper" id="chart-results-pos-neg">
-                <div class="dash-bars" id="dash-test-item">
+                <div class="dash-bars dash-test-item">
                     <GraphicTitle
                             title={"Test Results by Date"}
                     />
@@ -836,17 +839,17 @@
 
             <div class="dashboard-legend">
                 <div class="legendCells">
-                    <span id="cell" class="dot-1"></span>
+                    <span class="dot-1 cell"></span>
                     <div class="cell-label-var">SARS-CoV-2</div>
 
                 </div>
                 <div class="legendCells">
-                    <span id="cell" class="dot-2"></span>
+                    <span class="dot-2 cell"></span>
                     <div class="cell-label-var">SARS-CoV-2 Alpha</div>
 
                 </div>
                 <div class="legendCells">
-                    <span id="cell" class="dot-3"></span>
+                    <span class="dot-3 cell"></span>
                     <div class="cell-label-var">SARS-CoV-2 Delta</div>
 
                 </div>
