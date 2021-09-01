@@ -96,6 +96,8 @@
 
     // const url = 'https://spreadsheets.google.com/feeds/cells/1REJNqVcREni8IlxiObIbm5M6xU0lb8BeKfxJO0lNvXk/1/public/full?alt=json&date=' + dateCode
 
+	console.log(dateCode)
+
     // the dollar sign is a Svelte-y way of declaring a variable that will be dynamic
     $: covidData = [];
 
@@ -104,7 +106,8 @@
     const formatDate = timeFormat("%m/%d/%y");
 
 
-    csv("datasets/covidupdate_testData.csv").then(function (data, i) {
+csv("/datasets/covidupdate_testData.csv").then(function(data,i){
+	// csv("//news.northeastern.edu/interactive/2021/08/updated-covid-dashboard/datasets/covidupdate_testData.csv").then(function(data,i){
         // csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard-weekly/datasets/testingdata.csv").then(function(data,i){
         data.forEach(function (d, i) {
             Object.keys(d).forEach(function (j) {
@@ -206,6 +209,81 @@
         }
     ]
 
+	// var tableHeight = document.getElementById('table-covid').style.height;
+  // function changeHeight(){
+	//   document.getElementById('table-covid').style.height = "500px";
+	//   console.log("click me");
+  // }
+  // function buttonClick() {
+	//   // alert('clicked')
+	//   console.log("click me");
+	//   // document.getElementById('table-covid').style.height = "500px";
+	//   var tableHeight = document.getElementById('table-covid').style.height;
+	//   tableHeight = "200px";
+  //
+	//   if(document.getElementById('table-covid').style.height === "200px"){
+	// 	  document.getElementById('table-covid').style.height = "auto";
+  //
+	//   }
+	//   else{
+	// 	  document.getElementById('table-covid').style.height = "200px";
+  //
+	//   }
+  // }
+
+  function insertAfter(referenceNode, newNode) {
+  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+var el = document.createElement("span");
+
+
+    let hasBeenClicked = false;
+
+	function buttonClick() {
+           if (hasBeenClicked) return;
+
+           hasBeenClicked = true;
+           setTimeout(() => {
+               hasBeenClicked = false;
+           }, 200);
+
+           console.log('click');
+
+
+		   var divTable= document.getElementById('table-covid');
+		   var divName = document.getElementById("table-name");
+
+		   var divSpan = document.getElementById("table-grad");
+
+		   // var el = document.createElement("span");
+
+		   // let tableHeight = document.getElementById('table-covid').style.height;
+		     if( divTable.style.height == "auto"){
+	   		  divTable.style.height = "200px";
+
+			  divName.innerText = "View Full Table";
+
+
+			  // var divSpan = document.getElementById("table-grad");
+			  divSpan.style.height = "100px";
+
+
+
+	   	  }
+	   	  else{
+
+	   		  divTable.style.height = "auto";
+
+			  divName.innerText = "View Truncated Table";
+
+
+			  divSpan.style.height = "100px";
+
+
+			  // divSpan.style.height = "200px";
+			  // divSpan.style.background = "linear-gradient(top, #e0e0e0, #020024)";
+	   	  }
+	}
 
 </script>
 
@@ -394,6 +472,55 @@
         margin: 2em 0;
     }
 
+.dash-table{
+	height: 200px;
+	overflow: hidden;
+	/* background: linear-gradient(to bottom, #333 0%, transparent 100%); */
+
+}
+/* .dash-table:before {
+	display: block!important;
+	  content: "";
+
+} */
+
+.dash-table::after {
+	height: 200px;
+	display: block;
+
+	  content: "";
+	  width:100%;
+      height:30px;
+      background: linear-gradient(top, #e0e0e0, #020024);
+      background: -webkit-linear-gradient(top,  #e0e0e0, #020024);
+      background: -moz-linear-gradient(top,  #e0e0e0, #020024);
+}
+
+span#table-grad{
+	height: 50px;
+	display: block;
+
+	/* content: "";
+	width:100%;
+	height:30px;
+	background: linear-gradient(top, #e0e0e0, #020024);
+	background: -webkit-linear-gradient(top,  #e0e0e0, #020024);
+	background: -moz-linear-gradient(top,  #e0e0e0, #020024); */
+
+}
+.table-button{
+	margin: 0 auto;
+    display: block;
+
+	padding: 20px;
+  text-align: center;
+  text-decoration: none;
+	background-color: #6e016b;
+	color: #f7fcfd;
+	font-size:16px;
+	border-radius: 12px;
+}
+
     @media screen and (max-width: 600px) {
         #dashboard-grid {
             grid-template-columns: 1fr;
@@ -414,9 +541,9 @@
             width: 100vw;
         }
 
-        .dash-table {
+		/* .dash-table {
             overflow: scroll;
-        }
+		} */
 
         .dash-stats {
             display: grid;
@@ -864,8 +991,11 @@
         </div>
 
         <!-- Dashboard Item -Svelte Table -->
+		<div class="dashboard-grid-item dash-table-cont">
 
-        <div class="dashboard-grid-item dash-table">
+		<div class="dashboard-grid-item dash-table" id="table-covid">
+		<!-- <before></before> -->
+
             <SvelteTable
                     columns={columns}
                     rows={covidData}
@@ -874,6 +1004,12 @@
                     classNameCell={"infocell"}
             >
             </SvelteTable>
+		<!-- <after></after> -->
+		<span id = "table-grad"></span>
+		</div>
+		<button on:click={buttonClick} class = "table-button">
+		<div id = "table-name">View Full Table</div>
+		</button>
         </div>
 
 
