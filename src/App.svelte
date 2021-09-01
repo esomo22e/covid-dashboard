@@ -6,6 +6,8 @@
     import WellnessSummary from './charts/WellnessSummary.svelte'
     import DonutChart1 from './charts/DonutChart1.svelte'
     import DonutChart2 from './charts/DonutChart2.svelte'
+    import DonutChart3 from './charts/DonutChart3.svelte'
+
     import DonutChart_Pos from './charts/DonutChart_pos.svelte'
     import DonutChart_Pos2 from './charts/DonutChart_pos2.svelte'
     import DonutChart_Pos3 from './charts/DonutChart_pos3.svelte'
@@ -681,6 +683,31 @@
                     </div>
                     <div class="donut-content dash-stats-item" >
                         <h3>Seven-Day Positive Test</h3>
+                        <p class="update-line"><i>Suspendisse egestas est metus,
+                            sit amet ultricies magna blandit vitae. Nam quis leo
+                            at arcu ultricies bibendum. Curabitur fringilla arcu
+                            ligula, ac suscipit purus scelerisque nec. Proin
+                            lacinia efficitur consequat.</i></p>
+                    </div>
+                </div>
+
+                <div class="donut-item" id="dash-stats-item">
+
+                    <div class="donut-chart">
+
+                        <DonutChart3
+                                width={width_donut}
+                                height={width_donut}
+                                data={covidData}
+                                xVar={"Date"}
+                                yVar={"Samples Taken"}
+                                yA={"Tests Completed"}
+                                yB={"Tests in Progress"}
+                        />
+
+                    </div>
+                    <div class="donut-content" id="dash-stats-item">
+                        <h3>Beds In Use</h3>
                         <p class="update-line"><i>Suspendisse egestas est metus,
                             sit amet ultricies magna blandit vitae. Nam quis leo
                             at arcu ultricies bibendum. Curabitur fringilla arcu
