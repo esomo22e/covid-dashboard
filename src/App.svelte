@@ -216,6 +216,7 @@
      */
     let initialTableHeight;
     let fullTableHeight;
+
     function toggleTable() {
         const tableWrapper = document.querySelector('.dash-table-wrapper');
         const buttonToggleLabel = document.querySelector('.table-button .button-label');
@@ -226,10 +227,10 @@
             initialTableHeight = tableWrapper.offsetHeight;
             tableWrapper.style.height = 'auto';
             fullTableHeight = tableWrapper.offsetHeight;
-            tableWrapper.style.height = initialTableHeight + 'px' ;
+            tableWrapper.style.height = initialTableHeight + 'px';
         }
 
-        if(tableWrapper.classList.contains('is-expanded')){
+        if (tableWrapper.classList.contains('is-expanded')) {
             tableWrapper.classList.remove('is-expanded');
             tableWrapper.style.height = initialTableHeight + 'px';
             buttonToggleLabel.innerText = buttonToggleLabelInitial;
@@ -320,7 +321,7 @@
     .dash-stats {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-rows: auto repeat(3, 1fr);
         gap: 10px 0px;
         grid-template-areas:
 	  "."
@@ -329,14 +330,20 @@
     }
 
     .dash-stats-item {
-        padding: 8px 8px 8px 16px;
+        padding: 8px;
         display: flex;
         align-items: center;
+    }
+
+    .dash-stats-item h3 {
+        margin: 0;
     }
 
     .donut-item {
         display: flex;
         background-color: #e0ecf4;
+        display: flex;
+        justify-content: center;
     }
 
     .covid-links a {
@@ -360,8 +367,12 @@
 
     .donut-positive-item {
         display: flex;
-        /* justify-content: center; */
-        /* align-items: center; */
+         justify-content: center;
+         align-items: center;
+    }
+
+    .chart-label {
+        text-align: center;
     }
 
     .dash-vac-chart {
@@ -425,10 +436,10 @@
     }
 
     .dash-table-wrapper::after {
-        background: linear-gradient(to bottom, rgba(255,255,255, 0), rgb(255, 255, 255));
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgb(255, 255, 255));
         bottom: 0;
-        left:0;
-        right:0;
+        left: 0;
+        right: 0;
         content: "";
         display: block;
         height: 180px;
@@ -510,6 +521,12 @@
             margin: 1em auto;
         }
 
+        .chart {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .dash-positive {
             width: 100vw;
         }
@@ -565,7 +582,6 @@
     }
 
 
-
     /**
      * Buttons
      */
@@ -602,6 +618,7 @@
     .datepicker {
         margin: 0 !important;
     }
+
     .datepicker-label {
         border: var(--global--border-light-weight, 1px) solid #cbcccb;
         border-radius: 6px;
@@ -621,63 +638,52 @@
 
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
+                <GraphicTitle
+                        title={"Total Positive Since 9/1"}
+                />
                 <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
-                        <DonutChart1
+                        <DonutChart_Pos
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                xVar={"Date"}
-                                yVar={"Samples Taken"}
-                                yA={"Tests Completed"}
-                                yB={"Tests in Progress"}
+                                yA={"Students Total Positive"}
+                                yB={"Students Total Negative"}
                         />
                     </div>
 
-                    <div class="donut-content"> 
-                        <h3>Hospitalizations</h3>
-                    </div>
                 </div>
 
 
-                <div class="donut-item dash-stats-item" >
+                <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
 
-                        <DonutChart2
+
+                        <DonutChart_Pos2
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                xVar={"Date"}
-                                yVar={"Samples Taken"}
                                 yA={"Tests Completed"}
                                 yB={"Tests in Progress"}
                         />
 
                     </div>
-                    <div class="donut-content dash-stats-item" >
-                        <h3>Seven-Day Positive Test</h3>
-                    </div>
+
                 </div>
 
                 <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
 
-                        <DonutChart3
+                        <DonutChart_Pos3
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                xVar={"Date"}
-                                yVar={"Samples Taken"}
                                 yA={"Tests Completed"}
                                 yB={"Tests in Progress"}
                         />
-
-                    </div>
-                    <div class="donut-content dash-stats-item" >
-                        <h3>Wellness Beds In Use</h3>
                     </div>
                 </div>
             </div>
@@ -750,45 +756,61 @@
         <div class="dashboard-grid-item dash-positive">
 
             <GraphicTitle
-                    title={"Total Positive Since 9/1"}
+                    title={"Overview"}
             />
             <div class="dash-pos-donuts">
                 <div class="donut-positive-item">
 
                     <div class="donut-chart">
 
-                        <DonutChart_Pos
+                        <DonutChart1
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                yA={"Students Total Positive"}
-                                yB={"Students Total Negative"}
+                                xVar={"Date"}
+                                yVar={"Samples Taken"}
+                                yA={"Tests Completed"}
+                                yB={"Tests in Progress"}
                         />
+                        <div class="donut-content">
+                            <h3 class="chart-label">Hospitalizations</h3>
+                        </div>
+
                     </div>
                 </div>
 
                 <div class="donut-positive-item">
                     <div class="donut-chart">
-                        <DonutChart_Pos2
+                        <DonutChart2
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
+                                xVar={"Date"}
+                                yVar={"Samples Taken"}
                                 yA={"Tests Completed"}
                                 yB={"Tests in Progress"}
                         />
+                        <div class="donut-content dash-stats-item">
+                            <h3 class="chart-label">Seven-Day Positive Test Rate</h3>
+                        </div>
                     </div>
                 </div>
 
                 <div class="donut-positive-item">
                     <div class="donut-chart">
-
-                        <DonutChart_Pos3
+                        <DonutChart3
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
+                                xVar={"Date"}
+                                yVar={"Samples Taken"}
                                 yA={"Tests Completed"}
                                 yB={"Tests in Progress"}
                         />
+
+                        <div class="donut-content dash-stats-item">
+                            <h3 class="chart-label">Campus Wellness Beds In Use</h3>
+                        </div>
                     </div>
                 </div>
 
@@ -922,7 +944,8 @@
         <!-- Dashboard Item -Svelte Table -->
         <div class="dashboard-grid-item dash-table-container">
 
-            <div class="dashboard-grid-item dash-table-wrapper" id="table-covid">
+            <div class="dashboard-grid-item dash-table-wrapper"
+                 id="table-covid">
                 <!-- <before></before> -->
 
                 <SvelteTable
