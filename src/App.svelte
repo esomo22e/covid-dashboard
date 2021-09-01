@@ -502,6 +502,49 @@
         }
     }
 
+    .filter-bar-date-range {
+        display: flex;
+        align-items: center;
+    }
+
+    .filter-bar-date-range > * {
+        padding: 1rem;
+    }
+
+    .datepicker {
+        width: 12ch;
+    }
+
+    /**
+     * Buttons
+     */
+    button {
+        position: relative;
+        place-self: flex-end;
+        text-transform: uppercase;
+        background-color: var(--global--color-red, red);
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        border: 0;
+        color: var(--global--color-white, white);
+        font-family: var(--global--font-signage);
+        padding: 7px 10px 5px;
+        text-decoration: none;
+        font-weight: var(--button--base-weight, bold);
+        font-size: var(--button--base-font-size, large);
+        margin: calc(0.25 * var(--global--spacing-unit, 1rem));
+        cursor: pointer;
+    }
+
+    /**
+     * Datepicker
+     */
+
+    .datepicker-label {
+        border: var(--global--border-light-weight, 1px) solid var(--global--border-light-color, gray);
+        cursor: pointer;
+    }
 
 </style>
 
@@ -585,58 +628,63 @@
 
 
             <!-- Dashboard Stacked Bar Chart -->
-
-            <div class="dash-bars" id="dash-test-item">
-                <GraphicTitle
-                        title={"Test Results by Date"}
-                />
-                <!-- <input bind:value={formattedSelected}> -->
-                <!-- <button on:click={() => addNode()}>Add Node</button> -->
-                <div id="button-chart-container">
-                    <button on:click={setFilterLastSevenDays}>7 Days</button>
-                    <button on:click={setFilterLastThirtyDays}>30 Days</button>
-                    <button on:click={setFilterThisSemester}>Semester</button>
-                </div>
-                <Datepicker bind:selected={filterStartDate}
-                            bind:dateChosen={isStartDateChosen}
-                            end={filterEndDate}/>
-                <Datepicker bind:selected={filterEndDate}
-                            bind:dateChosen={isEndDateChosen}
-                            start={filterStartDate}/>
-
-                <!--                <Datepicker bind:filterEndDate bind:dateChosen>-->
-                <!--                    <button class='custom-button'>-->
-                <!--                        {filterEndDate.toLocaleDateString()}-->
-                <!--                    </button>-->
-                <!--                </Datepicker>-->
-
-
-                <div class="dashboard-legend">
-                    <div class="legendCells">
-                        <div class="cell1"></div>
-                        <div class="cell-label">NEGATIVE TESTS</div>
-
-                    </div>
-                    <div class="legendCells">
-                        <div class="cell2"></div>
-                        <div class="cell-label">POSITIVE TESTS</div>
-
-                    </div>
-
-                </div>
-                {#key filteredData}
-                    <StackedColumnChart
-                            width={width_stacked}
-                            height={height}
-                            data={filteredData}
-                            xVar={'Date'}
-                            yVar={"Seven-Day Tests"}
-                            yGroups={["Seven-Day Negative", "Seven-Day Positive"]}
-                            colorscheme={negativePositive}
+            <div class="chart-wrapper" id="chart-results-pos-neg">
+                <div class="dash-bars" id="dash-test-item">
+                    <GraphicTitle
+                            title={"Test Results by Date"}
                     />
-                {/key}
+                    <div class="filter-bar">
+                        <div class="filter-bar-presets">
+                            <button on:click={setFilterLastSevenDays}>7 Days
+                            </button>
+                            <button on:click={setFilterLastThirtyDays}>30 Days
+                            </button>
+                            <button on:click={setFilterThisSemester}>Semester
+                            </button>
+                        </div>
+                        <div class="filter-bar-date-range">
+                            <Datepicker bind:selected={filterStartDate}
+                                        bind:dateChosen={isStartDateChosen}
+                                        end={filterEndDate}>
+                                <div class="datepicker-label">{filterStartDate.toLocaleDateString()}</div>
+                            </Datepicker>
+                            <span class="date-separator"
+                                  aria-label="to">—</span>
+                            <Datepicker bind:selected={filterEndDate}
+                                        bind:dateChosen={isEndDateChosen}
+                                        start={filterStartDate}>
+                                <div class="datepicker-label">{filterStartDate.toLocaleDateString()}</div>
+                            </Datepicker>
+                        </div>
+                    </div>
+                    <div class="chart-results-pos-neg__chart">
+                        <div class="dashboard-legend">
+                            <div class="legendCells">
+                                <div class="cell1"></div>
+                                <div class="cell-label">NEGATIVE TESTS</div>
 
-            </div>
+                            </div>
+                            <div class="legendCells">
+                                <div class="cell2"></div>
+                                <div class="cell-label">POSITIVE TESTS</div>
+
+                            </div>
+
+                        </div>
+                        {#key filteredData}
+                            <StackedColumnChart
+                                    width={width_stacked}
+                                    height={height}
+                                    data={filteredData}
+                                    xVar={'Date'}
+                                    yVar={"Seven-Day Tests"}
+                                    yGroups={["Seven-Day Negative", "Seven-Day Positive"]}
+                                    colorscheme={negativePositive}
+                            />
+                        {/key}
+                    </div> <!-- /.chart-results-pos-neg__chart -->
+                </div>
+            </div> <!-- /.chart-results-pos-neg -->
 
 
         </div>
