@@ -628,7 +628,8 @@
         border-radius: 6px;
         padding: 7px 10px;
         cursor: pointer;
-        width: 96px !important;
+        width: 12ch !important;
+        /* width: 96px !important; */
     }
 
 </style>
@@ -706,7 +707,7 @@
                         />
 
                     </div>
-                    <div class="donut-content" id="dash-stats-item">
+                    <div class="donut-content dash-stats-item" >
                         <h3>Beds In Use</h3>
                         <p class="update-line"><i>Suspendisse egestas est metus,
                             sit amet ultricies magna blandit vitae. Nam quis leo
