@@ -735,7 +735,7 @@ span#table-grad{
 
                 <div class="dash-brief" id="dash-stats-item">
 
-                    <h3>Get Tested</h3>
+				<h3>Wellness Beds in Use</h3>
 
                     <p class="update-line-brief"><i>Suspendisse egestas est
                         metus, sit amet ultricies magna blandit vitae. Nam quis
