@@ -72,7 +72,7 @@
 			.attr("height", height)
 			.append("g")
 			.append("g")
-      	.attr("transform", "translate(" + width / 2.2 + "," + height / 2 + ")");
+      	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 		var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
 
@@ -121,6 +121,12 @@
 </script>
 
 <style>
+    .chart {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: row;
+    }
 	.chart :global(.tipdate) {
 		font-size:1.2rem;
 		font-weight:bold;

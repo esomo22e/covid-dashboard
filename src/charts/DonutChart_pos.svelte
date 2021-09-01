@@ -19,30 +19,13 @@
 
 	let el;
 
-	const padding = { top: 10, right: 40, bottom: 70, left: 50 };
-
-
-
-
+	const padding = { top: 0, right: 0, bottom: 0, left: 0 };
 	export let data = {data};
 	export let width = {width};
 	export let height = {height};
 
 	data = data[data.length-1] // only use latest day's data
 
-
-	// function showPctTip(d, target, mouse) {
-	// 	target
-	// 	  .style("position", "absolute")
-	// 	  .style("left", (mouse[0] + document.getElementById('covid-testing-dashboard').offsetLeft + 500) + "px")
-	// 	  .style("top", (mouse[1] + document.getElementById('covid-testing-dashboard').offsetTop + 670) + "px")
-	// 	  .style("display", "inline-block")
-	// 	  .html(
-	// 		  "<div class='tipdate'>As of " + data["Date"] + ":</div>" +
-	// 		  "Negative rate: " + (data["Seven-Day Negative"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>" +
-	// 		  "Positive rate: " + (data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}) + "<br/>"
-	// 		);
-	// }
 
 	onMount(generateDonut);
 
@@ -53,13 +36,7 @@
 			.append("div")
 			.attr("class", "donut-title")
 			.style("text-align", "center")
-			// .style("margin", "0 auto 1rem")
 
-		// donutcaption.append("div")
-		// 	.style("font-size", "1rem")
-		// 	.style("line-height", "1.25rem")
-		// 	.text("7-day average of positive test results at Northeastern: ")
-		//
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
 			.style("color", "#6e016b")
@@ -77,7 +54,7 @@
 			.attr("height", height)
 			.append("g")
 			.append("g")
-      	.attr("transform", "translate(" + width / 2.2 + "," + height / 2 + ")");
+      	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 		// var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
 		var donutdata = {a: data["Students Total Positive"], b: data["Students Total Negative"]}
@@ -129,6 +106,12 @@
 </script>
 
 <style>
+    .chart {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        flex-direction: column;
+    }
 	.chart :global(.tipdate) {
 		font-size:1.2rem;
 		font-weight:bold;
