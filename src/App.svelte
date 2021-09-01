@@ -104,8 +104,8 @@
     const formatDate = timeFormat("%m/%d/%y");
 
 
-csv("/datasets/covidupdate_testData.csv").then(function(data,i){
-	// csv("//news.northeastern.edu/interactive/2021/08/updated-covid-dashboard/datasets/covidupdate_testData.csv").then(function(data,i){
+    csv("/datasets/covidupdate_testData.csv").then(function (data, i) {
+        // csv("//news.northeastern.edu/interactive/2021/08/updated-covid-dashboard/datasets/covidupdate_testData.csv").then(function(data,i){
         // csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard-weekly/datasets/testingdata.csv").then(function(data,i){
         data.forEach(function (d, i) {
             Object.keys(d).forEach(function (j) {
@@ -207,85 +207,48 @@ csv("/datasets/covidupdate_testData.csv").then(function(data,i){
         }
     ]
 
-	// var tableHeight = document.getElementById('table-covid').style.height;
-  // function changeHeight(){
-	//   document.getElementById('table-covid').style.height = "500px";
-	//   console.log("click me");
-  // }
-  // function buttonClick() {
-	//   // alert('clicked')
-	//   console.log("click me");
-	//   // document.getElementById('table-covid').style.height = "500px";
-	//   var tableHeight = document.getElementById('table-covid').style.height;
-	//   tableHeight = "200px";
-  //
-	//   if(document.getElementById('table-covid').style.height === "200px"){
-	// 	  document.getElementById('table-covid').style.height = "auto";
-  //
-	//   }
-	//   else{
-	// 	  document.getElementById('table-covid').style.height = "200px";
-  //
-	//   }
-  // }
+    /**
+     * Toggles view of table
+     *
+     * @since 2.0
+     */
+    let initialTableHeight;
+    let fullTableHeight;
+    function toggleTable() {
+        const tableWrapper = document.querySelector('.dash-table-wrapper');
+        const buttonToggleLabel = document.querySelector('.table-button .button-label');
+        const buttonToggleLabelInitial = 'Expand Table';
+        const buttonToggleLabelExpanded = 'Collapse Table';
 
-  function insertAfter(referenceNode, newNode) {
-  referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-var el = document.createElement("span");
+        if (!initialTableHeight) {
+            initialTableHeight = tableWrapper.offsetHeight;
+            tableWrapper.style.height = 'auto';
+            fullTableHeight = tableWrapper.offsetHeight;
+            tableWrapper.style.height = initialTableHeight + 'px' ;
+        }
 
+        if(tableWrapper.classList.contains('is-expanded')){
+            tableWrapper.classList.remove('is-expanded');
+            tableWrapper.style.height = initialTableHeight + 'px';
+            buttonToggleLabel.innerText = buttonToggleLabelInitial;
+        } else {
+            tableWrapper.classList.add('is-expanded');
+            tableWrapper.style.height = fullTableHeight + 'px';
+            buttonToggleLabel.innerText = buttonToggleLabelExpanded;
+        }
+    }
 
-    let hasBeenClicked = false;
+    function insertAfter(referenceNode, newNode) {
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
 
-	function buttonClick() {
-           if (hasBeenClicked) return;
-
-           hasBeenClicked = true;
-           setTimeout(() => {
-               hasBeenClicked = false;
-           }, 200);
-
-           console.log('click');
-
-
-		   var divTable= document.getElementById('table-covid');
-		   var divName = document.getElementById("table-name");
-
-		   var divSpan = document.getElementById("table-grad");
-
-		   // var el = document.createElement("span");
-
-		   // let tableHeight = document.getElementById('table-covid').style.height;
-		     if( divTable.style.height == "auto"){
-	   		  divTable.style.height = "200px";
-
-			  divName.innerText = "View Full Table";
-
-
-			  // var divSpan = document.getElementById("table-grad");
-			  divSpan.style.height = "100px";
-
-
-
-	   	  }
-	   	  else{
-
-	   		  divTable.style.height = "auto";
-
-			  divName.innerText = "View Truncated Table";
-
-
-			  divSpan.style.height = "100px";
-
-
-			  // divSpan.style.height = "200px";
-			  // divSpan.style.background = "linear-gradient(top, #e0e0e0, #020024)";
-	   	  }
-	}
 
 </script>
 
 <style>
+    :root {
+
+    }
 
     .dash-test {
         grid-area: dash-test;
@@ -308,7 +271,7 @@ var el = document.createElement("span");
         grid-area: dash-wellness;
     }
 
-    .dash-table {
+    .dash-table-container {
         grid-area: dash-table;
     }
 
@@ -470,54 +433,36 @@ var el = document.createElement("span");
         margin: 2em 0;
     }
 
-.dash-table{
-	height: 200px;
-	overflow: hidden;
-	/* background: linear-gradient(to bottom, #333 0%, transparent 100%); */
+    .dash-table-wrapper {
+        height: 400px;
+        overflow: hidden;
+        position: relative;
+        transition: height linear 200ms;
+    }
 
-}
-/* .dash-table:before {
-	display: block!important;
-	  content: "";
+    .dash-table-wrapper::after {
+        background: linear-gradient(to bottom, rgba(255,255,255, 0), rgb(255, 255, 255));
+        bottom: 0;
+        left:0;
+        right:0;
+        content: "";
+        display: block;
+        height: 180px;
+        position: absolute;
+        z-index: 10;
+    }
 
-} */
-
-.dash-table::after {
-	height: 200px;
-	display: block;
-
-	  content: "";
-	  width:100%;
-      height:30px;
-      background: linear-gradient(top, #e0e0e0, #020024);
-      background: -webkit-linear-gradient(top,  #e0e0e0, #020024);
-      background: -moz-linear-gradient(top,  #e0e0e0, #020024);
-}
-
-span#table-grad{
-	height: 50px;
-	display: block;
-
-	/* content: "";
-	width:100%;
-	height:30px;
-	background: linear-gradient(top, #e0e0e0, #020024);
-	background: -webkit-linear-gradient(top,  #e0e0e0, #020024);
-	background: -moz-linear-gradient(top,  #e0e0e0, #020024); */
-
-}
-.table-button{
-	margin: 0 auto;
-    display: block;
-
-	padding: 20px;
-  text-align: center;
-  text-decoration: none;
-	background-color: #6e016b;
-	color: #f7fcfd;
-	font-size:16px;
-	border-radius: 12px;
-}
+    .table-button {
+        margin: 0 auto;
+        display: block;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #6e016b;
+        color: #f7fcfd;
+        font-size: 16px;
+        border-radius: 12px;
+    }
 
     @media screen and (max-width: 600px) {
         #dashboard-grid {
@@ -539,10 +484,9 @@ span#table-grad{
             width: 100vw;
         }
 
-		/* .dash-table {
+        /* .dash-table {
             overflow: scroll;
-		} */
-
+        } */
         .dash-stats {
             display: grid;
             grid-template-columns: 1fr;
@@ -628,17 +572,15 @@ span#table-grad{
     }
 
     .filter-bar-date-range {
-        display: flex;
-        align-items: center;
+        display: block;
+        margin: 1rem 1rem 1rem 0;
     }
 
     .filter-bar-date-range > * {
-        padding: 1rem;
+        padding: 0.25rem;
     }
 
-    .datepicker {
-        width: 12ch;
-    }
+
 
     /**
      * Buttons
@@ -647,28 +589,41 @@ span#table-grad{
         position: relative;
         place-self: flex-end;
         text-transform: uppercase;
-        background-color: var(--global--color-red, red);
+        /*background-color: var(--global--color-red, red);*/
         transition: all 0.2s;
         display: inline-flex;
         align-items: center;
         border: 0;
-        color: var(--global--color-white, white);
+        /*color: var(--global--color-white, white);*/
         font-family: var(--global--font-signage);
         padding: 7px 10px 5px;
         text-decoration: none;
         font-weight: var(--button--base-weight, bold);
-        font-size: var(--button--base-font-size, large);
-        margin: calc(0.25 * var(--global--spacing-unit, 1rem));
+        /*font-size: var(--button--base-font-size, large);*/
+        /*margin: calc(0.25 * var(--global--spacing-unit, 1rem));*/
         cursor: pointer;
+
+        margin: 0 auto;
+        text-align: center;
+        background-color: #6e016b;
+        color: #f7fcfd;
+        font-size: 16px;
+        border-radius: 12px;
     }
 
     /**
      * Datepicker
      */
 
+    .datepicker {
+        margin: 0 !important;
+    }
     .datepicker-label {
-        border: var(--global--border-light-weight, 1px) solid var(--global--border-light-color, gray);
+        border: var(--global--border-light-weight, 1px) solid #cbcccb;
+        border-radius: 6px;
+        padding: 7px 10px;
         cursor: pointer;
+        width: 96px !important;
     }
 
 </style>
@@ -733,7 +688,7 @@ span#table-grad{
 
                 <div class="dash-brief" id="dash-stats-item">
 
-				<h3>Wellness Beds in Use</h3>
+                    <h3>Wellness Beds in Use</h3>
 
                     <p class="update-line-brief"><i>Suspendisse egestas est
                         metus, sit amet ultricies magna blandit vitae. Nam quis
@@ -774,7 +729,7 @@ span#table-grad{
                                 <div class="datepicker-label">{filterStartDate.toLocaleDateString()}</div>
                             </Datepicker>
                             <span class="date-separator"
-                                  aria-label="to">—</span>
+                                  aria-label="to">–</span>
                             <Datepicker bind:selected={filterEndDate}
                                         bind:dateChosen={isEndDateChosen}
                                         start={filterStartDate}>
@@ -989,25 +944,23 @@ span#table-grad{
         </div>
 
         <!-- Dashboard Item -Svelte Table -->
-		<div class="dashboard-grid-item dash-table-cont">
+        <div class="dashboard-grid-item dash-table-container">
 
-		<div class="dashboard-grid-item dash-table" id="table-covid">
-		<!-- <before></before> -->
+            <div class="dashboard-grid-item dash-table-wrapper" id="table-covid">
+                <!-- <before></before> -->
 
-            <SvelteTable
-                    columns={columns}
-                    rows={covidData}
-                    sortBy={"Date"}
-                    sortOrder={-1}
-                    classNameCell={"infocell"}
-            >
-            </SvelteTable>
-		<!-- <after></after> -->
-		<span id = "table-grad"></span>
-		</div>
-		<button on:click={buttonClick} class = "table-button">
-		<div id = "table-name">View Full Table</div>
-		</button>
+                <SvelteTable
+                        columns={columns}
+                        rows={covidData}
+                        sortBy={"Date"}
+                        sortOrder={-1}
+                        classNameCell={"infocell"}
+                >
+                </SvelteTable>
+            </div>
+            <button on:click={toggleTable} class="table-button">
+                <div class="button-label">View Full Table</div>
+            </button>
         </div>
 
 
