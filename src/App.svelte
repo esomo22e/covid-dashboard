@@ -715,25 +715,6 @@
                             lacinia efficitur consequat.</i></p>
                     </div>
                 </div>
-
-                <div class="dash-brief dash-stats-item" >
-
-                    <h3>Wellness Beds in Use</h3>
-
-                    <p class="update-line-brief"><i>Suspendisse egestas est
-                        metus, sit amet ultricies magna blandit vitae. Nam quis
-                        leo at arcu ultricies bibendum. Curabitur fringilla arcu
-                        ligula, ac suscipit purus scelerisque nec. Proin lacinia
-                        efficitur consequat.</i></p>
-                    <div class="covid-links">
-                        <p class="schedule-test"><a
-                                href="https://northeastern.sharepoint.com/sites/covidscheduler/SitePages/Home.aspx?wa=wsignin1.0">Schedule
-                            a Test</a></p>
-                        <p class="wellness-check"><a
-                                href="https://neuidmsso.neu.edu/idp/profile/SAML2/Redirect/SSO?execution=e3s1">Daily
-                            Wellness Check</a></p>
-                    </div>
-                </div>
             </div>
 
 
