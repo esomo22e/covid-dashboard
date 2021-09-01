@@ -716,7 +716,7 @@ span#table-grad{
 
 			<div class="dash-brief" id = "dash-stats-item">
 
-				<h3>Get Tested</h3>
+				<h3>Wellness Beds in Use</h3>
 
 				 <p class="update-line-brief"><i>Suspendisse egestas est metus, sit amet ultricies magna blandit vitae. Nam quis leo at arcu ultricies bibendum. Curabitur fringilla arcu ligula, ac suscipit purus scelerisque nec. Proin lacinia efficitur consequat.</i></p>
 				 <div class = "covid-links">
