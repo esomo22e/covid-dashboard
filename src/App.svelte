@@ -96,8 +96,6 @@
 
     // const url = 'https://spreadsheets.google.com/feeds/cells/1REJNqVcREni8IlxiObIbm5M6xU0lb8BeKfxJO0lNvXk/1/public/full?alt=json&date=' + dateCode
 
-	console.log(dateCode)
-
     // the dollar sign is a Svelte-y way of declaring a variable that will be dynamic
     $: covidData = [];
 
