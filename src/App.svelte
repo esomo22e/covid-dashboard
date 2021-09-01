@@ -329,31 +329,14 @@
     }
 
     .dash-stats-item {
-        padding: 10px;
+        padding: 8px 8px 8px 16px;
+        display: flex;
+        align-items: center;
     }
 
     .donut-item {
         display: flex;
         background-color: #e0ecf4;
-        /* padding: 10px; */
-        /* display: grid;
-        grid-template-columns: 0.2fr 1.8fr;
-        grid-template-rows: 1fr;
-        gap: 0px 0px;
-        grid-template-areas:
-          ". ."; */
-        /* grid-area: dash-test;  */
-    }
-
-    .dash-brief {
-        color: #f7fcfd;
-        background-color: #6e016b;
-        /* padding: 10px */
-        /* padding: 20px; */
-    }
-
-    .covid-links {
-        display: flex;
     }
 
     .covid-links a {
@@ -372,11 +355,7 @@
         gap: 0px 40px;
         grid-template-areas:
 		". . .";
-        /* justify-items: center;
-          align-items: center; */
-        /* margin: 0 auto; */
-        /* width: 50%;
-        margin: 0 auto; */
+
     }
 
     .donut-positive-item {
@@ -656,13 +635,8 @@
                         />
                     </div>
 
-                    <div class="donut-content">
+                    <div class="donut-content"> 
                         <h3>Hospitalizations</h3>
-                        <p class="update-line"><i>Suspendisse egestas est metus,
-                            sit amet ultricies magna blandit vitae. Nam quis leo
-                            at arcu ultricies bibendum. Curabitur fringilla arcu
-                            ligula, ac suscipit purus scelerisque nec. Proin
-                            lacinia efficitur consequat.</i></p>
                     </div>
                 </div>
 
@@ -684,15 +658,10 @@
                     </div>
                     <div class="donut-content dash-stats-item" >
                         <h3>Seven-Day Positive Test</h3>
-                        <p class="update-line"><i>Suspendisse egestas est metus,
-                            sit amet ultricies magna blandit vitae. Nam quis leo
-                            at arcu ultricies bibendum. Curabitur fringilla arcu
-                            ligula, ac suscipit purus scelerisque nec. Proin
-                            lacinia efficitur consequat.</i></p>
                     </div>
                 </div>
 
-                <div class="donut-item" id="dash-stats-item">
+                <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
 
@@ -708,12 +677,7 @@
 
                     </div>
                     <div class="donut-content dash-stats-item" >
-                        <h3>Beds In Use</h3>
-                        <p class="update-line"><i>Suspendisse egestas est metus,
-                            sit amet ultricies magna blandit vitae. Nam quis leo
-                            at arcu ultricies bibendum. Curabitur fringilla arcu
-                            ligula, ac suscipit purus scelerisque nec. Proin
-                            lacinia efficitur consequat.</i></p>
+                        <h3>Wellness Beds In Use</h3>
                     </div>
                 </div>
             </div>
