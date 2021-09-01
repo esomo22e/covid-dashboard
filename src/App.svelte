@@ -744,7 +744,7 @@
                             <Datepicker bind:selected={filterEndDate}
                                         bind:dateChosen={isEndDateChosen}
                                         start={filterStartDate}>
-                                <div class="datepicker-label">{filterStartDate.toLocaleDateString()}</div>
+                                <div class="datepicker-label">{filterEndDate.toLocaleDateString()}</div>
                             </Datepicker>
                         </div>
                     </div>
