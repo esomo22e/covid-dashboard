@@ -273,10 +273,30 @@
     :root {
         --global--brand-dark-blue: #385775;
         --global--brand-white: #fff;
+
         --global--color-purple: #6e016b;
         --global--color-lighter-blue: #f7fcfd;
+
+        --global--color-primary: var(--global--color-purple);
+        --global--color-secondary: var(--global--color-lighter-blue);
+
         --global--spacing-unit: 16px;
 
+        --global--font-impact: "akkurat", -apple-system, sans-serif;
+        --global--font-weight-bold: 700;
+
+        --global--font-size-l: 1.5rem;
+
+        /**
+         * Global Borders
+         */
+        --global--border-radius-tight: 10px;
+        --global--border-radius-regular: 12px;
+        --global--border-radius-loose: 16px;
+
+        /**
+         * Buttons
+         */
         --button--primary--base-background: var(--global--color-purple);
         --button--primary--base-color: var(--global--brand-white);
 
@@ -284,10 +304,14 @@
         --button--secondary--base-color: var(--global--brand-white);
         --button--secondary--border-color: #1b3645;
 
+        /**
+         * Charts
+         */
+        --chart--key-font: var(--global--font-impact, inherit);
+        --chart--key-font-size: var(--global--font-size-l);
+        --chart--key-weight: var(--global--font-weight-bold);
 
-        --global--border-radius-tight: 10px;
-        --global--border-radius-regular: 12px;
-        --global--border-radius-loose: 16px;
+
     }
 
     /**

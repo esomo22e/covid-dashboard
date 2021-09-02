@@ -39,8 +39,8 @@
 
 		donutcaption.append("div")
 			.style("font-size", "1.5rem")
-			.style("color", "#6e016b")
-			.style("font-weight", "700")
+			.style("color", "var(--global--color-primary)")
+			.style("font-weight", "var(--global--font-weight-bold")
 			.style("margin-bottom", "0rem")
 			.text(function(d){
 
