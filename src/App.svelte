@@ -1,15 +1,11 @@
 <script>
     import GraphicTitle from './components/GraphicTitle.svelte'
     import GraphicFooter from './components/GraphicFooter.svelte'
+    import Chart_Donut from './charts/chart-donut.svelte';
     import Chart_Single_Bar_Horizontal from './charts/chart-single-bar-horizontal.svelte'
     import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
     import Chart_Wellness_Summary from './charts/WellnessSummary.svelte'
     import Chart_Hospitalizations from './charts/chart-hospitalizations-current.svelte'
-    import Chart_Seven_Day_Positive_Test_Rate from './charts/ChartSevenDayPositivity.svelte'
-    import Chart_Wellness_Beds_In_Use from './charts/chart-campus-wellness-beds-in-use.svelte'
-    import Chart_Seven_Day_Positive_Rate_Students from './charts/chart-seven-day-positive-rate-students.svelte'
-    import Chart_Seven_Day_Positive_Rate_Faculty_Staff from './charts/chart-seven-day-positive-rate-faculty-staff.svelte'
-    import Chart_Seven_Day_Positive_Rate_Contractors from './charts/chart-seven-day-positive-rate-contractors.svelte'
     import Chart_Total_Vaccination_Rate from './charts/chart-total-vaccination-rate.svelte'
     import Chart_Covid_Variants from './charts/chart-covid-variants.svelte'
     import SvelteTable from "svelte-table"
@@ -271,25 +267,68 @@
 
 <style>
     :root {
-        --global--brand-dark-blue: #385775;
-        --global--brand-white: #fff;
+        --global--font-impact: trim-poster, sans-serif;
+        --global--font-versatile: harriet, serif;
+        --global--font-signage: akkurat, sans-serif;
 
-        --global--color-purple: #6e016b;
+        --global--font-weight-bold: 700;
+
+        /**
+         * Global font sizes.
+         */
+        --global--font-size-xxs: 12px;
+        --global--font-size-xs: 14px;
+        --global--font-size-s: 15px;
+        --global--font-size-m: 19px;
+        --global--font-size-l: 1.5rem;
+        --global--base-line-height: 1.4em;
+
+        /**
+         * Global brand color palette.
+         */
+        --global--color-brand-dark-blue: #385775;
+        --global--color-brand-white: #fff;
+
+        /**
+         * Global color palette.
+         */
+        --global--color-black: #000;
+        --global--color-white: #fff;
+        --global--color-red: #d41b2c;
+        --global--color-dark-gray: #222;
+        --global--color-gray: #555;
+        --global--color-light-gray: #99a3b0;
+        --global--color-lighter-gray: #cbcccb;
+        --global--color-lightest-gray: #efefef;
+        --global--color-darkest-blue: #1b3645;
+        --global--color-dark-blue: #385775;
+        --global--color-blue: #006eb5;
+        --global--color-light-blue: #9ebcda;
         --global--color-lighter-blue: #f7fcfd;
+        --global--color-accent-blue: #52cfe5;
+        --global--color-teal: #00cfb5;
+        --global--color-purple: #6e016b;
 
         --global--color-primary: var(--global--color-purple);
         --global--color-secondary: var(--global--color-lighter-blue);
 
+        /**
+         * Global Spacing.
+         */
         --global--spacing-unit: 16px;
+        --global--spacing-vertical: calc(5 * var(--global--spacing-unit));
+        --global--spacing-horizontal: calc(2.5 * var(--global--spacing-unit));
+        --global--spacing-gap: 16px;
 
-        --global--font-impact: "akkurat", -apple-system, sans-serif;
-        --global--font-weight-bold: 700;
 
-        --global--font-size-l: 1.5rem;
 
         /**
          * Global Borders
          */
+        --global--border-color-light: var(--global--color-lightest-gray);
+        --global--border-color-regular: var(--global--color-lighter-gray);
+        --global--border-color-heavy: var(--global--color-gray);
+        --global--border-weight-regular: 1px;
         --global--border-radius-tight: 10px;
         --global--border-radius-regular: 12px;
         --global--border-radius-loose: 16px;
@@ -298,20 +337,39 @@
          * Buttons
          */
         --button--primary--base-background: var(--global--color-purple);
-        --button--primary--base-color: var(--global--brand-white);
+        --button--primary--base-color: var(--global--color-brand-white);
 
-        --button--secondary--base-background: var(--global--brand-dark-blue);
-        --button--secondary--base-color: var(--global--brand-white);
-        --button--secondary--border-color: #1b3645;
+        --button--secondary--base-background: var(--global--color-dark-blue);
+        --button--secondary--base-color: var(--global--color-brand-white);
+        --button--secondary--border-color: var(--global--color-darkest-blue);
 
         /**
          * Charts
          */
-        --chart--key-font: var(--global--font-impact, inherit);
+        --chart--color-primary: var(--global--color-purple);
+        --chart--color-secondary: var(--global--color-light-blue);
+        --chart--label-font: var(--global--font-signage, inherit);
+        --chart--label-font-size: var(--global--font-size-l);
+        --chart--label-text-align: center;
+        --chart--label-weight: var(--global--font-weight-bold);
+        --chart--label-color: var(--global--color-black);
+        --chart--key-font: var(--global--font-signage, inherit);
         --chart--key-font-size: var(--global--font-size-l);
+        --chart--key-text-align: center;
         --chart--key-weight: var(--global--font-weight-bold);
+        --chart--key-color: var(--global--color-black);
+        --chart--alignment: center;
+        --chart--flex-direction: column;
+    }
 
 
+    .panel-testing-results {
+        --chart--label-color: var(--global--color-purple);
+    }
+
+    #seven-day-overview {
+        --chart--flex-direction: column-reverse;
+        --chart--label-font-size: var(--global--font-size-m);
     }
 
     /**
@@ -344,7 +402,7 @@
 
     #dashboard-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: repeat(6, 1fr);
         grid-template-rows: 1fr auto;
         gap: 0 60px;
         grid-template-areas:
@@ -353,7 +411,7 @@
 		  "dash-variants"
 		  "dash-vac-rate"
 		  "dash-wellness"
-		 "dash-table";
+          "dash-table";
         /* margin-bottom:15px; */
     }
 
@@ -761,13 +819,15 @@
                 />
                 <div class="donut-item dash-stats-item">
 
-                    <div class="donut-chart">
-                        <Chart_Seven_Day_Positive_Rate_Students
+                    <div class="donut-chart chart-seven-day-students">
+                        <Chart_Donut
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                yA={"Students Total Positive"}
-                                yB={"Students Total Negative"}
+                                label="Students"
+                                primaryKey="Students Total Positive"
+                                secondaryKey="Students Total Negative"
+                                valueStyle="default"
                         />
                     </div>
 
@@ -777,16 +837,15 @@
                 <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
-
-
-                        <Chart_Seven_Day_Positive_Rate_Faculty_Staff
+                        <Chart_Donut
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                yA={"Tests Completed"}
-                                yB={"Tests in Progress"}
+                                label="Faculty/Staff"
+                                primaryKey="FacStaff Total Positive"
+                                secondaryKey="FacStaff Total Negative"
+                                valueStyle="default"
                         />
-
                     </div>
 
                 </div>
@@ -794,14 +853,16 @@
                 <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
-
-                        <Chart_Seven_Day_Positive_Rate_Contractors
+                        <Chart_Donut
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                yA={"Tests Completed"}
-                                yB={"Tests in Progress"}
+                                label="Contractors"
+                                primaryKey="Contractor Total Positive"
+                                secondaryKey="Contractor Total Negative"
+                                valueStyle="default"
                         />
+
                     </div>
                 </div>
             </div>
@@ -879,10 +940,10 @@
 
 
         <!-- Dash Positive (Students, Faculty/Staff, and Contractor) -->
-        <div class="dashboard-grid-item dash-positive">
+        <section class="dashboard-grid-item dash-positive" id="seven-day-overview">
 
             <GraphicTitle
-                    title={"Overview"}
+                    title={"Seven-Day Overview"}
             />
             <div class="dash-pos-donuts">
                 <div class="donut-positive-item">
@@ -907,43 +968,34 @@
 
                 <div class="donut-positive-item">
                     <div class="donut-chart">
-                        <Chart_Seven_Day_Positive_Test_Rate
+                        <Chart_Donut
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                xVar={"Date"}
-                                yVar={"Samples Taken"}
-                                yA={"Tests Completed"}
-                                yB={"Tests in Progress"}
+                                label="Positive Test Rate"
+                                primaryKey="Seven-Day Positive"
+                                secondaryKey="Seven-Day Negative"
+                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}
                         />
-                        <div class="donut-content dash-stats-item">
-                            <h3 class="chart-label">Seven-Day Positive Test
-                                Rate</h3>
-                        </div>
                     </div>
                 </div>
 
                 <div class="donut-positive-item">
                     <div class="donut-chart">
-                        <Chart_Wellness_Beds_In_Use
+                        <Chart_Donut
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                xVar={"Date"}
-                                yVar={"Samples Taken"}
-                                yA={"Tests Completed"}
-                                yB={"Tests in Progress"}
+                                label="Campus Wellness Beds in Use"
+                                primaryKey="Beds In Use"
+                                secondaryKey="Beds Not In Use"
+                                valueStyle="default"
                         />
-
-                        <div class="donut-content dash-stats-item">
-                            <h3 class="chart-label">Campus Wellness Beds In
-                                Use</h3>
-                        </div>
                     </div>
                 </div>
 
             </div>
-        </div>
+        </section>
 
 
         <!-- Waffle Charts of Variants -->
