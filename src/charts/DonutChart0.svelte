@@ -46,25 +46,6 @@
 	onMount(generateDonut);
 
 	function generateDonut() {
-		// var tooltip = d3.select(el).append("div").attr("class", "pcttooltip");
-
-		// var donutcaption = d3.select(el)
-		// 	.append("div")
-		// 	.style("text-align", "center")
-		// 	.style("margin", "0 auto 2rem")
-		//
-		// // donutcaption.append("div")
-		// // 	.style("font-size", "1rem")
-		// // 	.style("line-height", "1.25rem")
-		// // 	.text("7-day average of positive test results at Northeastern: ")
-		// //
-		// donutcaption.append("div")
-		// 	.style("font-size", "1.5rem")
-		// 	.style("color", "#D41B2C")
-		// 	.style("font-weight", "700")
-		// 	.style("margin-bottom", "0rem")
-		// 	.text("Students")
-		// 	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 		var svg = d3.select(el)
 			.append("svg")
@@ -74,11 +55,11 @@
 			.append("g")
       	.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-		var donutdata = {a: data["Hospital"], b: data["Non-hospital"]}
+		var donutdata = {a: data["Seven-Day Positive"], b: data["Seven-Day Negative"]}
 
 		var color = d3.scaleOrdinal()
 		  .domain(donutdata)
-		  .range(["#6e016b", "#9ebcda"])
+		  .range(negativePositive.reverse())
 
 		// Compute the position of each group on the pie:
 		var pie = d3.pie()
@@ -103,9 +84,7 @@
 		.style("font-size", "1.5rem")
 		.style("font-weight", "700")
 		.attr("text-anchor", "middle")
-		.text((data["Hospital"]).toLocaleString())
-
-		// .text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
+		.text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 		// .style("color", "#D41B2C")
 
 		  // .on("mousemove", function(d){
@@ -126,9 +105,8 @@
         display: flex;
         justify-content: center;
         align-content: center;
-        flex-direction: row;
+        flex-direction: column;
     }
-
 	.chart :global(.tipdate) {
 		font-size:1.2rem;
 		font-weight:bold;

@@ -1,18 +1,17 @@
 <script>
     import GraphicTitle from './components/GraphicTitle.svelte'
     import GraphicFooter from './components/GraphicFooter.svelte'
-    import StackedColumnChart from './charts/StackedColumnChart.svelte'
-    import StackedColumnChart2 from './charts/StackedColumnChart2.svelte'
-    import WellnessSummary from './charts/WellnessSummary.svelte'
-    import DonutChart1 from './charts/DonutChart1.svelte'
-    import DonutChart2 from './charts/DonutChart2.svelte'
-    import DonutChart3 from './charts/DonutChart3.svelte'
-
-    import DonutChart_Pos from './charts/DonutChart_pos.svelte'
-    import DonutChart_Pos2 from './charts/DonutChart_pos2.svelte'
-    import DonutChart_Pos3 from './charts/DonutChart_pos3.svelte'
-    import DonutChart_total from './charts/DonutChart_total.svelte'
-    import WaffleChart from './charts/WaffleChart.svelte'
+    import Chart_Single_Bar_Horizontal from './charts/chart-single-bar-horizontal.svelte'
+    import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
+    import Chart_Wellness_Summary from './charts/WellnessSummary.svelte'
+    import Chart_Hospitalizations from './charts/chart-hospitalizations-current.svelte'
+    import Chart_Seven_Day_Positive_Test_Rate from './charts/ChartSevenDayPositivity.svelte'
+    import Chart_Wellness_Beds_In_Use from './charts/chart-campus-wellness-beds-in-use.svelte'
+    import Chart_Seven_Day_Positive_Rate_Students from './charts/chart-seven-day-positive-rate-students.svelte'
+    import Chart_Seven_Day_Positive_Rate_Faculty_Staff from './charts/chart-seven-day-positive-rate-faculty-staff.svelte'
+    import Chart_Seven_Day_Positive_Rate_Contractors from './charts/chart-seven-day-positive-rate-contractors.svelte'
+    import Chart_Total_Vaccination_Rate from './charts/chart-total-vaccination-rate.svelte'
+    import Chart_Covid_Variants from './charts/chart-covid-variants.svelte'
     import SvelteTable from "svelte-table"
     import {csv} from 'd3-fetch'
     import {timeFormat, timeParse} from 'd3-time-format';
@@ -54,11 +53,25 @@
     }
 
     /**
+     * Sets a single filter button as active.
+     */
+    function setActiveFilter(selector) {
+        let filterButtons = document.querySelectorAll('.button-filter');
+        let activeButton = document.querySelector(selector);
+        filterButtons.forEach((filterButton) => {
+            filterButton.classList.remove('is-active');
+        })
+
+        activeButton.classList.add('is-active');
+    }
+
+    /**
      * Sets filter dates to past seven days
      */
     function setFilterLastSevenDays() {
         filterStartDate = getDaysAgo(7);
         filterEndDate = getToday();
+        setActiveFilter('.filter-seven-days');
     }
 
 
@@ -68,15 +81,16 @@
     function setFilterLastThirtyDays() {
         filterStartDate = getDaysAgo(30);
         filterEndDate = getToday();
+        setActiveFilter('.filter-thirty-days');
     }
 
     /**
      * Sets filter dates to past thirty days
      */
     function setFilterThisSemester() {
-
         filterStartDate = new Date("2021/09/09");
         filterEndDate = new Date("2021/12/08");
+        setActiveFilter('.filter-semester');
     }
 
 
@@ -105,8 +119,15 @@
     const parseTime = timeParse("%m/%d/%y");
     const formatDate = timeFormat("%m/%d/%y");
 
+    const DEV_BASE_DIR = "//news.northeastern.edu/interactive/2021/08/updated-covid-dashboard";
+    const LOCAL_BASE_DIR = "";
+    let baseDir;
 
-    csv("/datasets/covidupdate_testData.csv").then(function (data, i) {
+    baseDir = DEV_BASE_DIR;
+    if ("localhost" === window.location.hostname) {
+        baseDir = LOCAL_BASE_DIR;
+    }
+    csv(baseDir + "/datasets/covidupdate_testData.csv").then(function (data, i) {
         // csv("//news.northeastern.edu/interactive/2021/08/updated-covid-dashboard/datasets/covidupdate_testData.csv").then(function(data,i){
         // csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard-weekly/datasets/testingdata.csv").then(function(data,i){
         data.forEach(function (d, i) {
@@ -250,7 +271,23 @@
 
 <style>
     :root {
+        --global--brand-dark-blue: #385775;
+        --global--brand-white: #fff;
+        --global--color-purple: #6e016b;
+        --global--color-lighter-blue: #f7fcfd;
+        --global--spacing-unit: 16px;
 
+        --button--primary--base-background: var(--global--color-purple);
+        --button--primary--base-color: var(--global--brand-white);
+
+        --button--secondary--base-background: var(--global--brand-dark-blue);
+        --button--secondary--base-color: var(--global--brand-white);
+        --button--secondary--border-color: #1b3645;
+
+
+        --global--border-radius-tight: 10px;
+        --global--border-radius-regular: 12px;
+        --global--border-radius-loose: 16px;
     }
 
     /**
@@ -333,6 +370,7 @@
         padding: 8px;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     .dash-stats-item h3 {
@@ -352,9 +390,8 @@
         margin: 0 10px;
     }
 
-    /* Dashboard Positive since 9/1 */
+    /* Dashboard Positive */
     .dash-pos-donuts {
-
 
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -367,8 +404,8 @@
 
     .donut-positive-item {
         display: flex;
-         justify-content: center;
-         align-items: center;
+        justify-content: center;
+        align-items: center;
     }
 
     .chart-label {
@@ -572,6 +609,44 @@
         }
     }
 
+    /**
+     * Toolbar
+     */
+    menu[type=toolbar] {
+        display: flex;
+    }
+
+    menu[type=toolbar] button {
+        background-color: var(--button--secondary--base-background);
+        color: var(--button--secondary--base-color);
+        border-radius: 0;
+        border-left: 1px solid var(--button--secondary--border-color);
+        margin: 0;
+        padding: calc(0.75 * var(--global--spacing-unit)) calc(1.5 * var(--global--spacing-unit)) calc(0.75 * var(--global--spacing-unit) - 2px);
+    }
+
+    menu[type=toolbar] button:first-child {
+        border-left: none;
+        border-radius: var(--global--border-radius-regular) 0 0 var(--global--border-radius-regular);
+    }
+
+    menu[type=toolbar] button:last-child {
+        border-radius: 0 var(--global--border-radius-regular) var(--global--border-radius-regular) 0;
+    }
+
+    menu[type=toolbar] button + button:not(:last-child) {
+    }
+
+
+    menu button.is-active {
+        background-color: var(--button--primary--base-background);
+        color: var(--button--secondary--base-color);
+    }
+
+    .filter-bar-presets {
+        padding: 0;
+    }
+
     .filter-bar-date-range {
         display: block;
         margin: 1rem 1rem 1rem 0;
@@ -586,29 +661,30 @@
      * Buttons
      */
     button {
-        position: relative;
-        place-self: flex-end;
-        text-transform: uppercase;
-        /*background-color: var(--global--color-red, red);*/
-        transition: all 0.2s;
-        display: inline-flex;
         align-items: center;
+        background-color: var(--button--secondary--base-background);
+        border-radius: var(--global--border-radius-regular);
         border: 0;
-        /*color: var(--global--color-white, white);*/
-        font-family: var(--global--font-signage);
-        padding: 7px 10px 5px;
-        text-decoration: none;
-        font-weight: var(--button--base-weight, bold);
-        /*font-size: var(--button--base-font-size, large);*/
-        /*margin: calc(0.25 * var(--global--spacing-unit, 1rem));*/
+        color: var(--button--secondary--base-color);
         cursor: pointer;
-
-        margin: 0 auto;
-        text-align: center;
-        background-color: #6e016b;
-        color: #f7fcfd;
+        display: inline-flex;
+        font-family: var(--global--font-signage);
         font-size: 16px;
-        border-radius: 12px;
+        font-weight: var(--button--base-weight, bold);
+        line-height: 1;
+        margin: 0 auto;
+        padding: 7px 10px 5px;
+        place-self: flex-end;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: background-color 100ms;
+    }
+
+    button.is-primary {
+        background-color: var(--button--primary--base-background);
+        color: var(--button--primary--base-color);
     }
 
     /**
@@ -628,8 +704,26 @@
         /* width: 96px !important; */
     }
 
-</style>
+    /**
+     * Dashboard Intro
+     */
+    .dashboard-intro {
+        margin-top: 2rem;
+        margin-bottom: 3rem;
+    }
 
+    .footnotes {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        font-weight: lighter;
+    }
+
+</style>
+<div class="dashboard-intro">
+    <p>On September 6, 2021, Northeastern launched its redesigned Covid-19
+        dashboard to track and showcase the metrics that are most meaningful
+        among a vaccinated population.</p>
+</div>
 {#if covidData.length > 0}
     <div id="dashboard-grid">
 
@@ -639,12 +733,12 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Total Positive Since 9/1"}
+                        title={"7-Day Total Positives"}
                 />
                 <div class="donut-item dash-stats-item">
 
                     <div class="donut-chart">
-                        <DonutChart_Pos
+                        <Chart_Seven_Day_Positive_Rate_Students
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
@@ -661,7 +755,7 @@
                     <div class="donut-chart">
 
 
-                        <DonutChart_Pos2
+                        <Chart_Seven_Day_Positive_Rate_Faculty_Staff
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
@@ -677,7 +771,7 @@
 
                     <div class="donut-chart">
 
-                        <DonutChart_Pos3
+                        <Chart_Seven_Day_Positive_Rate_Contractors
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
@@ -696,14 +790,22 @@
                             title={"Test Results by Date"}
                     />
                     <div class="filter-bar">
-                        <div class="filter-bar-presets">
-                            <button on:click={setFilterLastSevenDays}>7 Days
+
+
+                        <menu type="toolbar" class="filter-bar-presets">
+                            <button class="button-filter filter-seven-days is-active"
+                                    on:click={setFilterLastSevenDays}>Past 7
+                                Days
                             </button>
-                            <button on:click={setFilterLastThirtyDays}>30 Days
+                            <button class="button-filter filter-thirty-days"
+                                    on:click={setFilterLastThirtyDays}>Past 30
+                                Days
                             </button>
-                            <button on:click={setFilterThisSemester}>Semester
+                            <button class="button-filter filter-semester"
+                                    on:click={setFilterThisSemester}>Semester
                             </button>
-                        </div>
+                        </menu>
+
                         <div class="filter-bar-date-range">
                             <Datepicker bind:selected={filterStartDate}
                                         bind:dateChosen={isStartDateChosen}
@@ -734,7 +836,7 @@
 
                         </div>
                         {#key filteredData}
-                            <StackedColumnChart
+                            <Chart_Bar_Vertical
                                     width={width_stacked}
                                     height={height}
                                     data={filteredData}
@@ -763,7 +865,7 @@
 
                     <div class="donut-chart">
 
-                        <DonutChart1
+                        <Chart_Hospitalizations
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
@@ -772,7 +874,7 @@
                                 yA={"Tests Completed"}
                                 yB={"Tests in Progress"}
                         />
-                        <div class="donut-content">
+                        <div class="donut-content dash-stats-item">
                             <h3 class="chart-label">Hospitalizations</h3>
                         </div>
 
@@ -781,7 +883,7 @@
 
                 <div class="donut-positive-item">
                     <div class="donut-chart">
-                        <DonutChart2
+                        <Chart_Seven_Day_Positive_Test_Rate
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
@@ -791,14 +893,15 @@
                                 yB={"Tests in Progress"}
                         />
                         <div class="donut-content dash-stats-item">
-                            <h3 class="chart-label">Seven-Day Positive Test Rate</h3>
+                            <h3 class="chart-label">Seven-Day Positive Test
+                                Rate</h3>
                         </div>
                     </div>
                 </div>
 
                 <div class="donut-positive-item">
                     <div class="donut-chart">
-                        <DonutChart3
+                        <Chart_Wellness_Beds_In_Use
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
@@ -809,7 +912,8 @@
                         />
 
                         <div class="donut-content dash-stats-item">
-                            <h3 class="chart-label">Campus Wellness Beds In Use</h3>
+                            <h3 class="chart-label">Campus Wellness Beds In
+                                Use</h3>
                         </div>
                     </div>
                 </div>
@@ -824,7 +928,7 @@
             <GraphicTitle
                     title={"Variants"}
             />
-            <WaffleChart
+            <Chart_Covid_Variants
                     data={covidData[covidData.length-1]}
                     width={width}
                     columns={25}
@@ -849,6 +953,17 @@
 
                 </div>
             </div>
+            <div class="footnotes">
+                <small>* Northeastern’s Life Sciences Testing Center analyzes
+                    the genome of viral samples that test positive for COVID-19
+                    to determine which strain of the virus is behind a positive
+                    test. The lab probes each sample for distinctive markers of
+                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),
+                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests
+                    in this report are from variants of concern, so the number
+                    of variants reported here will not match the total positive
+                    tests above.</small>
+            </div>
         </div>
 
 
@@ -862,7 +977,7 @@
             <div class="dash-vac-chart">
                 <div class="donut-chart">
 
-                    <DonutChart_total
+                    <Chart_Total_Vaccination_Rate
                             width={width_donut * 2.25}
                             height={width_donut * 2.25}
                             data={covidData}
@@ -880,8 +995,7 @@
                         <h3 class="vac-title">Student Vaccination Rate</h3>
 
 
-                        <StackedColumnChart2
-
+                        <Chart_Single_Bar_Horizontal
                                 width={width_stacked}
                                 height={150}
                                 data={testData.default}
@@ -897,8 +1011,7 @@
                         <h3 class="vac-title">Faculty/Staff Vaccination
                             Rate</h3>
 
-                        <StackedColumnChart2
-
+                        <Chart_Single_Bar_Horizontal
                                 width={width_stacked}
                                 height={150}
                                 data={testData.default}
@@ -911,10 +1024,9 @@
 
                     <div class="stacked-cont">
 
-                        <h3 class="vac-title">Student Vaccination Rate</h3>
+                        <h3 class="vac-title">Contractor Vaccination Rate</h3>
 
-                        <StackedColumnChart2
-
+                        <Chart_Single_Bar_Horizontal
                                 width={width_stacked}
                                 height={150}
                                 data={testData.default}
@@ -936,7 +1048,7 @@
             <!-- <GraphicTitle
                 title={"Wellness and Contact Tracing"}
             /> -->
-            <WellnessSummary
+            <Chart_Wellness_Summary
                     data={covidData}
             />
         </div>
@@ -957,7 +1069,7 @@
                 >
                 </SvelteTable>
             </div>
-            <button on:click={toggleTable} class="table-button">
+            <button on:click={toggleTable} class="table-button is-primary">
                 <div class="button-label">View Full Table</div>
             </button>
         </div>

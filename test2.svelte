@@ -2,12 +2,12 @@
 	import { onMount } from 'svelte';
 
 
-	import StackedColumnChart from './charts/StackedColumnChart.svelte'
-	import StackedColumnChart2 from './charts/StackedColumnChart2.svelte'
+	import StackedColumnChart from './charts/chart-bar-vertical.svelte'
+	import StackedColumnChart2 from './charts/chart-single-bar-horizontal.svelte'
 	import WellnessSummary from './charts/WellnessSummary.svelte'
 
-	import DonutChart from './charts/DonutChart.svelte'
-	import WaffleChart from './charts/WaffleChart.svelte'
+	import DonutChart from './charts/DonutChart0.svelte'
+	import WaffleChart from './charts/chart-covid-variants.svelte'
 
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'
