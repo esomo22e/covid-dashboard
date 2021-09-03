@@ -3,38 +3,39 @@
 //          "#D41B2C"
 //    ]
 export const negativePositive = [
-   "#9ebcda",
-   "#6e016b"
-   ]
+    "#9ebcda",
+    "#6e016b"
+]
 
-   export const negativepositive2 = [
-       "#6e016b",
-      "#9ebcda"
+export const negativepositive2 = [
+    "#6e016b",
+    "#9ebcda"
 
-      ]
+]
 
-   export const vibrant = [
-       "#bfd3e6",
-       "#8c96c6",
-       "#6e016b"
-   ]
+export const vibrant = [
+    "#bfd3e6",
+    "#8c96c6",
+    "#6e016b"
+]
+
 export const groupbylevel = [
-         "#76b7b2",
-         "#b07aa1",
-         "#f28e2b"
+    "#76b7b2",
+    "#b07aa1",
+    "#f28e2b"
 ]
 
 
 export const dark = [
-   "#d51e2d",
-   "#669b90",
-   "#3330b7",
-   "#6f0662",
-   "#3aa609",
-   "#af5fe4",
-   "#2c3771",
-   "#809b31",
-   "#02424a"
+    "#d51e2d",
+    "#669b90",
+    "#3330b7",
+    "#6f0662",
+    "#3aa609",
+    "#af5fe4",
+    "#2c3771",
+    "#809b31",
+    "#02424a"
 ]
 
 
@@ -49,24 +50,23 @@ export const dark = [
 // ]
 
 export const pastels = [
-   '#74c28c',
-   '#e8c83c',
-   '#7099ff',
-   "#76b7b2",
-   "#b07aa1",
+    '#74c28c',
+    '#e8c83c',
+    '#7099ff',
+    "#76b7b2",
+    "#b07aa1",
     "#f28e2b"
 ]
 
 export const political = [
-   "#006EB5",
-   "#D41B2C",
+    "#006EB5",
+    "#D41B2C",
     "#888888"
 ]
 
 
+export const linearpurple = ['#ededed', '#57006b']
 
-export const linearpurple = ['#ededed','#57006b']
+export const linearteal = ['#ededed', '#168A8C']
 
-export const linearteal = ['#ededed','#168A8C']
-
-export const divergingbrownteal = ['#a6611a','#f5f5f5','#168A8C']
+export const divergingbrownteal = ['#a6611a', '#f5f5f5', '#168A8C']

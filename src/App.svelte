@@ -815,7 +815,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"7-Day Total Positives"}
+                        title={"Seven-Day Total Positives"}
                 />
                 <div class="donut-item dash-stats-item">
 
@@ -1009,6 +1009,7 @@
                     width={width}
                     columns={25}
                     groups={["SARS-COV-2", "SARS-COV-2 Alpha","SARS-COV-2 Delta"]}
+                    isPercentage={true}
             />
 
 
