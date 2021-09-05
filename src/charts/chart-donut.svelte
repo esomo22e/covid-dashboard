@@ -125,18 +125,18 @@
     }
 
     .chart :global(.title) {
-        text-align: var(--chart--label-text-align);
-        font-size: var(--chart--label-font-size);
-        color: var(--chart--label-color);
-        font-weight: var(--chart--label-weight);
+        text-align: var(--chart--title-text-align);
+        font-size: var(--chart--title-font-size);
+        color: var(--chart--title-color);
+        font-weight: var(--chart--title-weight);
         margin-bottom: 0;
     }
 
     .chart :global(.key) {
-        text-align: var(--chart--key-text-align, var(--chart--label-text-align));
-        font-size: var(--chart--key-font-size, var(--chart--label-font-size));
-        color: var(--chart--key-color, var(--chart--label-color));
-        font-weight: var(--chart--key-weight, var(--chart--label-weight));
+        text-align: var(--chart--key-text-align, var(--chart--title-text-align));
+        font-size: var(--chart--key-font-size, var(--chart--title-font-size));
+        color: var(--chart--key-color, var(--chart--title-color));
+        font-weight: var(--chart--key-weight, var(--chart--title-weight));
         margin-bottom: 0;
         transform: translateY(0.25em);
     }

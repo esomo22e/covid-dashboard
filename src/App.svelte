@@ -271,7 +271,16 @@
         --global--font-versatile: harriet, serif;
         --global--font-signage: akkurat, sans-serif;
 
+        --global--font-weight-thin: 100;
+        --global--font-weight-extra-light: 200;
+        --global--font-weight-light: 300;
+        --global--font-weight-regular: 400;
+        --global--font-weight-medium: 500;
+        --global--font-weight-semi-bold: 600;
         --global--font-weight-bold: 700;
+        --global--font-weight-extra-bold: 800;
+        --global--font-weight-black: 900;
+        --global--font-weight-ultra-black: 900;
 
         /**
          * Global font sizes.
@@ -280,8 +289,8 @@
         --global--font-size-xs: 14px;
         --global--font-size-s: 15px;
         --global--font-size-m: 19px;
-        --global--font-size-l: 1.5rem;
-        --global--base-line-height: 1.4em;
+        --global--font-size-l: 22px;
+        --global--base-line-height: 1.4;
 
         /**
          * Global brand color palette.
@@ -348,11 +357,19 @@
          */
         --chart--color-primary: var(--global--color-purple);
         --chart--color-secondary: var(--global--color-light-blue);
+
+        --chart--title-font: var(--global--font-signage, inherit);
+        --chart--title-font-size: var(--global--font-size-l);
+        --chart--title-text-align: center;
+        --chart--title-weight: var(--global--font-weight-bold);
+        --chart--title-color: var(--global--color-black);
+
         --chart--label-font: var(--global--font-signage, inherit);
         --chart--label-font-size: var(--global--font-size-l);
         --chart--label-text-align: center;
         --chart--label-weight: var(--global--font-weight-bold);
         --chart--label-color: var(--global--color-black);
+
         --chart--key-font: var(--global--font-signage, inherit);
         --chart--key-font-size: var(--global--font-size-l);
         --chart--key-text-align: center;
@@ -360,16 +377,27 @@
         --chart--key-color: var(--global--color-black);
         --chart--alignment: center;
         --chart--flex-direction: column;
+
+        --chart--variants-base: #bfd3e6;
+        --chart--variants-alpha: #8c96c6;
+        --chart--variants-delta: #6e016b;
+
+        --chart--footnote-font: var(--global--font-signage, inherit);
+        --chart--footnote-font-size: var(--global--font-size-xs);
+        --chart--footnote-weight: var(--global--font-weight-light);
+        --chart--footnote-color: var(--global--color-black);
+        --chart--footnote-line-height: 1.4;
+        --chart--footnote-margin: var(--global--spacing-unit);
     }
 
 
     .panel-testing-results {
-        --chart--label-color: var(--global--color-purple);
+        --chart--title-color: var(--global--color-purple);
     }
 
     #seven-day-overview {
         --chart--flex-direction: column-reverse;
-        --chart--label-font-size: var(--global--font-size-m);
+        --chart--title-font-size: var(--global--font-size-m);
     }
 
     /**
@@ -815,7 +843,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Seven-Day Total Positives"}
+                        title={"Daily Positives"}
                 />
                 <div class="donut-item dash-stats-item">
 
@@ -943,7 +971,7 @@
         <section class="dashboard-grid-item dash-positive" id="seven-day-overview">
 
             <GraphicTitle
-                    title={"Seven-Day Overview"}
+                    title={"Overview"}
             />
             <div class="dash-pos-donuts">
                 <div class="donut-positive-item">
@@ -972,7 +1000,7 @@
                                 width={width_donut}
                                 height={width_donut}
                                 data={covidData}
-                                label="Positive Test Rate"
+                                label="Seven-Day Positive Test Rate"
                                 primaryKey="Seven-Day Positive"
                                 secondaryKey="Seven-Day Negative"
                                 valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}
@@ -999,48 +1027,32 @@
 
 
         <!-- Waffle Charts of Variants -->
-        <div class="dashboard-grid-item dash-variants">
+        <div class="dashboard-grid-item dash-variants" style="--chart--key-font-size: var(--global--font-size-xs)">
 
             <GraphicTitle
                     title={"Variants"}
             />
             <Chart_Covid_Variants
+                    isPercentage={false}
                     data={covidData[covidData.length-1]}
                     width={width}
                     columns={25}
                     groups={["SARS-COV-2", "SARS-COV-2 Alpha","SARS-COV-2 Delta"]}
-                    isPercentage={true}
+                    labels={["SARS-COV-2", "SARS-COV-2 Alpha", "SARS-COV-2 Delta"]}
+                    colors={["var(--chart--variants-base)", "var(--chart--variants-alpha)", "var(--chart--variants-delta)"]}
+                    footnotes = {[
+                        "* Northeastern’s Life Sciences Testing Center analyzes\n"+
+"                    the genome of viral samples that test positive for COVID-19\n"+
+"                    to determine which strain of the virus is behind a positive\n"+
+"                    test. The lab probes each sample for distinctive markers of\n"+
+"                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),\n"+
+"                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests\n"+
+"                    in this report are from variants of concern, so the number\n"+
+"                    of variants reported here will not match the total positive\n"+
+"                    tests above.",
+
+                    ]}
             />
-
-
-            <div class="dashboard-legend">
-                <div class="legendCells">
-                    <span class="dot-1 cell"></span>
-                    <div class="cell-label-var">SARS-CoV-2</div>
-
-                </div>
-                <div class="legendCells">
-                    <span class="dot-2 cell"></span>
-                    <div class="cell-label-var">SARS-CoV-2 Alpha</div>
-
-                </div>
-                <div class="legendCells">
-                    <span class="dot-3 cell"></span>
-                    <div class="cell-label-var">SARS-CoV-2 Delta</div>
-
-                </div>
-            </div>
-            <div class="footnotes">
-                <small>* Northeastern’s Life Sciences Testing Center analyzes
-                    the genome of viral samples that test positive for COVID-19
-                    to determine which strain of the virus is behind a positive
-                    test. The lab probes each sample for distinctive markers of
-                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),
-                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests
-                    in this report are from variants of concern, so the number
-                    of variants reported here will not match the total positive
-                    tests above.</small>
-            </div>
         </div>
 
 
