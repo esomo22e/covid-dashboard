@@ -84,7 +84,7 @@
      * Sets filter dates to past thirty days
      */
     function setFilterThisSemester() {
-        filterStartDate = new Date("2021/09/09");
+        filterStartDate = new Date("2021/09/02");
         filterEndDate = new Date("2021/12/08");
         setActiveFilter('.filter-semester');
     }
@@ -843,7 +843,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Daily Positives"}
+                        title={"Daily Positives for 9/3/2021"}
                 />
                 <div class="donut-item dash-stats-item">
 
@@ -955,7 +955,7 @@
                                     data={filteredData}
                                     xVar={'Date'}
                                     yVar={"Seven-Day Tests"}
-                                    yGroups={["Seven-Day Negative", "Seven-Day Positive"]}
+                                    yGroups={["Negative Tests", "Positive Tests"]}
                                     colorscheme={negativePositive}
                             />
                         {/key}
@@ -1001,10 +1001,19 @@
                                 height={width_donut}
                                 data={covidData}
                                 label="Seven-Day Positive Test Rate"
-                                primaryKey="Seven-Day Positive"
-                                secondaryKey="Seven-Day Negative"
-                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}
+                                primaryKey="Seven-Day Positive Primer"
+                                secondaryKey="Seven-Day Negative Primer"
+                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests Primer"}}
                         />
+<!--                        <Chart_Donut-->
+<!--                                width={width_donut}-->
+<!--                                height={width_donut}-->
+<!--                                data={covidData}-->
+<!--                                label="Seven-Day Positive Test Rate"-->
+<!--                                primaryKey="Seven-Day Positive"-->
+<!--                                secondaryKey="Seven-Day Negative"-->
+<!--                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}-->
+<!--                        />-->
                     </div>
                 </div>
 
@@ -1033,7 +1042,7 @@
                     title={"Variants"}
             />
             <Chart_Covid_Variants
-                    isPercentage={false}
+                    isPercentage={true}
                     data={covidData[covidData.length-1]}
                     width={width}
                     columns={25}
@@ -1064,18 +1073,6 @@
                     title={"Total Vaccination Rate"}
             />
             <div class="dash-vac-chart">
-                <div class="donut-chart">
-
-                    <Chart_Total_Vaccination_Rate
-                            width={width_donut * 2.25}
-                            height={width_donut * 2.25}
-                            data={covidData}
-                            xVar={"Date"}
-                            yVar={"Samples Taken"}
-                            yA={"Tests Completed"}
-                            yB={"Tests in Progress"}
-                    />
-                </div>
 
                 <div class="dash-stacked-vaccination">
 
@@ -1087,9 +1084,9 @@
                         <Chart_Single_Bar_Horizontal
                                 width={width_stacked}
                                 height={150}
-                                data={testData.default}
+                                data={covidData}
                                 xVar={'Date'}
-                                yVar={"Total Student Vaccinate"}
+                                yVar={"Total Student Vaccinated"}
                                 yGroups={[ "Total Student Vaccinated", "Student Vaccinated"]}
                                 colorscheme={negativePositive}
                         />
@@ -1107,21 +1104,6 @@
                                 xVar={'Date'}
                                 yVar={"Total FacStaff Vaccinated"}
                                 yGroups={[ "Total FacStaff Vaccinated", "FacStaff Vaccinated"]}
-                                colorscheme={negativePositive}
-                        />
-                    </div>
-
-                    <div class="stacked-cont">
-
-                        <h3 class="vac-title">Contractor Vaccination Rate</h3>
-
-                        <Chart_Single_Bar_Horizontal
-                                width={width_stacked}
-                                height={150}
-                                data={testData.default}
-                                xVar={'Date'}
-                                yVar={"Total Contractor Vaccinated"}
-                                yGroups={["Total Contractor Vaccinated", "Contractor Vaccinated"]}
                                 colorscheme={negativePositive}
                         />
                     </div>
@@ -1158,9 +1140,10 @@
                 >
                 </SvelteTable>
             </div>
-            <button on:click={toggleTable} class="table-button is-primary">
-                <div class="button-label">View Full Table</div>
-            </button>
+<!--            Commented out till we have enough rows to overlap-->
+<!--            <button on:click={toggleTable} class="table-button is-primary">-->
+<!--                <div class="button-label">View Full Table</div>-->
+<!--            </button>-->
         </div>
 
 

@@ -92,6 +92,7 @@
                 return d.value;
             })
         let dataReady = pie(d3.entries(graphData))
+        console.log("number data", data)
 
         graph
             .selectAll()
