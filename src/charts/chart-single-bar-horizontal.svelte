@@ -39,6 +39,10 @@
 	export let yDomain = ([0, 100])
 	export let colorscheme = vibrant;
 	export let orientation = "horizontal";
+	console.log("data", data);
+
+	// TODO: Remove this clumsy patch when it can handle data better
+    data = [data[data.length-1]];
 
 	if (Array.isArray(yVar)) {
 		yVar = yVar

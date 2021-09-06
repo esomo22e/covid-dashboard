@@ -1086,7 +1086,7 @@
                                 height={150}
                                 data={covidData}
                                 xVar={'Date'}
-                                yVar={"Total Student Vaccinated"}
+                                yVar={"Student Vaccinated"}
                                 yGroups={[ "Total Student Vaccinated", "Student Vaccinated"]}
                                 colorscheme={negativePositive}
                         />
@@ -1100,10 +1100,10 @@
                         <Chart_Single_Bar_Horizontal
                                 width={width_stacked}
                                 height={150}
-                                data={testData.default}
+                                data={covidData}
                                 xVar={'Date'}
-                                yVar={"Total FacStaff Vaccinated"}
-                                yGroups={[ "Total FacStaff Vaccinated", "FacStaff Vaccinated"]}
+                                yVar={"Fac/Staff Vaccinated"}
+                                yGroups={[ "Total Fac/Staff Vaccinated", "Fac/Staff Vaccinated"]}
                                 colorscheme={negativePositive}
                         />
                     </div>
