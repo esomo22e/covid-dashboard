@@ -16,7 +16,11 @@
 		gap: 20px 20px;
 		grid-template-areas: ". . ." "update-line update-line update-line"
 	}
-
+	@media screen and (max-width: 960px) {
+		#wellness-summary {
+			width: 90%;
+		}
+	}
 	.update-line { grid-area: update-line; }
 
 	.summary-item {

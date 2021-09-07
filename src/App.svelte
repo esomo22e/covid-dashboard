@@ -2,17 +2,16 @@
     import GraphicTitle from './components/GraphicTitle.svelte'
     import GraphicFooter from './components/GraphicFooter.svelte'
     import Chart_Donut from './charts/chart-donut.svelte';
-    import Chart_Single_Bar_Horizontal from './charts/chart-single-bar-horizontal.svelte'
+    import Chart_Single_Bar_Horizontal
+        from './charts/chart-single-bar-horizontal.svelte'
     import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
     import Chart_Wellness_Summary from './charts/WellnessSummary.svelte'
-    import Chart_Hospitalizations from './charts/chart-hospitalizations-current.svelte'
-    import Chart_Total_Vaccination_Rate from './charts/chart-total-vaccination-rate.svelte'
-    import Chart_Covid_Variants from './charts/chart-covid-variants.svelte'
+    import Chart_Hospitalizations
+        from './charts/chart-hospitalizations-current.svelte'
     import SvelteTable from "svelte-table"
     import {csv} from 'd3-fetch'
     import {timeFormat, timeParse} from 'd3-time-format';
     import {negativePositive} from './helpers/colors.js'
-    import * as testData from '../public/datasets/testingdata2.json'
     import Datepicker from 'svelte-calendar';
 
     /**
@@ -330,7 +329,6 @@
         --global--spacing-gap: 16px;
 
 
-
         /**
          * Global Borders
          */
@@ -430,7 +428,8 @@
 
     #dashboard-grid {
         display: grid;
-        grid-template-columns: repeat(6, 1fr);
+        /*grid-template-columns: repeat(6, 1fr);*/
+        grid-template-columns: 1fr;
         grid-template-rows: 1fr auto;
         gap: 0 60px;
         grid-template-areas:
@@ -463,6 +462,24 @@
     .dash-test-item {
         width: 100%;
 
+    }
+
+    @media screen and (max-width: 960px) {
+        .dash-test-item {
+            width: 90%;
+        }
+
+        .button-filter {
+            font-size: var(--global--font-size-xxs);
+            height: 4.5em;
+        }
+
+        .dash-pos-donuts {
+            display: flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
     .dash-stats {
@@ -832,7 +849,9 @@
 <div class="dashboard-intro">
     <p>On September 6, 2021, Northeastern launched its redesigned Covid-19
         dashboard to track and showcase the metrics that are most meaningful
-        among a vaccinated population.</p>
+        among a vaccinated population. The data below is updated daily as soon
+        it becomes available from the university’s Life Sciences Testing
+        Center.</p>
 </div>
 {#if covidData.length > 0}
     <div id="dashboard-grid">
@@ -843,7 +862,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Daily Positives for 9/3/2021"}
+                        title={"Daily Positives for 9/4/2021"}
                 />
                 <div class="donut-item dash-stats-item">
 
@@ -968,7 +987,8 @@
 
 
         <!-- Dash Positive (Students, Faculty/Staff, and Contractor) -->
-        <section class="dashboard-grid-item dash-positive" id="seven-day-overview">
+        <section class="dashboard-grid-item dash-positive"
+                 id="seven-day-overview">
 
             <GraphicTitle
                     title={"Overview"}
@@ -1005,15 +1025,15 @@
                                 secondaryKey="Seven-Day Negative Primer"
                                 valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests Primer"}}
                         />
-<!--                        <Chart_Donut-->
-<!--                                width={width_donut}-->
-<!--                                height={width_donut}-->
-<!--                                data={covidData}-->
-<!--                                label="Seven-Day Positive Test Rate"-->
-<!--                                primaryKey="Seven-Day Positive"-->
-<!--                                secondaryKey="Seven-Day Negative"-->
-<!--                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}-->
-<!--                        />-->
+                        <!--                        <Chart_Donut-->
+                        <!--                                width={width_donut}-->
+                        <!--                                height={width_donut}-->
+                        <!--                                data={covidData}-->
+                        <!--                                label="Seven-Day Positive Test Rate"-->
+                        <!--                                primaryKey="Seven-Day Positive"-->
+                        <!--                                secondaryKey="Seven-Day Negative"-->
+                        <!--                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}-->
+                        <!--                        />-->
                     </div>
                 </div>
 
@@ -1036,33 +1056,33 @@
 
 
         <!-- Waffle Charts of Variants -->
-        <div class="dashboard-grid-item dash-variants" style="--chart--key-font-size: var(--global--font-size-xs)">
+        <!--        <div class="dashboard-grid-item dash-variants" style="&#45;&#45;chart&#45;&#45;key-font-size: var(&#45;&#45;global&#45;&#45;font-size-xs)">-->
 
-            <GraphicTitle
-                    title={"Variants"}
-            />
-            <Chart_Covid_Variants
-                    isPercentage={true}
-                    data={covidData[covidData.length-1]}
-                    width={width}
-                    columns={25}
-                    groups={["SARS-COV-2", "SARS-COV-2 Alpha","SARS-COV-2 Delta"]}
-                    labels={["SARS-COV-2", "SARS-COV-2 Alpha", "SARS-COV-2 Delta"]}
-                    colors={["var(--chart--variants-base)", "var(--chart--variants-alpha)", "var(--chart--variants-delta)"]}
-                    footnotes = {[
-                        "* Northeastern’s Life Sciences Testing Center analyzes\n"+
-"                    the genome of viral samples that test positive for COVID-19\n"+
-"                    to determine which strain of the virus is behind a positive\n"+
-"                    test. The lab probes each sample for distinctive markers of\n"+
-"                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),\n"+
-"                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests\n"+
-"                    in this report are from variants of concern, so the number\n"+
-"                    of variants reported here will not match the total positive\n"+
-"                    tests above.",
+        <!--            <GraphicTitle-->
+        <!--                    title={"Variants"}-->
+        <!--            />-->
+        <!--            <Chart_Covid_Variants-->
+        <!--                    isPercentage={true}-->
+        <!--                    data={covidData[covidData.length-1]}-->
+        <!--                    width={width}-->
+        <!--                    columns={25}-->
+        <!--                    groups={["SARS-COV-2", "SARS-COV-2 Alpha","SARS-COV-2 Delta"]}-->
+        <!--                    labels={["SARS-COV-2", "SARS-COV-2 Alpha", "SARS-COV-2 Delta"]}-->
+        <!--                    colors={["var(&#45;&#45;chart&#45;&#45;variants-base)", "var(&#45;&#45;chart&#45;&#45;variants-alpha)", "var(&#45;&#45;chart&#45;&#45;variants-delta)"]}-->
+        <!--                    footnotes = {[-->
+        <!--                        "* Northeastern’s Life Sciences Testing Center analyzes\n"+-->
+        <!--"                    the genome of viral samples that test positive for COVID-19\n"+-->
+        <!--"                    to determine which strain of the virus is behind a positive\n"+-->
+        <!--"                    test. The lab probes each sample for distinctive markers of\n"+-->
+        <!--"                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),\n"+-->
+        <!--"                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests\n"+-->
+        <!--"                    in this report are from variants of concern, so the number\n"+-->
+        <!--"                    of variants reported here will not match the total positive\n"+-->
+        <!--"                    tests above.",-->
 
-                    ]}
-            />
-        </div>
+        <!--                    ]}-->
+        <!--            />-->
+        <!--        </div>-->
 
 
         <!-- Total Vaccination Rates -->
@@ -1070,7 +1090,7 @@
         <div class="dashboard-grid-item dash-vac-rate">
 
             <GraphicTitle
-                    title={"Total Vaccination Rate"}
+                    title={"Vaccination Rates"}
             />
             <div class="dash-vac-chart">
 
@@ -1140,10 +1160,10 @@
                 >
                 </SvelteTable>
             </div>
-<!--            Commented out till we have enough rows to overlap-->
-<!--            <button on:click={toggleTable} class="table-button is-primary">-->
-<!--                <div class="button-label">View Full Table</div>-->
-<!--            </button>-->
+            <!--            Commented out till we have enough rows to overlap-->
+            <!--            <button on:click={toggleTable} class="table-button is-primary">-->
+            <!--                <div class="button-label">View Full Table</div>-->
+            <!--            </button>-->
         </div>
 
 
@@ -1152,6 +1172,6 @@
 
 {/if}
 <GraphicFooter
-        source={"Northeastern Life Sciences Testing Center and the Broad Institute"}
         note={""}
+        source={"Northeastern Life Sciences Testing Center and the Broad Institute"}
 />
