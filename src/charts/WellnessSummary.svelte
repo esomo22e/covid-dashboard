@@ -9,16 +9,21 @@
 </script>
 
 <style>
+
 	#wellness-summary {
-		display: grid;
+		/* display: grid;
  	   grid-template-columns: repeat(3, 1fr);
 		grid-template-rows: auto;
-		gap: 20px 20px;
-		grid-template-areas: ". . ." "update-line update-line update-line"
+		gap: 20px 20px;*/
+		grid-template-areas: ". . ." "update-line update-line update-line" ;
+		display: flex;
+		justify-content: space-between;
 	}
+
+
 	@media screen and (max-width: 960px) {
 		#wellness-summary {
-			width: 90%;
+			/* width: 90%; */
 		}
 	}
 	.update-line { grid-area: update-line; }
@@ -31,9 +36,13 @@
 	  background-color: #e0ecf4;
      padding: 10px;
 	  border-radius:3px;
+	  flex: 1 1 0;
+   padding: 20px;
+   margin: 20px;
+
 	}
 
-	.summary-item h3 { grid-area: 1 / 1 / 2 / 4; }
+	/* .summary-item h3 { grid-area: 1 / 1 / 2 / 4; } */
 	.datapt:nth-child(2) { grid-area: 2 / 1 / 3 / 2; }
 	.datapt:nth-child(3)  { grid-area: 2 / 2 / 3 / 3; }
 
@@ -88,7 +97,7 @@
 </style>
 
 <div bind:this={el} class="wellness-summary" id="wellness-summary">
-<div class="summary-item">
+<!-- <div class="summary-item">
 	<h3>Students Recovered</h3>
 	<div class="datapt">
 		<h4><span>On Campus</span></h4>
@@ -98,7 +107,7 @@
 		<h4><span>Off Campus</span></h4>
 		<div>{digitFormat(data["Students Recovered Off Campus"])}</div>
 	</div>
-</div>
+</div> -->
 	<div class="summary-item">
 		<h3>Students in Quarantine</h3>
 		<div class="datapt">
