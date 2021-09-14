@@ -10,7 +10,7 @@
 .update-line {
 	font-size:0.85rem;
 	color: #555;
-	margin:0;
+	margin: 1em 2em 0;
 }
 
 #covid-testing-dashboard > svg, #covid-testing-dashboard > #svgContainer, .tick text {

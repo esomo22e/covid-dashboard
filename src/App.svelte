@@ -862,7 +862,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Daily Positives for 9/11/2021"}
+                        title={"Daily Positives for 9/12/2021"}
                 />
                 <div class="donut-item dash-stats-item">
 
@@ -1142,6 +1142,8 @@
             <Chart_Wellness_Summary
                     data={covidData}
             />
+            <p class="update-line">*According to the university’s August 18, 2021 announcement, those who have been identified as close contacts no longer have to quarantine as long as they are vaccinated.</p>
+
         </div>
 
         <!-- Dashboard Item -Svelte Table -->

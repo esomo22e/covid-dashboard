@@ -26,7 +26,16 @@
 			/* width: 90%; */
 		}
 	}
-	.update-line { grid-area: update-line; }
+	.update-line {
+		grid-area: update-line;
+		display: block;
+margin-block-start: 1em;
+margin-block-end: 1em;
+margin-inline-start: 0px;
+margin-inline-end: 0px;
+color: #333;
+    font-family: "akkurat", -apple-system, sans-serif;
+	}
 
 	.summary-item {
 	  display: grid;
@@ -132,4 +141,5 @@
 	</div>
 
 </div>
+
 <!-- <p class="update-line"><i>Beginning on September 25th, off-campus students are encouraged to isolate and quarantine in on-campus wellness housing.</i></p> -->
