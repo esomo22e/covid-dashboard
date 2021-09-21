@@ -39,7 +39,6 @@
 	export let yDomain = ([0, 100])
 	export let colorscheme = vibrant;
 	export let orientation = "horizontal";
-	console.log("data", data);
 
 	// TODO: Remove this clumsy patch when it can handle data better
     data = [data[data.length-1]];
@@ -137,7 +136,6 @@
 									})
 									.attr("height", xScale.bandwidth())
 									.attr("width", function(d) {
-										console.log(d[yGroups[i]])
 										return  yScale(d[yGroups[i]]) ;
 									})
 
@@ -148,7 +146,6 @@
 									.style("font-weight", "700")
 									.attr("text-anchor", "middle")
 									.text(function(d){
-										console.log(d)
 										return d[yGroups[i]]+ " %"
 									})
 									.attr("transform",

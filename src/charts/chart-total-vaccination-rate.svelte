@@ -107,7 +107,6 @@
 		.attr("text-anchor", "middle")
 		.text((data["Total Vaccinated"] / (total_vac)).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 
-		console.log(total_vac)
 		// .text((data["Seven-Day Positive"] / data["Seven-Day Tests"]).toLocaleString(undefined,{style: 'percent', minimumFractionDigits:2}))
 		// .style("color", "#D41B2C")
 

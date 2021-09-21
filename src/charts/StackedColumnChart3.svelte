@@ -140,10 +140,8 @@
 				  // add data columns
 			  	for (let i=0; i<yGroups.length; i++) {
 
-					console.log(yGroups)
 
 
-			  		console.log(i)
 
 					svg.append('g')
    		  		  .selectAll("rect")

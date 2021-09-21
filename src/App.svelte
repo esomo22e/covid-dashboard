@@ -9,6 +9,7 @@
     import Chart_Hospitalizations
         from './charts/chart-hospitalizations-current.svelte'
     import SvelteTable from "svelte-table"
+    import Chart_Covid_Variants from "./charts/chart-covid-variants.svelte";
     import {csv} from 'd3-fetch'
     import {timeFormat, timeParse} from 'd3-time-format';
     import {negativePositive} from './helpers/colors.js'
@@ -862,7 +863,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Daily Positives for 9/18/2021"}
+                        title={"Daily Positives for " + new Date(covidData[covidData.length - 1]['Date']).toLocaleDateString()}
                 />
                 <div class="donut-item dash-stats-item">
 
@@ -1056,33 +1057,33 @@
 
 
         <!-- Waffle Charts of Variants -->
-        <!--        <div class="dashboard-grid-item dash-variants" style="&#45;&#45;chart&#45;&#45;key-font-size: var(&#45;&#45;global&#45;&#45;font-size-xs)">-->
+                <div class="dashboard-grid-item dash-variants" style="--chart--key-font-size: var(--global--font-size-xs)">
 
-        <!--            <GraphicTitle-->
-        <!--                    title={"Variants"}-->
-        <!--            />-->
-        <!--            <Chart_Covid_Variants-->
-        <!--                    isPercentage={true}-->
-        <!--                    data={covidData[covidData.length-1]}-->
-        <!--                    width={width}-->
-        <!--                    columns={25}-->
-        <!--                    groups={["SARS-COV-2", "SARS-COV-2 Alpha","SARS-COV-2 Delta"]}-->
-        <!--                    labels={["SARS-COV-2", "SARS-COV-2 Alpha", "SARS-COV-2 Delta"]}-->
-        <!--                    colors={["var(&#45;&#45;chart&#45;&#45;variants-base)", "var(&#45;&#45;chart&#45;&#45;variants-alpha)", "var(&#45;&#45;chart&#45;&#45;variants-delta)"]}-->
-        <!--                    footnotes = {[-->
-        <!--                        "* Northeastern’s Life Sciences Testing Center analyzes\n"+-->
-        <!--"                    the genome of viral samples that test positive for COVID-19\n"+-->
-        <!--"                    to determine which strain of the virus is behind a positive\n"+-->
-        <!--"                    test. The lab probes each sample for distinctive markers of\n"+-->
-        <!--"                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),\n"+-->
-        <!--"                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests\n"+-->
-        <!--"                    in this report are from variants of concern, so the number\n"+-->
-        <!--"                    of variants reported here will not match the total positive\n"+-->
-        <!--"                    tests above.",-->
+                    <GraphicTitle
+                            title={"Variants"}
+                    />
+                    <Chart_Covid_Variants
+                            isPercentage={true}
+                            data={covidData[covidData.length-1]}
+                            width={width}
+                            columns={25}
+                            groups={["SARS-COV-2", "SARS-COV-2 Delta"]}
+                            labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
+                            colors={["var(--chart--variants-base)", "var(--chart--variants-delta)"]}
+                            footnotes = {[
+                                "* Northeastern’s Life Sciences Testing Center analyzes\n"+
+        "                    the genome of viral samples that test positive for COVID-19\n"+
+        "                    to determine which strain of the virus is behind a positive\n"+
+        "                    test. The lab probes each sample for distinctive markers of\n"+
+        "                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),\n"+
+        "                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests\n"+
+        "                    in this report are from variants of concern, so the number\n"+
+        "                    of variants reported here will not match the total positive\n"+
+        "                    tests above.",
 
-        <!--                    ]}-->
-        <!--            />-->
-        <!--        </div>-->
+                            ]}
+                    />
+                </div>
 
 
         <!-- Total Vaccination Rates -->
@@ -1142,7 +1143,10 @@
             <Chart_Wellness_Summary
                     data={covidData}
             />
-            <p class="update-line">*According to the university’s August 18, 2021 announcement, those who have been identified as close contacts no longer have to quarantine as long as they are vaccinated.</p>
+            <p class="update-line">*According to the university’s August 18,
+                2021 announcement, those who have been identified as close
+                contacts no longer have to quarantine as long as they are
+                vaccinated.</p>
 
         </div>
 
@@ -1162,10 +1166,9 @@
                 >
                 </SvelteTable>
             </div>
-            <!--            Commented out till we have enough rows to overlap-->
-            <!--            <button on:click={toggleTable} class="table-button is-primary">-->
-            <!--                <div class="button-label">View Full Table</div>-->
-            <!--            </button>-->
+            <button on:click={toggleTable} class="table-button is-primary">
+                <div class="button-label">View Full Table</div>
+            </button>
         </div>
 
 
