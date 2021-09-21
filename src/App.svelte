@@ -123,8 +123,6 @@
         baseDir = LOCAL_BASE_DIR;
     }
     csv(baseDir + "/datasets/covidupdate_testData.csv").then(function (data, i) {
-        // csv("//news.northeastern.edu/interactive/2021/08/updated-covid-dashboard/datasets/covidupdate_testData.csv").then(function(data,i){
-        // csv("//news.northeastern.edu/interactive/2020/08/covid-testing-dashboard-weekly/datasets/testingdata.csv").then(function(data,i){
         data.forEach(function (d, i) {
             Object.keys(d).forEach(function (j) {
                 if ((j === "Date") || (j === "Mass. Positive Rate")) {
@@ -862,7 +860,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Daily Positives for 9/18/2021"}
+                        title={"Daily Positives for " + new Date(covidData[covidData.length - 1]['Date']).toLocaleDateString()}
                 />
                 <div class="donut-item dash-stats-item">
 
