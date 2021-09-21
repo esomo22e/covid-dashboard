@@ -862,7 +862,7 @@
             <!-- Dashboard Donut Chart For the week and Get Tested (so stats of covid)-->
             <div class="dash-stats dash-test-item">
                 <GraphicTitle
-                        title={"Daily Positives for 9/12/2021"}
+                        title={"Daily Positives for 9/18/2021"}
                 />
                 <div class="donut-item dash-stats-item">
 
