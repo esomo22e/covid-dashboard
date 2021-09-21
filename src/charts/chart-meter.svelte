@@ -53,7 +53,7 @@
         .nice();
 
     $: colorScale = d3.scaleOrdinal()
-        .domain(value)
+        .domain(measureDomain)
         .range(colorscheme);
 
     onMount(generateStackedColumn);
@@ -77,25 +77,20 @@
             .attr("height", plotWidth)
 
         if ('horizontal' === orientation) {
-            // add data columns
-            svg.selectAll("rect")
-                .data(data)
-                .enter();
 
             /**
              * Create bars with appropriate colors and widths.
              */
+            svg.append('g');
             for (let i = 0; i < data.length; i++) {
-                svg.append("rect")
-                    .attr("fill", colorScale(data[i]))
-                    .attr("x", function (d) {
-                        let barHeight = 0;
-                        barHeight += length;
-                        return yScale(data[i]);
-                    })
+                svg
+                    .selectAll("rect")
+                    .data(data)
+                    .enter().append("rect")
+                    .attr("fill", colorScale(i))
                     .attr("height", xScale.bandwidth())
                     .attr("width", function (d) {
-                        return yScale(data[i]);
+                        return yScale(d);
                     });
             }
 
@@ -161,16 +156,7 @@
 </script>
 
 <style>
-    .chart :global(g.tick line) {
-        stroke: #ccc;
-        opacity: 0.5;
-    }
 
-    .chart :global(text.datalabel) {
-        fill: #000;
-        font-family: "akkurat", Arial, sans-serif;
-        letter-spacing: -0.05rem;
-    }
 </style>
 
 <div bind:this={el} class="chart"></div>

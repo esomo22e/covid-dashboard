@@ -2,7 +2,7 @@
     import GraphicTitle from './components/GraphicTitle.svelte'
     import GraphicFooter from './components/GraphicFooter.svelte'
     import Chart_Donut from './charts/chart-donut.svelte';
-    import Chart_Progress from './charts/chart-progress.svelte';
+    import Chart_Meter from './charts/chart-meter.svelte';
     import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
     import Chart_Wellness_Summary from './charts/WellnessSummary.svelte'
     import Chart_Hospitalizations
@@ -1065,7 +1065,7 @@
         <!--                    columns={25}-->
         <!--                    groups={["SARS-COV-2", "SARS-COV-2 Alpha","SARS-COV-2 Delta"]}-->
         <!--                    labels={["SARS-COV-2", "SARS-COV-2 Alpha", "SARS-COV-2 Delta"]}-->
-        <!--                    colors={["var(&#45;&#45;chart&#45;&#45;variants-base)", "var(&#45;&#45;chart&#45;&#45;variants-alpha)", "var(&#45;&#45;chart&#45;&#45;variants-delta)"]}-->
+<!--                            colors={["var(&#45;&#45;chart&#45;&#45;variants-base)", "var(&#45;&#45;chart&#45;&#45;variants-alpha)", "var(&#45;&#45;chart&#45;&#45;variants-delta)"]}-->
         <!--                    footnotes = {[-->
         <!--                        "* Northeastern’s Life Sciences Testing Center analyzes\n"+-->
         <!--"                    the genome of viral samples that test positive for COVID-19\n"+-->
@@ -1098,8 +1098,8 @@
                         <h3 class="vac-title">Student Vaccination Rate</h3>
 
 
-                        <Chart_Progress
-                                width={width_stacked}
+                        <Chart_Meter
+                                width=504
                                 value={86}
                                 label={"Students Vaccinated"}
                         />
