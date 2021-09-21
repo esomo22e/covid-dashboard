@@ -33,7 +33,7 @@
 	export let height = {height};
 	export let xVar = {xVar};
 	export let yVar = {yVar};
-	export let yGroups = {yGroups};
+	export let yGroups = {yGroups: value};
 	export let yGroups_fac = {yGroups_fac};
 	export let yGroups_con = {yGroups_con};
 	export let colorsteps = yGroups.length;

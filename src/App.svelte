@@ -2,8 +2,7 @@
     import GraphicTitle from './components/GraphicTitle.svelte'
     import GraphicFooter from './components/GraphicFooter.svelte'
     import Chart_Donut from './charts/chart-donut.svelte';
-    import Chart_Single_Bar_Horizontal
-        from './charts/chart-single-bar-horizontal.svelte'
+    import Chart_Progress from './charts/chart-progress.svelte';
     import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
     import Chart_Wellness_Summary from './charts/WellnessSummary.svelte'
     import Chart_Hospitalizations
@@ -154,7 +153,7 @@
     // Dynamically figure out the width of CSS grid items.
     let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
     let width_donut = Math.min(width, 175);
-    let width_stacked = width;
+    let width_stacked = 20;
     let height = 500;
     // height = Math.min(height, 500);
 
@@ -1099,14 +1098,10 @@
                         <h3 class="vac-title">Student Vaccination Rate</h3>
 
 
-                        <Chart_Single_Bar_Horizontal
+                        <Chart_Progress
                                 width={width_stacked}
-                                height={150}
-                                data={covidData}
-                                xVar={'Date'}
-                                yVar={"Student Vaccinated"}
-                                yGroups={[ "Total Student Vaccinated", "Student Vaccinated"]}
-                                colorscheme={negativePositive}
+                                value={86}
+                                label={"Students Vaccinated"}
                         />
                     </div>
 
@@ -1115,15 +1110,16 @@
                         <h3 class="vac-title">Faculty/Staff Vaccination
                             Rate</h3>
 
-                        <Chart_Single_Bar_Horizontal
-                                width={width_stacked}
-                                height={150}
-                                data={covidData}
-                                xVar={'Date'}
-                                yVar={"Fac/Staff Vaccinated"}
-                                yGroups={[ "Total Fac/Staff Vaccinated", "Fac/Staff Vaccinated"]}
-                                colorscheme={negativePositive}
-                        />
+<!--                        <Chart_Progress-->
+<!--                                width={width_stacked}-->
+<!--                                height={150}-->
+<!--                                data={covidData}-->
+<!--                                xVar={'Date'}-->
+<!--                                yVar={"Fac/Staff Vaccinated"}-->
+<!--                                value={[ 100 , 97.7 ]}-->
+<!--                                colorscheme={negativePositive}-->
+<!--                        />-->
+<!--                        yGroups={["Total Fac/Staff Vaccinated", "Fac/Staff Vaccinated"]}-->
                     </div>
 
                 </div>
@@ -1163,7 +1159,7 @@
                 >
                 </SvelteTable>
             </div>
-            
+
             <button on:click={toggleTable} class="table-button is-primary">
                 <div class="button-label">View Full Table</div>
             </button>

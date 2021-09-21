@@ -23,7 +23,7 @@
 
 
 
-	export let data = {data};
+	export let data;
 	export let width = {width};
 	export let height = {height};
 
