@@ -1140,7 +1140,10 @@
             <Chart_Wellness_Summary
                     data={covidData}
             />
-            <p class="update-line">*According to the university’s August 18, 2021 announcement, those who have been identified as close contacts no longer have to quarantine as long as they are vaccinated.</p>
+            <p class="update-line">*According to the university’s August 18,
+                2021 announcement, those who have been identified as close
+                contacts no longer have to quarantine as long as they are
+                vaccinated.</p>
 
         </div>
 
@@ -1160,10 +1163,10 @@
                 >
                 </SvelteTable>
             </div>
-            <!--            Commented out till we have enough rows to overlap-->
-            <!--            <button on:click={toggleTable} class="table-button is-primary">-->
-            <!--                <div class="button-label">View Full Table</div>-->
-            <!--            </button>-->
+            
+            <button on:click={toggleTable} class="table-button is-primary">
+                <div class="button-label">View Full Table</div>
+            </button>
         </div>
 
 
