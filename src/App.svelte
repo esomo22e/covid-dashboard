@@ -383,6 +383,10 @@
         --chart--footnote-color: var(--global--color-black);
         --chart--footnote-line-height: 1.4;
         --chart--footnote-margin: var(--global--spacing-unit);
+
+        --chart--datapoint-color-column: var(--chart--color-primary);
+        --chart--datapoint-color-face: var(--global--color-lighter-gray);
+        /*--chart--datapoint-label: var(--chart--key-font-size, var(--chart--title-font-size))*/
     }
 
 
@@ -1099,10 +1103,10 @@
 
 
                         <Chart_Meter
-                                width=504
-                                height=40
-                                value={86}
-                                label={"Students Vaccinated"}
+                                length=504
+                                width=100
+                                value=86
+                                label="Students Vaccinated"
                         />
                     </div>
 

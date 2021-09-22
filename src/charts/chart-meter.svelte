@@ -1,43 +1,33 @@
 <script>
     import {onMount} from 'svelte';
-    import {scaleLinear, scaleBand, scaleOrdinal} from 'd3-scale';
-    import {axisLeft, axisRight, axisTop, axisBottom} from 'd3-axis';
-    import {format} from 'd3-format';
+    import {scaleBand, scaleLinear, scaleOrdinal} from 'd3-scale';
+    import {axisBottom, axisLeft, axisRight, axisTop} from 'd3-axis';
     import {select} from 'd3-selection';
-    import {vibrant} from '../helpers/colors.js'
-    // import { wrapLabel } from '../helpers/wrapLabel.js'
     import {legendColor} from 'd3-svg-legend';
 
     let d3 = {
-        scaleLinear: scaleLinear,
-        scaleBand: scaleBand,
-        scaleOrdinal: scaleOrdinal,
-        select: select,
-        axisLeft: axisLeft,
-        axisRight: axisRight,
-        axisBottom: axisBottom,
-        axisTop: axisTop,
-        format: format,
+        scaleLinear,
+        scaleBand,
+        scaleOrdinal,
+        select,
+        axisLeft,
+        axisRight,
+        axisBottom,
+        axisTop,
         legendColor: legendColor
 
     }
 
     let el;
 
-    const padding = {top: 10, right: 0, bottom: 50, left: 10};
-
-
     export let label = {label};
     export let value = {value};
     export let max = 100;
     export let width = 50;
-    export let height = 30;
     export let length = 100;
-    export let measureDomain = ([0, 100])
     export let orientation = 'horizontal';
-    let colorscheme = vibrant;
-    let plotLength = width;
-    let plotWidth = height;
+    let plotLength = length;
+    let plotWidth = width;
 
     let data = [max, value];
 
@@ -49,115 +39,112 @@
         .padding(0.2);
 
     $: lengthScale = d3.scaleLinear()
-        .domain([0,100])
+        .domain([0, 100])
         .range([0, plotLength])
         .nice();
 
     $: colorScale = d3.scaleOrdinal()
-        .domain([max, value])
-        .range(['#f00', '#0f0', '#00f']);
+        .domain([0, 1])
+        .range(['var(--chart--datapoint-color-container, gainsboro)', 'var(--chart--datapoint-color-primary, black)']);
 
     onMount(generateStackedColumn);
 
     function generateStackedColumn() {
-        if (orientation !== "vertical") {
-            // padding.top = 0;
-            // padding.left = 75;
-            // padding.right = 15;
-            // if (xVar === "protest") {
-            //     padding.left = 180
-            // }
-            // widthScale.rangeRound([padding.top, length - padding.bottom])
-            // lengthScale.range([0, width - padding.left - padding.right])
-        }
-
         // draw chart SVG
         let svg = d3.select(el)
             .append("svg")
+            .attr("class", "datapoint")
             .attr("width", plotLength)
-            .attr("height", plotWidth)
+            .attr("height", plotWidth);
 
-        if ('horizontal' === orientation) {
+        let columnContainer;
 
-            /**
-             * Create bars with appropriate colors and widths.
-             */
-            svg.append('g');
-            for (let i = 0; i < data.length; i++) {
-                svg
-                    .selectAll("rect")
-                    .data(data)
-                    .enter().append("rect")
-                    .attr("fill", colorScale(i))
+        /**
+         * Create face and column
+         */
+        for (let i = 0; i < data.length; i++) {
+
+            if (0 === i) {
+                /**
+                 * Adds the face to the datapoint.
+                 * The column showing the value rests on this, like a watch face.
+                 *
+                 * @since 1.5
+                 */
+                svg.append("rect")
+                    .attr("class", "datapoint__face")
                     .attr("height", widthScale.bandwidth())
                     .attr("width", function (d) {
-                        return lengthScale(d);
-                    });
-            }
-
-        }
-        /* else {
-
-            let axisBottom = svg.append("g")
-                .attr("transform", "translate(0," + (length - padding.bottom) + ")")
-                .call(d3.axisBottom(widthScale).tickSize(0));
-
-            svg.append("g")
-                .call(d3.axisLeft(lengthScale)
-                    // .ticks()
-                    .tickSizeInner(-width)
-                    .tickSizeOuter(0)
-                    .tickPadding(3)
-                )
-                .call(g => g.select(".domain").remove());
-
-            // add data columns
-            for (let i = 0; i < value.length; i++) {
-                svg.append('g')
-                    .selectAll("rect")
-                    .data(data)
-                    .enter()
-                    .append("rect")
-                    // .attr("x", function (d) {
-                    //     return widthScale(d[xVar]);
-                    // })
-                    .attr("fill", colorScale(value[i]))
-                    .attr("y", function (d) {
-                        let barheight = 0;
-                        for (let j = i; j > -1; j = j - 1) {
-                            barheight += d[value[j]]
+                        return lengthScale(data[i]);
+                    })
+                    .attr("fill", function (d) {
+                            return colorScale(i)
                         }
-                        return lengthScale(barheight)
+                    );
+            } else {
+                /**
+                 * Adds the column containing the value.
+                 * The column is kept in a container so the label can be
+                 * centered inside of it.
+                 *
+                 * @since 1.5
+                 */
+                columnContainer = svg.append('g')
+                    .attr("class", "datapoint__column-container");
+
+                // TODO: Render column with path instead of rect for greater flexibility.
+                // TODO: Ensure this can be animated.
+                columnContainer.append("rect")
+                    .attr("class", "datapoint__column")
+                    .attr("height", widthScale.bandwidth())
+                    .attr("width", function (d) {
+                        return lengthScale(data[i]);
                     })
-                    .attr("width", widthScale.bandwidth())
-                    .attr("height", function (d) {
-                        return length - padding.bottom - lengthScale(d[value[i]]);
-                    })
-                    .on("mouseover mousemove", function (event, d) {
+                    .attr("fill", function (d) {
+                            return colorScale(i)
+                        }
+                    );
 
-                        d3.select(this)
-                            .style("opacity", 0.8);
-
-                        tooltip.select(".part1").html(d.time + "<br>" + value[i] + ":" + d[value[i]] + "%")
-                        //
-                        tooltip
-                            .style("visibility", "unset")
-                            // .style("left", widthScale(d[xVar]) + "px")
-                            .style("top", length - lengthScale(d[value[i]]) + "px")
-                    }).on("mouseleave", function (d) {
-                    tooltip
-                        .style("visibility", "hidden")
-
-                    d3.select(this)
-                        .style("opacity", 1.0);
-                })
+                /**
+                 * Adds the datapoint label.
+                 * This is placed in the column container so it can be centered
+                 * inside the column, especially as it grows.
+                 *
+                 * @since 1.5
+                 */
+                // TODO: Solve visual exception where column may be too small for the label to be readable.
+                if (0 < i) {
+                    columnContainer.append('text')
+                        .attr('x', function (d) {
+                            return lengthScale(data[i]) / 2;
+                        })
+                        .attr('class', 'datapoint__label')
+                        .text(`${data[i]}%`);
+                }
             }
-        }*/
+        }
+
+
     } // generateBarChart
 </script>
 
 <style>
+    :global(.datapoint__label) {
+        transform: translateY(30px);
+        fill: var(--chart--datapoint-color-datapoint-label, white);
+        mix-blend-mode: difference;
+        font-size: 30px;
+        text-anchor: middle;
+        alignment-baseline: central;
+    }
 
+    :global(.datapoint__face) {
+        fill: var(--chart--datapoint-color-face, gainsboro);
+    }
+
+    :global(.datapoint__column) {
+        fill: var(--chart--datapoint-color-column, black);
+    }
 </style>
 
 <div bind:this={el} class="chart"></div>
