@@ -31,43 +31,44 @@
     export let value = {value};
     export let max = 100;
     export let width = 50;
+    export let height = 30;
     export let length = 100;
     export let measureDomain = ([0, 100])
     export let orientation = 'horizontal';
     let colorscheme = vibrant;
     let plotLength = width;
-    let plotWidth = width;
+    let plotWidth = height;
 
     let data = [max, value];
 
-    $: xScale = d3.scaleBand()
+    $: widthScale = d3.scaleBand()
         .domain(data.map(function (o) {
             // return o[xVar];
         }))
-        .rangeRound([0, width - padding.left - padding.right])
+        .rangeRound([0, plotWidth])
         .padding(0.2);
 
-    $: yScale = d3.scaleLinear()
-        .domain(measureDomain)
-        .range([length - padding.bottom, padding.top])
+    $: lengthScale = d3.scaleLinear()
+        .domain([0,100])
+        .range([0, plotLength])
         .nice();
 
     $: colorScale = d3.scaleOrdinal()
-        .domain(measureDomain)
-        .range(colorscheme);
+        .domain([max, value])
+        .range(['#f00', '#0f0', '#00f']);
 
     onMount(generateStackedColumn);
 
     function generateStackedColumn() {
         if (orientation !== "vertical") {
-            padding.top = 0;
-            padding.left = 75;
-            padding.right = 15;
+            // padding.top = 0;
+            // padding.left = 75;
+            // padding.right = 15;
             // if (xVar === "protest") {
             //     padding.left = 180
             // }
-            xScale.rangeRound([padding.top, length - padding.bottom])
-            yScale.range([0, width - padding.left - padding.right])
+            // widthScale.rangeRound([padding.top, length - padding.bottom])
+            // lengthScale.range([0, width - padding.left - padding.right])
         }
 
         // draw chart SVG
@@ -88,9 +89,9 @@
                     .data(data)
                     .enter().append("rect")
                     .attr("fill", colorScale(i))
-                    .attr("height", xScale.bandwidth())
+                    .attr("height", widthScale.bandwidth())
                     .attr("width", function (d) {
-                        return yScale(d);
+                        return lengthScale(d);
                     });
             }
 
@@ -99,10 +100,10 @@
 
             let axisBottom = svg.append("g")
                 .attr("transform", "translate(0," + (length - padding.bottom) + ")")
-                .call(d3.axisBottom(xScale).tickSize(0));
+                .call(d3.axisBottom(widthScale).tickSize(0));
 
             svg.append("g")
-                .call(d3.axisLeft(yScale)
+                .call(d3.axisLeft(lengthScale)
                     // .ticks()
                     .tickSizeInner(-width)
                     .tickSizeOuter(0)
@@ -118,7 +119,7 @@
                     .enter()
                     .append("rect")
                     // .attr("x", function (d) {
-                    //     return xScale(d[xVar]);
+                    //     return widthScale(d[xVar]);
                     // })
                     .attr("fill", colorScale(value[i]))
                     .attr("y", function (d) {
@@ -126,11 +127,11 @@
                         for (let j = i; j > -1; j = j - 1) {
                             barheight += d[value[j]]
                         }
-                        return yScale(barheight)
+                        return lengthScale(barheight)
                     })
-                    .attr("width", xScale.bandwidth())
+                    .attr("width", widthScale.bandwidth())
                     .attr("height", function (d) {
-                        return length - padding.bottom - yScale(d[value[i]]);
+                        return length - padding.bottom - lengthScale(d[value[i]]);
                     })
                     .on("mouseover mousemove", function (event, d) {
 
@@ -141,8 +142,8 @@
                         //
                         tooltip
                             .style("visibility", "unset")
-                            // .style("left", xScale(d[xVar]) + "px")
-                            .style("top", length - yScale(d[value[i]]) + "px")
+                            // .style("left", widthScale(d[xVar]) + "px")
+                            .style("top", length - lengthScale(d[value[i]]) + "px")
                     }).on("mouseleave", function (d) {
                     tooltip
                         .style("visibility", "hidden")

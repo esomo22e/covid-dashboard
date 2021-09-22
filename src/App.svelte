@@ -1100,6 +1100,7 @@
 
                         <Chart_Meter
                                 width=504
+                                height=40
                                 value={86}
                                 label={"Students Vaccinated"}
                         />
