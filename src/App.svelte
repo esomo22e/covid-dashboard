@@ -1063,7 +1063,7 @@
                             title={"Variants"}
                     />
                     <Chart_Covid_Variants
-                            isPercentage={true}
+                            isPercentage={false}
                             data={covidData[covidData.length-1]}
                             width={width}
                             columns={25}

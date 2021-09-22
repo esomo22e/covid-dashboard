@@ -107,7 +107,7 @@
         let graph = graphContainer
             .append("svg")
             .attr("width", width)
-            .attr("height", height + padding.top);
+            .attr("height", height + padding.top + 20);
 
         let group = graph.append("g")
             .attr("transform",
