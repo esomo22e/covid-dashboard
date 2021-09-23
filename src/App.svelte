@@ -2,7 +2,7 @@
     import GraphicTitle from './components/GraphicTitle.svelte'
     import GraphicFooter from './components/GraphicFooter.svelte'
     import Chart_Donut from './charts/chart-donut.svelte';
-    import Chart_Meter from './charts/chart-meter.svelte';
+    import Meter_Chart from './charts/meter-chart.svelte';
     import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
     import Chart_Wellness_Summary from './charts/WellnessSummary.svelte'
     import Chart_Hospitalizations
@@ -221,7 +221,7 @@
             sortable: true,
             headerClass: "text-left"
         }
-    ]
+    ];
 
     /**
      * Toggles view of table
@@ -361,7 +361,7 @@
         --chart--title-color: var(--global--color-black);
 
         --chart--label-font: var(--global--font-signage, inherit);
-        --chart--label-font-size: var(--global--font-size-l);
+        --chart--label--font-size: var(--global--font-size-l);
         --chart--label-text-align: center;
         --chart--label-weight: var(--global--font-weight-bold);
         --chart--label-color: var(--global--color-black);
@@ -385,11 +385,27 @@
         --chart--footnote-line-height: 1.4;
         --chart--footnote-margin: var(--global--spacing-unit);
 
-        --chart--datapoint-color-column: var(--chart--color-primary);
-        --chart--datapoint-color-face: var(--global--color-lighter-gray);
-        /*--chart--datapoint-label: var(--chart--key-font-size, var(--chart--title-font-size))*/
+        --chart--spacing-unit: var(--global--spacing-unit);
+
+        --datapoint-column--color: var(--chart--color-primary);
+        --datapoint-face--color-background: var(--global--color-light-blue);
+        --datapoint-label--font-size: var(--chart--label--font-size);
+        --datapoint-label--color: var(--global--color-white);
     }
 
+    :global(.chart__label) {
+        display: block;
+        font-size: var(--chart--label--font-size);
+        font-weight: var(--global--font-weight-bold, bold);
+        margin-bottom: var(--chart--spacing-unit, 1rem);
+    }
+
+    :global(.datapoint__label) {
+        fill: var(--datapoint-label--color, white);
+        font-size: var(--datapoint-label--font-size, 1.2rem);
+        text-anchor: middle;
+        alignment-baseline: middle;
+    }
 
     .panel-testing-results {
         --chart--title-color: var(--global--color-purple);
@@ -590,8 +606,15 @@
         margin: 0 20px
     }
 
+
+
     .stacked-cont {
         margin: 2em 0;
+        display: flex;
+    }
+
+    .stacked-cont.is-horizontal {
+        flex-direction: column;
     }
 
     .dash-table-wrapper {
@@ -855,7 +878,7 @@
         it becomes available from the university’s Life Sciences Testing
         Center.</p>
 </div>
-{#if covidData.length > 0}
+{#if covidData.length > 0 && console.log('Dataset', covidData)}
     <div id="dashboard-grid">
 
         <!-- Dash Test Information - hospitalization, 7 day testing, and stacked bar chart -->
@@ -1098,34 +1121,20 @@
 
                 <div class="dash-stacked-vaccination">
 
-                    <div class="stacked-cont">
-
-                        <h3 class="vac-title">Student Vaccination Rate</h3>
-
-
-                        <Chart_Meter
-                                length=504
-                                width=100
-                                value=86
-                                label="Students Vaccinated"
+                    <div class="stacked-cont is-horizontal">
+                        <Meter_Chart
+                                length=500
+                                width=90
+                                value=0
+                                label="Students Vaccination Rate"
                         />
-                    </div>
-
-                    <div class="stacked-cont">
-
-                        <h3 class="vac-title">Faculty/Staff Vaccination
-                            Rate</h3>
-
-<!--                        <Chart_Progress-->
-<!--                                width={width_stacked}-->
-<!--                                height={150}-->
-<!--                                data={covidData}-->
-<!--                                xVar={'Date'}-->
-<!--                                yVar={"Fac/Staff Vaccinated"}-->
-<!--                                value={[ 100 , 97.7 ]}-->
-<!--                                colorscheme={negativePositive}-->
-<!--                        />-->
-<!--                        yGroups={["Total Fac/Staff Vaccinated", "Fac/Staff Vaccinated"]}-->
+                        <Meter_Chart
+                                length=250
+                                width=90
+                                value=0
+                                label="Faculty and Staff Vaccination Rate"
+                                orientation="vertical"
+                        />
                     </div>
 
                 </div>
