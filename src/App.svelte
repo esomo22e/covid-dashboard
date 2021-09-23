@@ -14,6 +14,9 @@
     import {negativePositive} from './helpers/colors.js'
     import Datepicker from 'svelte-calendar';
 
+    const meterColumnWidth = 66;
+    const meterColumnLength = 406;
+
     /**
      * Gets a date object for today.
      *
@@ -222,6 +225,14 @@
             headerClass: "text-left"
         }
     ];
+
+    /**
+     * Gets the data for the most recent day
+     */
+
+    function getMostRecentEntry(prop){
+        return covidData[covidData.length-1][prop];
+    }
 
     /**
      * Toggles view of table
@@ -878,7 +889,7 @@
         it becomes available from the university’s Life Sciences Testing
         Center.</p>
 </div>
-{#if covidData.length > 0 && console.log('Dataset', covidData)}
+{#if covidData.length > 0}
     <div id="dashboard-grid">
 
         <!-- Dash Test Information - hospitalization, 7 day testing, and stacked bar chart -->
@@ -1120,20 +1131,18 @@
             <div class="dash-vac-chart">
 
                 <div class="dash-stacked-vaccination">
-
                     <div class="stacked-cont is-horizontal">
                         <Meter_Chart
-                                length=500
-                                width=90
-                                value=0
+                                length={meterColumnLength}
+                                width={meterColumnWidth}
+                                value={getMostRecentEntry("Student Vaccinated")}
                                 label="Students Vaccination Rate"
                         />
                         <Meter_Chart
-                                length=250
-                                width=90
-                                value=0
+                                length={meterColumnLength}
+                                width={meterColumnWidth}
+                                value={getMostRecentEntry("Fac/Staff Vaccinated")}
                                 label="Faculty and Staff Vaccination Rate"
-                                orientation="vertical"
                         />
                     </div>
 
