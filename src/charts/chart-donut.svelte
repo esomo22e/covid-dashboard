@@ -13,6 +13,22 @@
     export let primaryKey = {primaryKey};
     export let secondaryKey = {secondaryKey};
     export let valueStyle = {valueStyle};
+    export let hasAccent = false;
+
+    let classNames = [
+        "graph",
+        "donut-graph"
+    ];
+
+    if (hasAccent) {
+        classNames.push("has-accent");
+    }
+
+    const getClassNames = () => {
+        return classNames.join(" ");
+    }
+
+
     let d3 = {
         scaleOrdinal: scaleOrdinal,
         entries: entries,
@@ -53,7 +69,7 @@
          */
         graphContainer
             .append("div")
-            .attr("class", "title")
+            .attr("class", "graph-title")
             .text(function (d) {
                 return label
             })
@@ -66,10 +82,6 @@
             b: data[secondaryKey]
         }
 
-        let color = d3.scaleOrdinal()
-            .domain(graphData)
-            .range(["var(--chart--color-primary)", "var(--chart--color-secondary)"])
-
         const graphWrapper = graphContainer
             .append("div")
             .attr("class", "graph")
@@ -79,19 +91,18 @@
             .attr("aria-label", `${innerText} ${label}`)
             .attr("width", width)
             .attr("height", height)
-            // .append("g")
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
 
         /**
-         * Adds the pie chart
+         * Adds the donut chart
          */
-        const pie = d3.pie()
+        const donut = d3.pie()
             .value(function (d) {
                 return d.value;
             })
-        let dataReady = pie(d3.entries(graphData))
+        let dataReady = donut(d3.entries(graphData))
 
         graph
             .selectAll()
@@ -102,13 +113,13 @@
                 .innerRadius(width * 0.35) // This is the size of the donut hole
                 .outerRadius(width * 0.45)
             )
-            .attr('fill', function (d) {
-                return (color(d.data.key))
-            })
-            .attr('stroke-width', 0)
+            .attr("class", "graph-column")
 
+        /**
+         * Adds the data label
+         */
         graph.append("text")
-            .attr("class", "key")
+            .attr("class", "data-label")
             .style("fill", "var(--chart--color-primary)")
             .attr("text-anchor", "middle")
             .text(innerText)
@@ -116,7 +127,7 @@
 </script>
 
 <style>
-    .chart {
+    :global(.donut-graph) {
         display: flex;
         justify-content: var(--chart--alignment, center);;
         align-content: var(--chart--alignment, center);
@@ -124,28 +135,24 @@
         margin: 0;
     }
 
-    .chart :global(.title) {
-        text-align: var(--chart--title-text-align);
+    :global(.donut-graph__title) {
         font-size: var(--chart--title-font-size);
         color: var(--chart--title-color);
         font-weight: var(--chart--title-weight);
         margin-bottom: 0;
     }
 
-    .chart :global(.key) {
-        text-align: var(--chart--key-text-align, var(--chart--title-text-align));
-        font-size: var(--chart--key-font-size, var(--chart--title-font-size));
-        color: var(--chart--key-color, var(--chart--title-color));
-        font-weight: var(--chart--key-weight, var(--chart--title-weight));
-        margin-bottom: 0;
-        transform: translateY(0.25em);
+    :global(.data-label) {
+        text-align: center;
+        text-anchor: middle;
+        alignment-baseline: middle;
     }
 
-    .chart :global(.graph) {
+    :global(.donut-graph__graph) {
         display: flex;
         justify-content: center;
     }
 
 </style>
 
-<figure bind:this={el} class="chart"></figure>
+<figure bind:this={el} class="{getClassNames()}"></figure>

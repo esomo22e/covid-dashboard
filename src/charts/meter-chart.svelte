@@ -26,6 +26,21 @@
     export let length = {length};
     export let orientation = 'horizontal';
     export let max = 100;
+    export let hasAccent = false;
+
+    let classNames=[
+        "graph",
+        "meter-graph"
+    ];
+
+    if(hasAccent) {
+        classNames.push("has-accent");
+    }
+
+    const getClassNames = () => {
+        return classNames.join(" ");
+    }
+
     let data = [max, value];
 
     if ('horizontal' !== orientation) {
@@ -68,14 +83,12 @@
             datapointLengthAttr = 'width';
         }
 
-        const figure = d3.select(el).append("figure");
+        const figure = d3.select(el);
         const chartLabel = figure
             .append("figcaption")
-            .attr("class", "chart__label");
+            .attr("class", "graph-title");
 
         chartLabel.text(function (d) {
-
-            console.log(label);
             return label;
         })
 
@@ -100,7 +113,7 @@
                  * @since 1.5
                  */
                 svg.append("rect")
-                    .attr("class", "datapoint__face")
+                    .attr("class", "graph-face")
                     .attr(datapointWidthAttr, widthScale.bandwidth())
                     .attr(datapointLengthAttr, function (d) {
                         return lengthScale(data[i]);
@@ -122,7 +135,7 @@
                 let columnMidLength = Math.floor(columnLength / 2);
 
                 let column = columnContainer.append("rect")
-                    .attr("class", "datapoint__column")
+                    .attr("class", "graph-column")
                     .attr(datapointWidthAttr, columnWidth)
                     .attr(datapointLengthAttr, columnLength);
 
@@ -139,7 +152,7 @@
                  * @since 1.5
                  */
                 let datapointLabel = columnContainer.append('text')
-                    .attr('class', 'datapoint__label')
+                    .attr('class', 'data-label')
                     .text(`${data[i]}%`);
 
                 if ("vertical" === orientation) {
@@ -164,14 +177,5 @@
     }
 </script>
 
-<style>
-    :global(.datapoint__face) {
-        fill: var(--graph--color-face, gainsboro);
-    }
 
-    :global(.datapoint__column) {
-        fill: var(--graph--color-primary, black);
-    }
-</style>
-
-<div bind:this={el} class="chart"></div>
+<figure bind:this={el} class="{getClassNames()}"></figure>

@@ -1,9 +1,23 @@
 <script>
     import {digitFormat} from '../helpers/digitFormat.js'
-
+    let el;
     export let onCampus = {onCampus};
     export let offCampus = {offCampus};
     export let label = {label};
+    export let hasAccent = false;
+
+    let classNames=[
+        "graph",
+        "wellness-summary"
+    ];
+
+    if(hasAccent) {
+        classNames.push("has-accent");
+    }
+
+    const getClassNames = () => {
+        return classNames.join(" ");
+    }
 </script>
 
 <style>
@@ -11,9 +25,7 @@
         background-color: #e0ecf4;
         border-radius: 3px;
         flex: 1 1 0;
-        padding: 20px;
-        margin: 20px;
-
+        padding: var(--global--spacing-unit);
     }
 
     .wellness-summary__label {
@@ -44,8 +56,7 @@
         font-size: var(--data-label--font-size);
     }
 </style>
-
-<div class="wellness-summary">
+<figure bind:this={el} class="{getClassNames()}">
     <h3 class="wellness-summary__label">{label}</h3>
     <div class="wellness-summary__location-list">
         <div class="wellness-summary__location">
@@ -57,4 +68,4 @@
             <div class="wellness-summary__value">{digitFormat(offCampus)}</div>
         </div>
     </div>
-</div>
+</figure>

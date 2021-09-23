@@ -275,10 +275,72 @@
 
 <style>
     :root {
-        --global--font-impact: trim-poster, sans-serif;
-        --global--font-versatile: harriet, serif;
-        --global--font-signage: akkurat, sans-serif;
+        /**
+         * Global font jobs.
+         * Fonts should be set them to the job the text is doing. Avoid assigning
+         * specific font faces on elements to keep future updates simple.
+         *
+         * Body. Versatile and facilitates reading even long-form content comfortably.
+         *
+         * Display. To attract attention and set the tone. Good for top-level headings
+         * and hero text.
+         *
+         * Lettering. Artistic font for displaying an individual letter with flair.
+         *
+         * Signage. To help people find their way around. Use for labels in a grid of
+         * products, buttons, strong calls to action, and footers full of links.
+         *
+         * Small. For clarity at small sizes. Captions, labels, footnotes, or where
+         * there is limited screen real estate.
+         *
+         * Tabular. Quickly scannable to gather data and make comparisons. Ideal for
+         * tables of contents, charts, or anywhere data needs to be easily understood.
+         *
+         * Technical. For technical accuracy where glyph placement is crucial. Use
+         * when displaying math formulas, code, or even poetry and infographics.
+         *
+         * @since 1.5
+         */
+        --global--font-body: harriet, serif;
+        --global--font-display: akkurat, sans-serif;
+        --global--font-display-impact: trim-poster, sans-serif;
+        --global--font-signage: brauerneue, sans-serif;
+        --global--font-small: akkurat, sans-serif;
+        --global--font-tabular: akkurat, sans-serif;
+        --global--font-technical: akkurat, sans-serif;
+        --global--font-lettering: 'Pinyon Script', cursive;
 
+        /**
+         * Global font sizes.
+         * Specified in t-shirt sizing.
+         *
+         * @since 1.5
+         */
+        --global--font-size-xxs: 12px; /* 12px */
+        --global--font-size-xs: 0.875rem; /* ~14px */
+        --global--font-size-s: 1rem; /* ~16px */
+        --global--font-size-m: 1.188rem; /* ~19px */
+        --global--font-size-l: 1.5rem; /* ~24px */
+        --global--font-size-xl: 1.875rem; /* ~30px */
+        --global--font-size-xxl: 2.25rem; /* ~36px */
+        --global--font-size-3xl: 2.5rem; /* 40px */
+        --global--font-size-4xl: 3rem; /* 48px */
+        --global--font-size-5xl: 4.063rem; /* ~65px */
+        --global--font-size-6xl: 4.5rem; /* ~72px */
+
+        /* Line Height */
+        --global--line-height-body: 1.4;
+
+        /* Content bounds */
+        --global--ceiling-text: 700px;
+        --global--ceiling-image: 750px;
+        --global--ceiling-content: 1150px;
+
+        /**
+         * Global font weights.
+         *
+         * @since 1.5
+         */
         --global--font-weight-thin: 100;
         --global--font-weight-extra-light: 200;
         --global--font-weight-light: 300;
@@ -288,17 +350,83 @@
         --global--font-weight-bold: 700;
         --global--font-weight-extra-bold: 800;
         --global--font-weight-black: 900;
-        --global--font-weight-ultra-black: 900;
+        --global--font-weight-ultra-black: 950;
+
+        /**
+         * Colors.
+         * The names for hues are those found on a basic RYB color wheel with tertiary
+         * colors.
+         *
+         * @see https://en.wikipedia.org/wiki/Tertiary_color#Traditional_painting_(RYB)
+         *
+         * Red, Red-Orange, Orange, Yellow-Orange, Yellow, Yellow-Green, Green,
+         * Blue-Green, Blue, Blue-Violet, Violet, and Red-Violet
+         *
+         * Accessibility:
+         * White text will pass on colors with a "dark-" prefix.
+         * Black text will pass on colors with a "light-" prefix.
+         *
+         * Neutral colors:
+         * Neutral colors that are not true neutral have either a "warm" or "cool"
+         * prefix, as appropriate.
+         */
+        --global--color-darkest-red: #1f0406;
+        --global--color-dark-red: #7a0f19;
+        --global--color-red: #D41B2C;
+        --global--color-darker-blue: #1b3645;
+        --global--color-dark-blue: #385775;
+        --global--color-blue: #006EB5;
+        --global--color-light-blue: #9ebcda;
+        --global--color-lighter-blue: #f7fcfd;
+        --global--color-accent-blue: #52CFE5;
+        --global--color-blue-green: #00CFB5;
+        --global--color-violet: #6e016b;
+
+        --global--color-black: #000;
+        --global--color-white: #fff;
+        --global--color-dark-gray: #222;
+        --global--color-gray: #555;
+        --global--color-light-gray: #99a3b0;
+        --global--color-lighter-gray: #cbcccb;
+        --global--color-lightest-gray: #efefef;
+
+        --global--color-primary: var(--global--color-black);
+        --global--color-background: var(--global--color-white);
+        --global--color-secondary: var(--global--color-red);
+        --global--color-disabled: var(--global--color-lighter-gray);
+        --global--color-disabled-background: var(--global--color-lightest-gray);
+
+        /**
+         * Global Spacing.
+         */
+        --global--spacing-unit: 16px;
+        --global--spacing-vertical: calc(5 * var(--global--spacing-unit));
+        --global--spacing-horizontal: calc(2.5 * var(--global--spacing-unit));
+        --global--spacing-gap: 20px;
+
+        --global--spacing-extra-small: calc(0.6 * var(--global--spacing-unit));
+        --global--spacing-small: calc(0.8 * var(--global--spacing-unit));
+        --global--spacing-medium: var(--global--spacing-unit);
+        --global--spacing-large: calc(1.5 * var(--global--spacing-unit));
+        --global--spacing-extra-large: calc(1.75 * var(--global--spacing-unit)) /**
+   * Global Borders
+   */
+        --global--border-color-light: var(--global--color-lightest-gray);
+        --global--border-color-regular: var(--global--color-lighter-gray);
+        --global--border-color-heavy: var(--global--color-gray);
+        --global--border-weight-regular: 1px;
+        --global--border-weight-bold: 2px;
+        --global--border-radius-tight: 10px;
+        --global--border-radius-regular: 12px;
+        --global--border-radius-loose: 16px;
+        /**
+         * BEGINNING OF OTHER STYLES
+         *
+         */
 
         /**
          * Global font sizes.
          */
-        --global--font-size-xxs: 12px;
-        --global--font-size-xs: 14px;
-        --global--font-size-s: 15px;
-        --global--font-size-m: 19px;
-        --global--font-size-l: 22px;
-        --global--base-line-height: 1.4;
 
         /**
          * Global brand color palette.
@@ -309,45 +437,10 @@
         /**
          * Global color palette.
          */
-        --global--color-black: #000;
-        --global--color-white: #fff;
-        --global--color-red: #d41b2c;
-        --global--color-dark-gray: #222;
-        --global--color-gray: #555;
-        --global--color-light-gray: #99a3b0;
-        --global--color-lighter-gray: #cbcccb;
-        --global--color-lightest-gray: #efefef;
+
         --global--color-darkest-blue: #1b3645;
-        --global--color-dark-blue: #385775;
-        --global--color-blue: #006eb5;
-        --global--color-light-blue: #9ebcda;
-        --global--color-lighter-blue: #f7fcfd;
-        --global--color-accent-blue: #52cfe5;
         --global--color-teal: #00cfb5;
         --global--color-purple: #6e016b;
-
-        --global--color-primary: var(--global--color-purple);
-        --global--color-secondary: var(--global--color-lighter-blue);
-
-        /**
-         * Global Spacing.
-         */
-        --global--spacing-unit: 16px;
-        --global--spacing-vertical: calc(5 * var(--global--spacing-unit));
-        --global--spacing-horizontal: calc(2.5 * var(--global--spacing-unit));
-        --global--spacing-gap: 16px;
-
-
-        /**
-         * Global Borders
-         */
-        --global--border-color-light: var(--global--color-lightest-gray);
-        --global--border-color-regular: var(--global--color-lighter-gray);
-        --global--border-color-heavy: var(--global--color-gray);
-        --global--border-weight-regular: 1px;
-        --global--border-radius-tight: 10px;
-        --global--border-radius-regular: 12px;
-        --global--border-radius-loose: 16px;
 
         /**
          * Buttons
@@ -362,20 +455,22 @@
         /**
          * Charts
          */
-        --chart--color-primary: var(--global--color-purple);
-        --chart--color-secondary: var(--global--color-light-blue);
+        --graph--color-primary: var(--global--color-purple);
+        --graph--color-secondary: var(--global--color-light-blue);
+        --graph--color-accent-1: #bfd3e6;
+        --graph--color-accent-2: #8c96c6;
+        --graph--color-accent-3: #6e016b;
 
         --chart--title-font: var(--global--font-signage, inherit);
         --chart--title-font-size: var(--global--font-size-l);
-        --chart--title-text-align: center;
         --chart--title-weight: var(--global--font-weight-bold);
         --chart--title-color: var(--global--color-black);
 
+        --graph-title--font-size: var(--global--font-size-l);
+        --graph-title--font-weight: var(--global--font-weight-bold);
+        --graph-title--color: var(--global--color-black);
         --chart--label-font: var(--global--font-signage, inherit);
-        --chart--label--font-size: var(--global--font-size-l);
         --chart--label-text-align: center;
-        --chart--label-weight: var(--global--font-weight-bold);
-        --chart--label-color: var(--global--color-black);
 
         --chart--key-font: var(--global--font-signage, inherit);
         --chart--key-font-size: var(--global--font-size-s);
@@ -385,9 +480,10 @@
         --chart--alignment: center;
         --chart--flex-direction: column;
 
-        --chart--variants-base: #bfd3e6;
-        --chart--variants-alpha: #8c96c6;
-        --chart--variants-delta: #6e016b;
+
+        --chart--variants-base: var(--graph--color-accent-1);
+        --chart--variants-alpha: var(--graph--color-accent-2);
+        --chart--variants-delta: var(--graph--color-accent-3);
 
         --chart--footnote-font: var(--global--font-signage, inherit);
         --chart--footnote-font-size: var(--global--font-size-xs);
@@ -399,10 +495,9 @@
         --graph--spacing-unit: var(--global--spacing-unit);
 
         --graph--color-face: var(--global--color-light-blue);
-        --graph--color-primary: var(--chart--color-primary);
 
         --data-label--color: var(--global--color-white);
-        --data-label--font-size: var(--global--font-size-m);
+        --data-label--font-size: var(--global--font-size-xl);
         --data-label--font-weight: var(--global--font-weight-bold);
 
         --data-category--color: var(--global--color-black);
@@ -411,32 +506,116 @@
 
     }
 
+    /**
+     * Base graph elements
+     */
+    :global(.graph) {
+        margin: 0;
+    }
+
+    :global(.graph.has-accent) {
+        --chart--title-color: var(--global--color-purple);
+        --chart--title-font-size: var(--global--font-size-m);
+        --data-label--color: var(--global--color-black);
+        --data-label--font-size: var(--global--font-size-m);
+    }
+
+    :global(.graph-title) {
+        display: block;
+        color: var(--graph-title--color);
+        font-size: var(--graph-title--font-size);
+        font-weight: var(--graph-title--font-weight);
+        margin-bottom: var(--graph--spacing-unit, 1rem);
+    }
+
+    :global(.graph-face) {
+        fill: var(--graph--color-face);
+    }
+
+    :global(.graph-column:nth-child(n+1)) {
+        fill: var(--graph--color-primary);
+    }
+    :global(.graph-column:nth-child(n+2)) {
+        fill: var(--graph--color-secondary);
+    }
+    :global(.graph-column:nth-child(n+3)) {
+        fill: var(--graph--color-accent-1);
+    }
+    :global(.graph-column:nth-child(n+4)) {
+        fill: var(--graph--color-accent-2);
+    }
+    :global(.graph-column:nth-child(n+5)) {
+        fill: var(--graph--color-accent-3);
+    }
+
+    :global(.data-label) {
+        fill: var(--data-label--color, white);
+        text-anchor: middle;
+        alignment-baseline: middle;
+        font-size: var(--data-label--font-size);
+        font-weight: var(--data-category--font-weight);
+    }
+
+    /**
+     * Meter graph
+     */
+
+    :global(.meter-graph) {
+        --graph-title--font-size: var(--global--font-size-m);
+        --data-label--color: var(--global--color-white);
+    }
+
+    /**
+     * Donut graph
+     */
+    :global(.donut-graph) {
+        --graph-title--color: var(--global--color-purple);
+    }
+
+    :global(.donut-graph .graph-column:nth-child(n+1)) {
+        fill: var(--graph--color-primary);
+    }
+    :global(.donut-graph .graph-column:nth-child(n+2)) {
+        fill: var(--graph--color-face);
+    }
+    :global(.donut-graph .graph-column:nth-child(n+3)) {
+        fill: var(--graph--color-secondary);
+    }
+    :global(.donut-graph .graph-column:nth-child(n+4)) {
+        fill: var(--graph--color-accent-1);
+    }
+    :global(.donut-graph .graph-column:nth-child(n+5)) {
+       fill: var(--graph--color-accent-2);
+    }
+
+    :global(.donut-graph .graph-title) {
+        text-align: center;
+    }
+
+    /**
+     * Wellness Summary
+     */
     :global(.wellness-summary-list) {
         display: flex;
     }
+    :global(.wellness-summary-list > * + *) {
+        margin-left: var(--global--spacing-gap);
+    }
+
     :global(.wellness-summary) {
+        --chart--title-color: var(--global--color-purple);
         --chart--title-font-size: var(--global--font-size-m);
         --data-label--color: var(--global--color-black);
-        --chart--title-color: var(--global--color-primary);
+        --data-label--font-size: var(--global--font-size-m);
     }
 
     :global(.wellness-summary__location-name) {
         text-transform: uppercase;
     }
 
-    :global(.chart__label) {
-        display: block;
-        font-size: var(--chart--label--font-size);
-        font-weight: var(--global--font-weight-bold, bold);
-        margin-bottom: var(--graph--spacing-unit, 1rem);
-    }
-
-    :global(.datapoint__label) {
-        fill: var(--data-label--color, white);
-        font-size: var(--data-label--font-size, 1.2rem);
-        text-anchor: middle;
-        alignment-baseline: middle;
-    }
+    /**
+     * Other styles
+     */
 
     .panel-testing-results {
         --chart--title-color: var(--global--color-purple);
