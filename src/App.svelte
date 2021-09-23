@@ -4,7 +4,7 @@
     import Chart_Donut from './charts/chart-donut.svelte';
     import Meter_Chart from './charts/meter-chart.svelte';
     import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
-    import Chart_Wellness_Summary from './charts/WellnessSummary.svelte'
+    import Chart_Wellness_Summary from './charts/wellness-summary.svelte'
     import Chart_Hospitalizations
         from './charts/chart-hospitalizations-current.svelte'
     import SvelteTable from "svelte-table"
@@ -230,8 +230,8 @@
      * Gets the data for the most recent day
      */
 
-    function getMostRecentEntry(prop){
-        return covidData[covidData.length-1][prop];
+    function getMostRecentEntry(prop) {
+        return covidData[covidData.length - 1][prop];
     }
 
     /**
@@ -378,7 +378,7 @@
         --chart--label-color: var(--global--color-black);
 
         --chart--key-font: var(--global--font-signage, inherit);
-        --chart--key-font-size: var(--global--font-size-l);
+        --chart--key-font-size: var(--global--font-size-s);
         --chart--key-text-align: center;
         --chart--key-weight: var(--global--font-weight-bold);
         --chart--key-color: var(--global--color-black);
@@ -396,24 +396,44 @@
         --chart--footnote-line-height: 1.4;
         --chart--footnote-margin: var(--global--spacing-unit);
 
-        --chart--spacing-unit: var(--global--spacing-unit);
+        --graph--spacing-unit: var(--global--spacing-unit);
 
-        --datapoint-column--color: var(--chart--color-primary);
-        --datapoint-face--color-background: var(--global--color-light-blue);
-        --datapoint-label--font-size: var(--chart--label--font-size);
-        --datapoint-label--color: var(--global--color-white);
+        --graph--color-face: var(--global--color-light-blue);
+        --graph--color-primary: var(--chart--color-primary);
+
+        --data-label--color: var(--global--color-white);
+        --data-label--font-size: var(--global--font-size-m);
+        --data-label--font-weight: var(--global--font-weight-bold);
+
+        --data-category--color: var(--global--color-black);
+        --data-category--font-size: var(--global--font-size-xxs);
+        --data-category--font-weight: var(--global--font-weight-regular);
+
+    }
+
+    :global(.wellness-summary-list) {
+        display: flex;
+    }
+    :global(.wellness-summary) {
+        --chart--title-font-size: var(--global--font-size-m);
+        --data-label--color: var(--global--color-black);
+        --chart--title-color: var(--global--color-primary);
+    }
+
+    :global(.wellness-summary__location-name) {
+        text-transform: uppercase;
     }
 
     :global(.chart__label) {
         display: block;
         font-size: var(--chart--label--font-size);
         font-weight: var(--global--font-weight-bold, bold);
-        margin-bottom: var(--chart--spacing-unit, 1rem);
+        margin-bottom: var(--graph--spacing-unit, 1rem);
     }
 
     :global(.datapoint__label) {
-        fill: var(--datapoint-label--color, white);
-        font-size: var(--datapoint-label--font-size, 1.2rem);
+        fill: var(--data-label--color, white);
+        font-size: var(--data-label--font-size, 1.2rem);
         text-anchor: middle;
         alignment-baseline: middle;
     }
@@ -616,7 +636,6 @@
     h3.vac-title {
         margin: 0 20px
     }
-
 
 
     .stacked-cont {
@@ -1092,20 +1111,21 @@
 
 
         <!-- Waffle Charts of Variants -->
-                <div class="dashboard-grid-item dash-variants" style="--chart--key-font-size: var(--global--font-size-xs)">
+        <div class="dashboard-grid-item dash-variants"
+             style="--chart--key-font-size: var(--global--font-size-xs)">
 
-                    <GraphicTitle
-                            title={"Variants"}
-                    />
-                    <Chart_Covid_Variants
-                            isPercentage={false}
-                            data={covidData[covidData.length-1]}
-                            width={width}
-                            columns={25}
-                            groups={["SARS-COV-2", "SARS-COV-2 Delta"]}
-                            labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
-                            colors={["var(--chart--variants-base)", "var(--chart--variants-delta)"]}
-                            footnotes = {[
+            <GraphicTitle
+                    title={"Variants"}
+            />
+            <Chart_Covid_Variants
+                    isPercentage={false}
+                    data={covidData[covidData.length-1]}
+                    width={width}
+                    columns={25}
+                    groups={["SARS-COV-2", "SARS-COV-2 Delta"]}
+                    labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
+                    colors={["var(--chart--variants-base)", "var(--chart--variants-delta)"]}
+                    footnotes={[
                                 "* Northeastern’s Life Sciences Testing Center analyzes\n"+
         "                    the genome of viral samples that test positive for COVID-19\n"+
         "                    to determine which strain of the virus is behind a positive\n"+
@@ -1117,8 +1137,8 @@
         "                    tests above.",
 
                             ]}
-                    />
-                </div>
+            />
+        </div>
 
 
         <!-- Total Vaccination Rates -->
@@ -1157,9 +1177,18 @@
             <!-- <GraphicTitle
                 title={"Wellness and Contact Tracing"}
             /> -->
-            <Chart_Wellness_Summary
-                    data={covidData}
-            />
+            <div class="wellness-summary-list">
+                <Chart_Wellness_Summary
+                        label="Students in Isolation"
+                        onCampus={getMostRecentEntry("Students in Isolation On Campus")}
+                        offCampus={getMostRecentEntry("Students in Isolation Off Campus")}
+                />
+                <Chart_Wellness_Summary
+                        label="Students in Quarantine"
+                        onCampus={getMostRecentEntry("Students in Quarantine On Campus")}
+                        offCampus={getMostRecentEntry("Students in Quarantine Off Campus")}
+                />
+            </div>
             <p class="update-line">*According to the university’s August 18,
                 2021 announcement, those who have been identified as close
                 contacts no longer have to quarantine as long as they are

@@ -166,11 +166,11 @@
 
 <style>
     :global(.datapoint__face) {
-        fill: var(--datapoint-face--color-background, gainsboro);
+        fill: var(--graph--color-face, gainsboro);
     }
 
     :global(.datapoint__column) {
-        fill: var(--datapoint-column--color, black);
+        fill: var(--graph--color-primary, black);
     }
 </style>
 
