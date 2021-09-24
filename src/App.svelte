@@ -5,8 +5,7 @@
     import Meter_Chart from './charts/meter-chart.svelte';
     import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
     import Chart_Wellness_Summary from './charts/wellness-summary.svelte'
-    import Chart_Hospitalizations
-        from './charts/chart-hospitalizations-current.svelte'
+    import Data_Point from './charts/data-point.svelte'
     import SvelteTable from "svelte-table"
     import Chart_Covid_Variants from "./charts/chart-covid-variants.svelte";
     import {csv} from 'd3-fetch'
@@ -496,7 +495,7 @@
 
         --graph--color-face: var(--global--color-light-blue);
 
-        --data-label--color: var(--global--color-white);
+        --data-label--color: var(--global--color-purple);
         --data-label--font-size: var(--global--font-size-xl);
         --data-label--font-weight: var(--global--font-weight-bold);
 
@@ -535,21 +534,25 @@
     :global(.graph-column:nth-child(n+1)) {
         fill: var(--graph--color-primary);
     }
+
     :global(.graph-column:nth-child(n+2)) {
         fill: var(--graph--color-secondary);
     }
+
     :global(.graph-column:nth-child(n+3)) {
         fill: var(--graph--color-accent-1);
     }
+
     :global(.graph-column:nth-child(n+4)) {
         fill: var(--graph--color-accent-2);
     }
+
     :global(.graph-column:nth-child(n+5)) {
         fill: var(--graph--color-accent-3);
     }
 
     :global(.data-label) {
-        fill: var(--data-label--color, white);
+        fill: var(--data-label--color);
         text-anchor: middle;
         alignment-baseline: middle;
         font-size: var(--data-label--font-size);
@@ -575,21 +578,36 @@
     :global(.donut-graph .graph-column:nth-child(n+1)) {
         fill: var(--graph--color-primary);
     }
+
     :global(.donut-graph .graph-column:nth-child(n+2)) {
         fill: var(--graph--color-face);
     }
+
     :global(.donut-graph .graph-column:nth-child(n+3)) {
         fill: var(--graph--color-secondary);
     }
+
     :global(.donut-graph .graph-column:nth-child(n+4)) {
         fill: var(--graph--color-accent-1);
     }
+
     :global(.donut-graph .graph-column:nth-child(n+5)) {
-       fill: var(--graph--color-accent-2);
+        fill: var(--graph--color-accent-2);
     }
 
     :global(.donut-graph .graph-title) {
         text-align: center;
+    }
+
+    /**
+     * Data point graph
+     */
+    :global(.data-point-graph) {
+
+    }
+    :global(.data-point-graph .graph-column) {
+        fill: transparent;
+        stroke: var(--graph--color-face);
     }
 
     /**
@@ -598,6 +616,7 @@
     :global(.wellness-summary-list) {
         display: flex;
     }
+
     :global(.wellness-summary-list > * + *) {
         margin-left: var(--global--spacing-gap);
     }
@@ -1228,83 +1247,71 @@
                     title={"Overview"}
             />
             <div class="dash-pos-donuts">
-                <div class="donut-positive-item">
+                <Data_Point
+                        width={width_donut}
+                        height={width_donut}
+                        value=6
+                        label="Hospitalizationnnns"
+                />
 
-                    <div class="donut-chart">
 
-                        <Chart_Hospitalizations
-                                width={width_donut}
-                                height={width_donut}
-                                data={covidData}
-                                xVar={"Date"}
-                                yVar={"Samples Taken"}
-                                yA={"Tests Completed"}
-                                yB={"Tests in Progress"}
-                        />
-                        <div class="donut-content dash-stats-item">
-                            <h3 class="chart-label">Hospitalizations</h3>
-                        </div>
-
-                    </div>
+            <div class="donut-positive-item">
+                <div class="donut-chart">
+                    <Chart_Donut
+                            width={width_donut}
+                            height={width_donut}
+                            data={covidData}
+                            label="Seven-Day Positive Test Rate"
+                            primaryKey="Seven-Day Positive Primer"
+                            secondaryKey="Seven-Day Negative Primer"
+                            valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests Primer"}}
+                    />
+                    <!--                        <Chart_Donut-->
+                    <!--                                width={width_donut}-->
+                    <!--                                height={width_donut}-->
+                    <!--                                data={covidData}-->
+                    <!--                                label="Seven-Day Positive Test Rate"-->
+                    <!--                                primaryKey="Seven-Day Positive"-->
+                    <!--                                secondaryKey="Seven-Day Negative"-->
+                    <!--                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}-->
+                    <!--                        />-->
                 </div>
-
-                <div class="donut-positive-item">
-                    <div class="donut-chart">
-                        <Chart_Donut
-                                width={width_donut}
-                                height={width_donut}
-                                data={covidData}
-                                label="Seven-Day Positive Test Rate"
-                                primaryKey="Seven-Day Positive Primer"
-                                secondaryKey="Seven-Day Negative Primer"
-                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests Primer"}}
-                        />
-                        <!--                        <Chart_Donut-->
-                        <!--                                width={width_donut}-->
-                        <!--                                height={width_donut}-->
-                        <!--                                data={covidData}-->
-                        <!--                                label="Seven-Day Positive Test Rate"-->
-                        <!--                                primaryKey="Seven-Day Positive"-->
-                        <!--                                secondaryKey="Seven-Day Negative"-->
-                        <!--                                valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests"}}-->
-                        <!--                        />-->
-                    </div>
-                </div>
-
-                <div class="donut-positive-item">
-                    <div class="donut-chart">
-                        <Chart_Donut
-                                width={width_donut}
-                                height={width_donut}
-                                data={covidData}
-                                label="Campus Wellness Beds in Use"
-                                primaryKey="Beds In Use"
-                                secondaryKey="Beds Not In Use"
-                                valueStyle="default"
-                        />
-                    </div>
-                </div>
-
             </div>
-        </section>
+
+            <div class="donut-positive-item">
+                <div class="donut-chart">
+                    <Chart_Donut
+                            width={width_donut}
+                            height={width_donut}
+                            data={covidData}
+                            label="Campus Wellness Beds in Use"
+                            primaryKey="Beds In Use"
+                            secondaryKey="Beds Not In Use"
+                            valueStyle="default"
+                    />
+                </div>
+            </div>
+
+    </div>
+    </section>
 
 
-        <!-- Waffle Charts of Variants -->
-        <div class="dashboard-grid-item dash-variants"
-             style="--chart--key-font-size: var(--global--font-size-xs)">
+    <!-- Waffle Charts of Variants -->
+    <div class="dashboard-grid-item dash-variants"
+         style="--chart--key-font-size: var(--global--font-size-xs)">
 
-            <GraphicTitle
-                    title={"Variants"}
-            />
-            <Chart_Covid_Variants
-                    isPercentage={false}
-                    data={covidData[covidData.length-1]}
-                    width={width}
-                    columns={25}
-                    groups={["SARS-COV-2", "SARS-COV-2 Delta"]}
-                    labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
-                    colors={["var(--chart--variants-base)", "var(--chart--variants-delta)"]}
-                    footnotes={[
+        <GraphicTitle
+                title={"Variants"}
+        />
+        <Chart_Covid_Variants
+                isPercentage={false}
+                data={covidData[covidData.length-1]}
+                width={width}
+                columns={25}
+                groups={["SARS-COV-2", "SARS-COV-2 Delta"]}
+                labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
+                colors={["var(--chart--variants-base)", "var(--chart--variants-delta)"]}
+                footnotes={[
                                 "* Northeastern’s Life Sciences Testing Center analyzes\n"+
         "                    the genome of viral samples that test positive for COVID-19\n"+
         "                    to determine which strain of the virus is behind a positive\n"+
@@ -1316,85 +1323,85 @@
         "                    tests above.",
 
                             ]}
-            />
-        </div>
+        />
+    </div>
 
 
-        <!-- Total Vaccination Rates -->
+    <!-- Total Vaccination Rates -->
 
-        <div class="dashboard-grid-item dash-vac-rate">
+    <div class="dashboard-grid-item dash-vac-rate">
 
-            <GraphicTitle
-                    title={"Vaccination Rates"}
-            />
-            <div class="dash-vac-chart">
+        <GraphicTitle
+                title={"Vaccination Rates"}
+        />
+        <div class="dash-vac-chart">
 
-                <div class="dash-stacked-vaccination">
-                    <div class="stacked-cont is-horizontal">
-                        <Meter_Chart
-                                length={meterColumnLength}
-                                width={meterColumnWidth}
-                                value={getMostRecentEntry("Student Vaccinated")}
-                                label="Students Vaccination Rate"
-                        />
-                        <Meter_Chart
-                                length={meterColumnLength}
-                                width={meterColumnWidth}
-                                value={getMostRecentEntry("Fac/Staff Vaccinated")}
-                                label="Faculty and Staff Vaccination Rate"
-                        />
-                    </div>
-
+            <div class="dash-stacked-vaccination">
+                <div class="stacked-cont is-horizontal">
+                    <Meter_Chart
+                            length={meterColumnLength}
+                            width={meterColumnWidth}
+                            value=12
+                            label="Students Vaccination Rate"
+                    />
+                    <Meter_Chart
+                            length={meterColumnLength}
+                            width={meterColumnWidth}
+                            value={getMostRecentEntry("Fac/Staff Vaccinated")}
+                            label="Faculty and Staff Vaccination Rate"
+                    />
                 </div>
-            </div>
 
+            </div>
         </div>
 
-        <!-- Dashboard Item -Wellness Summary -->
+    </div>
 
-        <div class="dashboard-grid-item dash-wellness">
-            <!-- <GraphicTitle
-                title={"Wellness and Contact Tracing"}
-            /> -->
-            <div class="wellness-summary-list">
-                <Chart_Wellness_Summary
-                        label="Students in Isolation"
-                        onCampus={getMostRecentEntry("Students in Isolation On Campus")}
-                        offCampus={getMostRecentEntry("Students in Isolation Off Campus")}
-                />
-                <Chart_Wellness_Summary
-                        label="Students in Quarantine"
-                        onCampus={getMostRecentEntry("Students in Quarantine On Campus")}
-                        offCampus={getMostRecentEntry("Students in Quarantine Off Campus")}
-                />
-            </div>
-            <p class="update-line">*According to the university’s August 18,
-                2021 announcement, those who have been identified as close
-                contacts no longer have to quarantine as long as they are
-                vaccinated.</p>
+    <!-- Dashboard Item -Wellness Summary -->
 
+    <div class="dashboard-grid-item dash-wellness">
+        <!-- <GraphicTitle
+            title={"Wellness and Contact Tracing"}
+        /> -->
+        <div class="wellness-summary-list">
+            <Chart_Wellness_Summary
+                    label="Students in Isolation"
+                    onCampus={getMostRecentEntry("Students in Isolation On Campus")}
+                    offCampus={getMostRecentEntry("Students in Isolation Off Campus")}
+            />
+            <Chart_Wellness_Summary
+                    label="Students in Quarantine"
+                    onCampus={getMostRecentEntry("Students in Quarantine On Campus")}
+                    offCampus={getMostRecentEntry("Students in Quarantine Off Campus")}
+            />
         </div>
+        <p class="update-line">*According to the university’s August 18,
+            2021 announcement, those who have been identified as close
+            contacts no longer have to quarantine as long as they are
+            vaccinated.</p>
 
-        <!-- Dashboard Item -Svelte Table -->
-        <div class="dashboard-grid-item dash-table-container">
+    </div>
 
-            <div class="dashboard-grid-item dash-table-wrapper"
-                 id="table-covid">
-                <!-- <before></before> -->
+    <!-- Dashboard Item -Svelte Table -->
+    <div class="dashboard-grid-item dash-table-container">
 
-                <SvelteTable
-                        columns={columns}
-                        rows={covidData}
-                        sortBy={"Date"}
-                        sortOrder={-1}
-                        classNameCell={"infocell"}
-                >
-                </SvelteTable>
-            </div>
-            <button on:click={toggleTable} class="table-button is-primary">
-                <div class="button-label">View Full Table</div>
-            </button>
+        <div class="dashboard-grid-item dash-table-wrapper"
+             id="table-covid">
+            <!-- <before></before> -->
+
+            <SvelteTable
+                    columns={columns}
+                    rows={covidData}
+                    sortBy={"Date"}
+                    sortOrder={-1}
+                    classNameCell={"infocell"}
+            >
+            </SvelteTable>
         </div>
+        <button on:click={toggleTable} class="table-button is-primary">
+            <div class="button-label">View Full Table</div>
+        </button>
+    </div>
 
 
     </div>

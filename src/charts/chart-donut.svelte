@@ -109,19 +109,17 @@
             .data(dataReady)
             .enter()
             .append('path')
+            .attr("class", "graph-column")
             .attr('d', d3.arc()
                 .innerRadius(width * 0.35) // This is the size of the donut hole
                 .outerRadius(width * 0.45)
             )
-            .attr("class", "graph-column")
 
         /**
          * Adds the data label
          */
         graph.append("text")
             .attr("class", "data-label")
-            .style("fill", "var(--chart--color-primary)")
-            .attr("text-anchor", "middle")
             .text(innerText)
     }
 </script>
