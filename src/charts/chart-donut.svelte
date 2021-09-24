@@ -64,15 +64,15 @@
     function generateGraph() {
         const graphContainer = d3.select(el);
 
-        /**
-         * Add title
-         */
-        graphContainer
+        const graphTitle = graphContainer
             .append("div")
             .attr("class", "graph-title")
             .text(function (d) {
                 return label
             })
+
+        const graphVisualWrapper = graphContainer.append("div")
+            .attr("class", "graph-visual-wrapper");
 
         /**
          * Add graph
@@ -82,12 +82,9 @@
             b: data[secondaryKey]
         }
 
-        const graphWrapper = graphContainer
-            .append("div")
-            .attr("class", "graph")
-
-        const graph = graphWrapper
+        const graphVisual = graphVisualWrapper
             .append("svg")
+            .attr("class", "graph-visual")
             .attr("aria-label", `${innerText} ${label}`)
             .attr("width", width)
             .attr("height", height)
@@ -104,7 +101,7 @@
             })
         let dataReady = donut(d3.entries(graphData))
 
-        graph
+        graphVisual
             .selectAll()
             .data(dataReady)
             .enter()
@@ -118,39 +115,10 @@
         /**
          * Adds the data label
          */
-        graph.append("text")
+        graphVisual.append("text")
             .attr("class", "data-label")
             .text(innerText)
     }
 </script>
-
-<style>
-    :global(.donut-graph) {
-        display: flex;
-        justify-content: var(--chart--alignment, center);;
-        align-content: var(--chart--alignment, center);
-        flex-direction: var(--chart--flex-direction, column);
-        margin: 0;
-    }
-
-    :global(.donut-graph__title) {
-        font-size: var(--chart--title-font-size);
-        color: var(--chart--title-color);
-        font-weight: var(--chart--title-weight);
-        margin-bottom: 0;
-    }
-
-    :global(.data-label) {
-        text-align: center;
-        text-anchor: middle;
-        alignment-baseline: middle;
-    }
-
-    :global(.donut-graph__graph) {
-        display: flex;
-        justify-content: center;
-    }
-
-</style>
 
 <figure bind:this={el} class="{getClassNames()}"></figure>

@@ -51,24 +51,20 @@
                 return label
             })
 
-        const svg = graphContainer
+        const graphVisualWrapper = graphContainer.append("div")
+            .attr("class", "graph-visual-wrapper");
+
+        const graphVisual = graphVisualWrapper
             .append("svg")
+            .attr("class", "graph-visual")
             .attr("width", width)
             .attr("height", height)
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-
-        // Compute the position of each group on the pie:
-        var pie = d3.pie()
-            .value(function (d) {
-                return d.value;
-            })
-
-        // Adds a rectangle behind the number
         let squareSideLength = 0.4 * width
         let squareStrokeWidth = "8px";
-        svg.append("rect")
+        graphVisual.append("rect")
             .attr("class", "graph-column")
             .attr("width", squareSideLength)
             .attr("height", squareSideLength)
@@ -80,35 +76,10 @@
         let textFontSizeUnit = "rem";
         let textOffsetY = 0.4 * textFontSizeAmount;
 
-        svg.append("text")
+        const graphDataLabel = graphVisual.append("text")
             .attr("class", "data-label")
             .text((value).toLocaleString())
     }
 </script>
-
-<style>
-    .chart {
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        flex-direction: row;
-    }
-
-    .chart :global(.tipdate) {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin: 0 auto 0.5rem;
-    }
-
-    .chart :global(.pcttooltip) {
-        display: none;
-        position: absolute;
-        background-color: white;
-        border: 2px solid black;
-        border-radius: 10px;
-        padding: 10px;
-        width: 300px;
-    }
-</style>
 
 <figure bind:this={el} class="{getClassNames()}"></figure>
