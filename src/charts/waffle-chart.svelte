@@ -28,19 +28,16 @@
         legendSize: legendSize
     }
 
-
-    export let data = [];
     export let width = {width};
-    export let groups = {groups};
+    export let value = {value};
     export let columns = {columns};
     export let isPercentage = {isPercentage};
-    export let colors = {colors};
     export let labels = {labels};
     export let footnotes = {footnotes}
     export let orientation = "horizontal";
+    export let hasAccent = false;
 
     const padding = {top: 20, right: 0, bottom: 0, left: 20};
-    let cellColors = colors.map((x) => x);
     let cellBounds = [0]
     let totalItems = 0;
     let totalCells = 0;
@@ -49,8 +46,21 @@
     let numRows;
     let el;
 
-    for (let i in groups) {
-        totalItems = data[groups[i]] + totalItems;
+    let classNames = [
+        "graph",
+        "waffle-graph"
+    ];
+
+    if (hasAccent) {
+        classNames.push("has-accent");
+    }
+
+    const getClassNames = () => {
+        return classNames.join(" ");
+    }
+
+    for (let i in value) {
+        totalItems = value[i] + totalItems;
         totalCells = totalItems;
     }
 
@@ -60,8 +70,8 @@
     }
 
     // Determine how many cells each group fills.
-    for (let i in groups) {
-        let groupValue = data[groups[i]] / cellValue;
+    for (let i in value) {
+        let groupValue = value[i] / cellValue;
         let subtotal = Math.round(groupValue) + cells[cells.length - 1];
 
         if (isPercentage && 100 < subtotal) {
@@ -88,12 +98,35 @@
     $: xScale = d3.scaleLinear()
         .domain([0, totalItems])
         .range([0, columns * cellSize]);
-    $: colorScale = d3
+
+
+    let dataCategories = [];
+    labels.forEach(element => dataCategories.push(slugify(element)));
+
+    $: cellClassScale = d3
         .scaleQuantile()
         .domain(cells)
-        .range(cellColors.splice(0, cells.length - 1));
+        .range(dataCategories.splice(0, cells.length - 1));
 
     onMount(generateWaffleChart);
+
+    /**
+     * Slugify a string.
+     *
+     * @see https://gist.github.com/codeguy/6684588#gistcomment-3243980
+     *
+     * @since 1.5
+     */
+    function slugify(text) {
+        return text
+            .toString()                     // Cast to string
+            .toLowerCase()                  // Convert the string to lowercase letters
+            .normalize('NFD')       // The normalize() method returns the Unicode Normalization Form of a given string.
+            .trim()                         // Remove whitespace from both sides of a string
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-');        // Replace multiple - with single -
+    }
 
     /**
      * Creates the graph.
@@ -103,6 +136,11 @@
     function generateWaffleChart() {
         const graphContainer = d3.select(el);
 
+        // Add heading
+        graphContainer.append("h3")
+            .attr("class", "chart-label")
+            .text(totalItems + " cases")
+
         // Adds graph.
         let graph = graphContainer
             .append("svg")
@@ -111,44 +149,41 @@
 
         let group = graph.append("g")
             .attr("transform",
-                "translate(" + padding.left + "," + padding.top + ")")
-
-        group.append("text")
-            .attr("class", "chart-label")
-            .text(totalItems + " cases")
+                "translate(" + padding.left + ",0)")
 
 
         for (let i = 0; i < totalCells; i++) {
+            let cellLabel = (1 === cellValue) ?
+                cellValue + " case"
+                : cellValue + "cases";
             group.append("circle")
-                .attr("aria-label", cellValue + ' cases')
-                .attr("class", "rect" + i)
+                .attr("aria-label", cellLabel)
+                .attr("class", "graph-column graph-column-" + cellClassScale(i))
                 .attr("cx", Math.floor(i / rows) * (cellSize + 1))
                 .attr("cy", ((i % rows) * (cellSize + 1)) + 40)
                 .attr("r", cellSize / 2)
-                .attr("fill", colorScale(i))
                 .attr("data-index", i)
         }
 
         // Adds legend.
-        const graphLegend = graphContainer
+        const legend = graphContainer
             .append("div")
             .attr("class", "legend");
 
         for (let i = 0; i < labels.length; i++) {
-            let legendCell = graphLegend
+            let legendKey = legend
                 .append("div")
-                .attr("class", "legend-key");
+                .attr("class", "legend-key graph-column-" + slugify(labels[i]));
 
-            legendCell
+            legendKey
                 .append("span")
-                .attr("class", "legend-key-indicator")
-                .style("background-color", colors[i])
-                .style("width",  0.75 * cellSize + "px")
-                .style("height",  0.75 * cellSize + "px")
+                .attr("class", "legend-key__identifier")
+                .style("width", 0.75 * cellSize + "px")
+                .style("height", 0.75 * cellSize + "px")
 
-            legendCell
+            legendKey
                 .append("div")
-                .attr("class", "legend-key-label")
+                .attr("class", "legend-key__label")
                 .text(function (d) {
                     return labels[i];
                 })
@@ -176,96 +211,4 @@
 
 </script>
 
-<style>
-
-    .chart :global(.legend) {
-        display: flex;
-        justify-content: space-around;
-    }
-
-    .chart :global(.legend-key) {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 50px 0 0;
-    }
-
-    .chart :global(.legend-key-indicator) {
-        border-radius: 50%;
-        display: block;
-    }
-
-    .chart :global(.legend-key-label) {
-        color: var(--chart--key-color);
-        font-family: var(--chart--key-font);
-        font-size: var(--chart--key-font-size);
-        padding: 10px 0;
-        text-align: center;
-        text-transform: uppercase;
-    }
-
-    .chart :global(.footnotes) {
-        margin-top: var(--chart--footnote-margin);
-        color: var(--chart--footnote-color);
-        font-family: var(--chart--footnote-font);
-        font-size: var(--chart--footnote-font-size);
-        font-weight: var(--chart--footnote-weight);
-        line-height: var(--chart--footnote-line-height);
-        text-align: left
-    }
-
-
-    .chart :global(text) {
-        font-family: var(--chart--title-font);
-        font-size: var(--chart--title-font-size);
-        text-transform: uppercase;
-    }
-
-    .chart :global(.chart-label) {
-        text-align: var(--chart--title-text-align);
-        font-size: var(--chart--title-font-size);
-        color: var(--chart--title-color);
-        font-weight: var(--chart--title-weight);
-        margin-bottom: 0;
-    }
-
-    .chart :global(g.tick line) {
-        stroke: #ccc;
-    }
-
-    .chart :global(.legendContainer) {
-        display: block;
-        margin: 0 auto;
-        padding: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-    }
-
-    .chart :global(.legendContainer text) {
-        font-family: 'akkurat', sans-serif;
-        text-transform: uppercase;
-        fill: #666;
-        font-size: 11px;
-    }
-
-    .stats {
-        display: grid;
-        grid-template-columns: var(--proportions);
-        margin: 0
-    }
-
-    .stats div {
-        font-family: 'akkurat', sans-serif;
-        font-size: 11px;
-        text-transform: uppercase;
-    }
-
-    h3 {
-        font-family: 'akkurat', sans-serif;
-        font-size: 1.5rem;
-        text-transform: unset;
-        margin: 0 auto 1rem;
-    }
-</style>
-
-<div bind:this={el} class="chart"></div>
+<figure bind:this={el} class="{getClassNames()}"></figure>

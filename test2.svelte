@@ -7,7 +7,7 @@
 	import WellnessSummary from './charts/WellnessSummary.svelte'
 
 	import DonutChart from './charts/DonutChart0.svelte'
-	import WaffleChart from './charts/chart-covid-variants.svelte'
+	import WaffleChart from './charts/waffle-chart.svelte'
 
 	import GraphicTitle from './components/GraphicTitle.svelte'
 	import GraphicFooter from './components/GraphicFooter.svelte'

@@ -182,7 +182,7 @@
     --graph--color-background: transparent;
     --graph--color-primary: var(--global--color-purple);
     --graph--color-secondary: var(--global--color-light-blue);
-    --graph--color-accent-1: #bfd3e6;
+    --graph--color-accent-1: var(--global--color-dark-blue);
     --graph--color-accent-2: #8c96c6;
     --graph--color-accent-3: #6e016b;
     --graph--color-lighter-blue: #e0ecf4;
@@ -198,13 +198,13 @@
     --graph-title--color: var(--global--color-black);
     --graph-title--text-align: left;
 
-    --chart--key-font: var(--global--font-signage, inherit);
-    --chart--key-font-size: var(--global--font-size-s);
-    --chart--key-text-align: center;
-    --chart--key-weight: var(--global--font-weight-bold);
-    --chart--key-color: var(--global--color-black);
-    --chart--alignment: center;
-    --chart--flex-direction: column;
+    --legend--font: var(--global--font-signage, inherit);
+    --legend--font-size: var(--global--font-size-s);
+    --legend--font-weight: var(--global--font-weight-medium);
+    --legend--text-align: center;
+    --legend--color: var(--global--color-black);
+    --legend--alignment: space-around;
+    --legend--flex-direction: row;
 
 
     --chart--variants-base: var(--graph--color-accent-1);
@@ -242,8 +242,7 @@
     margin: 0;
 }
 
-.graph-visual-wrapper 
-{
+.graph-visual-wrapper {
     display: flex;
     justify-content: center;
 }
@@ -280,6 +279,31 @@
 
 .graph-column:nth-child(n+5) {
     fill: var(--graph--color-accent-3);
+}
+
+.legend {
+    color: var(--legend--color);
+    display: flex;
+    flex-direction: var(--legend--flex-direction);
+    font-family: var(--legend--font);
+    font-size: var(--legend--font-size);
+    font-weight: var(--legend--font-weight);
+    justify-content: var(--legend--alignment);
+    text-align: var(--legend--text-align);
+    padding: 0 50px 0 0;
+}
+
+.legend-key {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+}
+
+.legend-key__identifier {
+    border-radius: 50%;
+    display: block;
+    margin: calc(0.5 * var(--graph--spacing-unit));
 }
 
 .data-label {
@@ -391,6 +415,15 @@ svg .data-label {
     stroke: var(--graph--color-face);
 }
 
+
+/**
+ * Waffle Graph
+ */
+.waffle-graph .chart-label {
+    margin: 0;
+    text-align: left;
+}
+
 /**
  * Wellness Summary
  */
@@ -404,6 +437,7 @@ svg .data-label {
     padding: var(--global--spacing-unit);
 
 }
+
 .wellness-summary-list {
     display: flex;
 }
@@ -415,6 +449,7 @@ svg .data-label {
 .wellness-summary__location {
     flex: 1 1 auto;
 }
+
 .wellness-summary__location-list {
     display: flex;
     justify-content: stretch;
@@ -431,6 +466,7 @@ svg .data-label {
     display: flex;
     justify-content: space-around;
 }
+
 .graph-group > * + * {
     margin-left: var(--global--spacing-gap);
 }
@@ -447,8 +483,32 @@ svg .data-label {
 /**
  * Daily Positives section
  */
-.daily-positives-list > * + *{
+.daily-positives-list > * + * {
     margin-top: var(--global--spacing-gap);
+}
+
+/**
+ * COVID Variants section
+ */
+#covid-variants .waffle-graph {
+    --graph--sars-cov-2: var(--graph--color-primary);
+    --graph--sars-cov-2-delta: var(--graph--color-accent-1);
+}
+
+.graph-column.graph-column-sars-cov-2 {
+    fill: var(--graph--sars-cov-2);
+}
+
+.graph-column.graph-column-sars-cov-2-delta {
+    fill: var(--graph--sars-cov-2-delta)
+}
+
+.graph-column-sars-cov-2 .legend-key__identifier {
+    background: var(--graph--sars-cov-2);
+}
+
+.graph-column-sars-cov-2-delta .legend-key__identifier {
+    background: var(--graph--sars-cov-2-delta);
 }
 
 /**

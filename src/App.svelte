@@ -7,7 +7,7 @@
     import Chart_Wellness_Summary from './charts/wellness-summary.svelte'
     import Data_Point from './charts/data-point.svelte'
     import SvelteTable from "svelte-table"
-    import Chart_Covid_Variants from "./charts/chart-covid-variants.svelte";
+    import Waffle_Chart from "./charts/waffle-chart.svelte";
     import {csv} from 'd3-fetch'
     import {timeFormat, timeParse} from 'd3-time-format';
     import {negativePositive} from './helpers/colors.js'
@@ -426,20 +426,19 @@
 
 
         <!-- Waffle Charts of Variants -->
-        <div class="dashboard-grid-item dash-variants"
-             style="--chart--key-font-size: var(--global--font-size-xs)">
+        <section id="covid-variants">
+            <h2 class="section-heading">Variants</h2>
 
-            <GraphicTitle
-                    title={"Variants"}
-            />
-            <Chart_Covid_Variants
+            <Waffle_Chart
                     isPercentage={false}
                     data={getMostRecentEntry()}
                     width={width}
                     columns={25}
-                    groups={["SARS-COV-2", "SARS-COV-2 Delta"]}
+                    value={[
+                        getMostRecentEntry("SARS-COV-2"),
+                        getMostRecentEntry("SARS-COV-2 Delta"),
+                        ]}
                     labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
-                    colors={["var(--chart--variants-base)", "var(--chart--variants-delta)"]}
                     footnotes={[
                                 "* Northeastern’s Life Sciences Testing Center analyzes\n"+
         "                    the genome of viral samples that test positive for COVID-19\n"+
@@ -453,7 +452,7 @@
 
                             ]}
             />
-        </div>
+        </section>
 
 
         <!-- Total Vaccination Rates -->
