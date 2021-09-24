@@ -230,8 +230,8 @@
      * Gets the data for the most recent day
      */
 
-    function getMostRecentEntry(prop) {
-        return covidData[covidData.length - 1][prop];
+    function getMostRecentEntry(prop = null) {
+        return (null != prop) ? covidData[covidData.length - 1][prop] : covidData[covidData.length - 1];
     }
 
     /**
@@ -287,36 +287,37 @@
     <div id="dashboard-grid">
         <div class="dashboard-grid-item panel-testing-results">
             <section id="daily-positives">
-                <h2 class="section-heading">Daily Positives for {new Date(covidData[covidData.length - 1]['Date']).toLocaleDateString()}</h2>
+                <h2 class="section-heading">Daily Positives for {new Date(getMostRecentEntry('Date')).toLocaleDateString()}</h2>
                 <div class="daily-positives-list">
                     <Chart_Donut
                             width={width_donut}
                             height={width_donut}
-                            data={covidData}
+                            value={[
+                                getMostRecentEntry("Students Total Positive"),
+                                getMostRecentEntry("Students Total Negative"),
+                                ]}
                             label="Students"
-                            primaryKey="Students Total Positive"
-                            secondaryKey="Students Total Negative"
                             valueStyle="default"
                             hasAccent={true}
                     />
                     <Chart_Donut
                             width={width_donut}
                             height={width_donut}
-                            data={covidData}
+                            value={[
+                                getMostRecentEntry("FacStaff Total Positive"),
+                                getMostRecentEntry("FacStaff Total Negative"),
+                                ]}
                             label="Faculty/Staff"
-                            primaryKey="FacStaff Total Positive"
-                            secondaryKey="FacStaff Total Negative"
-                            valueStyle="default"
                             hasAccent={true}
                     />
                     <Chart_Donut
                             width={width_donut}
                             height={width_donut}
-                            data={covidData}
+                            value={[
+                                getMostRecentEntry("Contractor Total Positive"),
+                                getMostRecentEntry("Contractor Total Negative"),
+                                ]}
                             label="Contractors"
-                            primaryKey="Contractor Total Positive"
-                            secondaryKey="Contractor Total Negative"
-                            valueStyle="default"
                             hasAccent={true}
                     />
                 </div>
@@ -403,21 +404,22 @@
                 <Chart_Donut
                         width={width_donut}
                         height={width_donut}
-                        data={covidData}
+                        value={[
+                                getMostRecentEntry("Seven-Day Positive Primer"),
+                                getMostRecentEntry("Seven-Day Negative Primer"),
+                                ]}
                         label="Seven-Day Positive Test Rate"
-                        primaryKey="Seven-Day Positive Primer"
-                        secondaryKey="Seven-Day Negative Primer"
-                        valueStyle={{"type": "percent", "compareWith": "Seven-Day Tests Primer"}}
+                        isPercent={true}
                 />
 
                 <Chart_Donut
                         width={width_donut}
                         height={width_donut}
-                        data={covidData}
+                        value={[
+                                getMostRecentEntry("Beds In Use"),
+                                getMostRecentEntry("Beds Not In Use"),
+                                ]}
                         label="Campus Wellness Beds in Use"
-                        primaryKey="Beds In Use"
-                        secondaryKey="Beds Not In Use"
-                        valueStyle="default"
                 />
             </div>
         </section>
@@ -432,7 +434,7 @@
             />
             <Chart_Covid_Variants
                     isPercentage={false}
-                    data={covidData[covidData.length-1]}
+                    data={getMostRecentEntry()}
                     width={width}
                     columns={25}
                     groups={["SARS-COV-2", "SARS-COV-2 Delta"]}

@@ -5579,7 +5579,7 @@ var app = (function () {
     	let { label = { label } } = $$props;
     	let { primaryKey = { primaryKey } } = $$props;
     	let { secondaryKey = { secondaryKey } } = $$props;
-    	let { valueStyle = { valueStyle } } = $$props;
+    	let { valueStyle = { valueStyle: displayAs } } = $$props;
     	let { hasAccent = false } = $$props;
     	let classNames = ["graph", "donut-graph"];
 

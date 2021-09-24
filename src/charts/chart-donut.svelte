@@ -6,14 +6,15 @@
     import {path} from 'd3-path';
     import {arc, pie} from 'd3-shape';
 
-    export let data = {data};
+    // export let data = {data};
+    export let value = {value};
     export let width = {width};
     export let height = {height};
     export let label = {label};
-    export let primaryKey = {primaryKey};
-    export let secondaryKey = {secondaryKey};
-    export let valueStyle = {valueStyle};
+    // export let primaryKey = {primaryKey};
+    // export let secondaryKey = {secondaryKey};
     export let hasAccent = false;
+    export let isPercent = false;
 
     let classNames = [
         "graph",
@@ -39,20 +40,19 @@
         path: path,
     }
     let el;
-    let valueStyleParams;
+    let valueStyleParams = {};
 
-    // TODO: Update this to allow for different data ranges
-    data = data[data.length - 1] // only use latest day's data
 
     /**
      * Sets the text inside of the donut graph
      */
     let innerText;
-    if ("percent" === valueStyle || 'object' === typeof valueStyle && "percent" === valueStyle.type) {
+    // TODO: Reenable this
+    if (isPercent) {
         valueStyleParams = {style: 'percent', minimumFractionDigits: 2}
-        innerText = (data[primaryKey] / data[valueStyle.compareWith]).toLocaleString(undefined, valueStyleParams)
+        innerText = (value[0] / 100).toLocaleString(undefined, valueStyleParams)
     } else {
-        innerText = (data[primaryKey]).toLocaleString(undefined, valueStyleParams)
+        innerText = (value[0]).toLocaleString(undefined, valueStyleParams)
     }
 
 
@@ -77,10 +77,10 @@
         /**
          * Add graph
          */
-        let graphData = {
-            a: data[primaryKey],
-            b: data[secondaryKey]
-        }
+        // let graphData = {
+        //     a: data[primaryKey],
+        //     b: data[secondaryKey]
+        // }
 
         const graphVisual = graphVisualWrapper
             .append("svg")
@@ -99,11 +99,12 @@
             .value(function (d) {
                 return d.value;
             })
-        let dataReady = donut(d3.entries(graphData))
+        let dataReady = donut(d3.entries(value))
 
         graphVisual
             .selectAll()
             .data(dataReady)
+            // .data({a: value[0], b: value[1]})
             .enter()
             .append('path')
             .attr("class", "graph-column")
