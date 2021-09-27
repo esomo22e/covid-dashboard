@@ -14,19 +14,6 @@
     export let title = {title};
     export let hasAccent = false;
 
-    // Dynamically figure out the width of CSS grid items.
-    let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
-    let width_donut = Math.min(width, 175);
-    let width_stacked = 20;
-    let height = 500;
-    // height = Math.min(height, 500);
-
-    if (window.innerWidth > 600) {
-        width_donut = width * 0.22;
-        width_stacked = (width * 0.5)
-        height = width * 0.6;
-    }
-
     let classNames = [
         "graph",
         "results-by-date"
@@ -46,11 +33,6 @@
     }
     let el;
 
-
-    /**
-     * Generate the graph
-     */
-    onMount(generateGraph);
 
     /**
      * Gets a date object for today.
@@ -147,15 +129,6 @@
         const COMPARE_DATE = new Date(d.Date).getTime();
         return (COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE);
     });
-
-
-    function generateGraph() {
-        const graphContainer = d3.select(el);
-
-        const graphVisualWrapper = graphContainer.append("div")
-            .attr("class", "graph-visual-wrapper");
-
-    }
 </script>
 
 <figure bind:this={el} class="{getClassNames()}">
@@ -163,7 +136,7 @@
         <div class="dash-bars dash-test-item">
             <h2 class="section-heading">{title}</h2>
             <div class="filter-bar">
-                <menu type="toolbar" class="filter-bar-presets">
+                <menu class="filter-bar-presets" type="toolbar">
                     <button class="button-filter filter-seven-days is-active"
                             on:click={setFilterLastSevenDays}>Past 7
                         Days
@@ -178,47 +151,50 @@
                 </menu>
 
                 <div class="filter-bar-date-range">
-                    <Datepicker bind:selected={filterStartDate}
-                                bind:dateChosen={isStartDateChosen}
+                    <Datepicker bind:dateChosen={isStartDateChosen}
+                                bind:selected={filterStartDate}
                                 end={filterEndDate}>
                         <div class="datepicker-label">{filterStartDate.toLocaleDateString()}</div>
                     </Datepicker>
-                    <span class="date-separator"
-                          aria-label="to">–</span>
-                    <Datepicker bind:selected={filterEndDate}
-                                bind:dateChosen={isEndDateChosen}
+                    <span aria-label="to"
+                          class="date-separator">–</span>
+                    <Datepicker bind:dateChosen={isEndDateChosen}
+                                bind:selected={filterEndDate}
                                 start={filterStartDate}>
                         <div class="datepicker-label">{filterEndDate.toLocaleDateString()}</div>
                     </Datepicker>
                 </div>
             </div>
-            <div class="chart-results-pos-neg__chart">
-                <div class="dashboard-legend">
-                    <div class="legendCells">
-                        <div class="cell1"></div>
-                        <div class="cell-label">NEGATIVE TESTS</div>
+            <div class="graph-visual-wrapper">
+                <div class="chart-results-pos-neg__chart">
+<!--                    <div class="dashboard-legend">-->
+<!--                        <div class="legendCells">-->
+<!--                            <div class="cell1"></div>-->
+<!--                            <div class="cell-label">NEGATIVE TESTS</div>-->
 
-                    </div>
-                    <div class="legendCells">
-                        <div class="cell2"></div>
-                        <div class="cell-label">POSITIVE TESTS</div>
+<!--                        </div>-->
+<!--                        <div class="legendCells">-->
+<!--                            <div class="cell2"></div>-->
+<!--                            <div class="cell-label">POSITIVE TESTS</div>-->
 
-                    </div>
+<!--                        </div>-->
 
-                </div>
-                {#key filteredData}
-                    <Chart_Bar_Vertical
-                            width={width_stacked}
-                            height={height}
-                            data={filteredData}
-                            title={"Test Results by Date"}
-                            category={'Date'}
-                            value={"Tests Completed"}
-                            groups={["Negative Tests", "Positive Tests"]}
-                            colorscheme={negativePositive}
-                    />
-                {/key}
-            </div> <!-- /.chart-results-pos-neg__chart -->
+<!--                    </div>-->
+                    {#key filteredData}
+                        <Chart_Bar_Vertical
+                                width=500
+                                height=506
+                                data={filteredData}
+                                category={'Date'}
+                                value={"Tests Completed"}
+                                groups={["Negative Tests", "Positive Tests"]}
+                                colorscheme={negativePositive}
+                                columnDescription={"On {Date} there were {Positive Tests} positive and {Negative Tests} negative tests."}
+
+                        />
+                    {/key}
+                </div> <!-- /.chart-results-pos-neg__chart -->
+            </div>
         </div>
     </div> <!-- /.chart-results-pos-neg -->
 </figure>
