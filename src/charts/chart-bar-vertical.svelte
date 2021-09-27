@@ -36,13 +36,12 @@
     export let category = {category};
     export let value = {value};
     export let groups = {groups};
-
     export let plotMargin = {top: 5, right: 0, bottom: 50, left: 42}
-
-    export let colorscheme = {colorscheme};
-    export let colorsteps = groups.length;
     export let hasAccent = false;
     export let columnDescription = {columnDescription};
+
+    let tooltipOffsetX = 15;
+    let tooltipOffsetY = 70;
 
 
     let len = data.length;
@@ -74,10 +73,6 @@
         .range([height - plotMargin.bottom, plotMargin.top])
         .nice();
 
-    $: colors = d3.scaleOrdinal()
-        .domain(groups)
-        .range(colorscheme)
-
     /**
      * Slugify a string.
      *
@@ -97,20 +92,19 @@
     }
 
     function showTip(d, target, mouse) {
+        let innerHTML = `<div class="tooltip__date">${new Date(d[category]).toLocaleDateString()}</div>`;
+
+        for (let i = 0; i < groups.length; i++) {
+            innerHTML += '<div class="tooltip__result">' + groups[i] + ": " + d[groups[i]] + "</div>";
+        }
+
+
         target
             .style("position", "absolute")
-            .style("left", (mouse[0] - 100) + "px")
-            .style("top", (mouse[1] - 150) + "px")
             .style("display", "inline-block")
-            .html(
-                function (g) {
-                    let arr = [];
-                    for (let i = 0; i < groups.length; i++) {
-                        arr.push("<br/>" + groups[i] + ": " + d[groups[i]])
-                    }
-                    return "<div class='tipdate'>" + d[category] + "</div>" + arr.join(' ')
-                }
-            );
+            .style("left", (mouse[0] - tooltipOffsetX) + "px")
+            .style("top", (mouse[1] - tooltipOffsetY) + "px")
+            .html( innerHTML );
     }
 
     /**
@@ -245,11 +239,10 @@
                 .data(data)
                 .enter()
                 .append("rect")
-                .attr("class", "graph-column-" + slugify(groups[i]))
+                .attr("class", "graph-column graph-column-" + slugify(groups[i]))
                 .attr("aria-label", function (d) {
                     return getColumnTextDescription(d);
                 })
-                .attr("fill", colors(groups[i]))
                 .attr("x", function (d) {
                     return xScale(d[category]);
                 })
@@ -279,35 +272,35 @@
 </script>
 
 <style>
-    .chart :global() {
-        position: relative;
-    }
+    /*.chart :global() {*/
+    /*    position: relative;*/
+    /*}*/
 
-    .chart :global(rect) {
-        /* fill: #cfbabc; */
-    }
+    /*.chart :global(rect) {*/
+    /*    !* fill: #cfbabc; *!*/
+    /*}*/
 
-    .chart :global(.tooltip) {
-        display: none;
-        position: absolute;
-        background-color: white;
-        border: 2px solid black;
-        border-radius: 10px;
-        padding: 10px;
-        width: 300px;
-    }
+    /*.chart :global(.tooltip) {*/
+    /*    display: none;*/
+    /*    position: absolute;*/
+    /*    background-color: white;*/
+    /*    border: 2px solid black;*/
+    /*    border-radius: 10px;*/
+    /*    padding: 10px;*/
+    /*    width: 300px;*/
+    /*}*/
 
-    .chart :global(.legendCells .cell) {
-        font-size: 0.65rem;
-        fill: #777;
-        text-transform: uppercase;
-    }
+    /*.chart :global(.legendCells .cell) {*/
+    /*    font-size: 0.65rem;*/
+    /*    fill: #777;*/
+    /*    text-transform: uppercase;*/
+    /*}*/
 
-    .chart :global(.tipdate) {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin: 0 auto;
-    }
+    /*.chart :global(.tipdate) {*/
+    /*    font-size: 1.2rem;*/
+    /*    font-weight: bold;*/
+    /*    margin: 0 auto;*/
+    /*}*/
 
     /* .chart :global(.horizontalAxis .tick text) {
          visibility: hidden;

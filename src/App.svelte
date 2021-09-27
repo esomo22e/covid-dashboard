@@ -194,7 +194,8 @@
     <div id="dashboard-grid">
         <div class="dashboard-grid-item panel-testing-results">
             <section id="daily-positives">
-                <h2 class="section-heading">Daily Positives for {new Date(getMostRecentEntry('Date')).toLocaleDateString()}</h2>
+                <h2 class="section-heading">Daily Positives
+                    for {new Date(getMostRecentEntry('Date')).toLocaleDateString()}</h2>
                 <div class="daily-positives-list">
                     <Chart_Donut
                             width={width_donut}
@@ -232,10 +233,12 @@
 
 
             <!-- Dashboard Filterable Test Results Stacked Bar Chart -->
-            <Results_By_Date
-                    data={covidData}
-                    title="Test Results by Date. ^_^"
-            ></Results_By_Date>
+            <div id="results-by-date">
+                <Results_By_Date
+                        data={covidData}
+                        title="Test Results by Date"
+                ></Results_By_Date>
+            </div>
 
         </div>
 

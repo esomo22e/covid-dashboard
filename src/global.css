@@ -186,6 +186,7 @@
     --graph--color-accent-2: #8c96c6;
     --graph--color-accent-3: #6e016b;
     --graph--color-lighter-blue: #e0ecf4;
+    --graph--color-dark-purple: #3e0159;
 
     /*--chart--title-font: var(--global--font-signage, inherit);*/
     /*--chart--title-font-size: var(--global--font-size-l);*/
@@ -245,6 +246,7 @@
     background: var(--graph--color-background);
     border-radius: var(--global--border-radius-tight);
     margin: 0;
+    position: relative;
 }
 
 svg .tick {
@@ -327,7 +329,6 @@ svg .axis-label--x {
 }
 
 .legend-key__identifier {
-    border-radius: 50%;
     display: block;
     margin: calc(0.5 * var(--graph--spacing-unit));
 }
@@ -357,6 +358,29 @@ svg .data-label {
 .graph.has-accent {
     --graph--color-background: var(--graph--color-lighter-blue);
     --graph-title--color: var(--global--color-purple);
+}
+
+/**
+ * Bar graph
+ */
+.bar-graph {
+
+}
+
+.bar-graph .tooltip {
+    background: white;
+    border: var(--global--border-weight-bold) solid var(--global--border-color-heavy);
+    border-radius: var(--global--border-radius-regular);
+    font-family: var(--global--font-signage);
+    font-size: var(--global--font-size-s);
+    padding: var(--global--spacing-unit);
+    display: none;
+    pointer-events: none;
+}
+
+.bar-graph .tooltip__date {
+    font-weight: var(--global--font-weight-bold);
+    margin-bottom: calc(0.25 * var(--global--spacing-unit));
 }
 
 /**
@@ -449,6 +473,9 @@ svg .data-label {
     margin: 0;
     text-align: left;
 }
+.waffle-graph .legend-key__identifier {
+    border-radius: 50%;
+}
 
 /**
  * Wellness Summary
@@ -495,6 +522,38 @@ svg .data-label {
 
 .graph-group > * + * {
     margin-left: var(--global--spacing-gap);
+}
+
+/**
+ * Results by Date section
+ */
+
+
+#results-by-date svg .graph-column-negative-tests {
+    fill: var(--graph--color-secondary);
+}
+#results-by-date svg .graph-column-negative-tests:hover,
+#results-by-date svg .graph-column-negative-tests:focus {
+    fill: var(--graph--color-accent-1);
+
+}
+#results-by-date svg .graph-column-positive-tests {
+    fill: var(--graph--color-primary);
+}
+#results-by-date svg .graph-column-positive-tests:hover,
+#results-by-date svg .graph-column-positive-tests:focus {
+    fill: var(--graph--color-dark-purple);
+}
+#results-by-date .legend-key__identifier {
+    width: 100%;
+    height: 10px;
+}
+#results-by-date .graph-column-negative-tests .legend-key__identifier {
+    background: var(--graph--color-secondary);
+}
+
+#results-by-date .graph-column-positive-tests .legend-key__identifier {
+    background: var(--graph--color-primary);
 }
 
 /**

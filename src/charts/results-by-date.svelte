@@ -188,8 +188,7 @@
                                 category={'Date'}
                                 value={"Tests Completed"}
                                 groups={["Negative Tests", "Positive Tests"]}
-                                colorscheme={negativePositive}
-                                columnDescription={"On {Date} there were {Positive Tests} positive and {Negative Tests} negative tests."}
+                                columnDescription={"On {Date} there were  {Negative Tests} negative and {Positive Tests} positive tests."}
 
                         />
                     {/key}
