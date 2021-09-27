@@ -218,6 +218,11 @@
     --chart--footnote-line-height: 1.4;
     --chart--footnote-margin: var(--global--spacing-unit);
 
+    --axis-label--font-size: var(--global--font-size-xxs);
+    --axis-label--color: var(--global--color-gray);
+    --axis-label--font: var(--global--font-signage, inherit);
+    --axis-line--color: var(--global--color-gray);
+
     --graph--spacing-unit: var(--global--spacing-unit);
 
     --graph--color-face: var(--global--color-light-blue);
@@ -240,6 +245,27 @@
     background: var(--graph--color-background);
     border-radius: var(--global--border-radius-tight);
     margin: 0;
+}
+
+svg .tick {
+    color: var(--axis-label--color);
+    font-family: var(--axis-label--font);
+    font-size: var(--axis-label--font-size);
+}
+
+svg .axis-line {
+    stroke: var(--axis-label--color);
+}
+
+svg .axis-label {
+    color: var(--axis-label--color);
+    font-family: var(--axis-label--font);
+    font-size: var(--axis-label--font-size);
+}
+
+svg .axis-label--x {
+    transform: rotate(-45deg) translateY(4px);
+    text-anchor: end;
 }
 
 .graph-visual-wrapper {

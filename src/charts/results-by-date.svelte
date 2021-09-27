@@ -13,6 +13,7 @@
     export let data = {data};
     export let title = {title};
     export let hasAccent = false;
+
     // Dynamically figure out the width of CSS grid items.
     let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
     let width_donut = Math.min(width, 175);
@@ -211,9 +212,9 @@
                             height={height}
                             data={filteredData}
                             title={"Test Results by Date"}
-                            xVar={'Date'}
-                            yVar={"Seven-Day Tests"}
-                            yGroups={["Negative Tests", "Positive Tests"]}
+                            category={'Date'}
+                            value={"Tests Completed"}
+                            groups={["Negative Tests", "Positive Tests"]}
                             colorscheme={negativePositive}
                     />
                 {/key}

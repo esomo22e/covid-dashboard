@@ -7370,11 +7370,12 @@ var app = (function () {
 
     	let el;
     	const padding = { top: 50, right: 0, bottom: 40, left: 40 };
+    	console.log("$$props", $$props)
     	let { data = { data } } = $$props;
     	let { width = { width } } = $$props;
     	let { height = { height } } = $$props;
-    	let { xVar = { xVar } } = $$props;
-    	let { yVar = { yVar } } = $$props;
+    	let { xVar = { xVar: category } } = $$props;
+    	let { yVar = { yVar: value } } = $$props;
     	let { yGroups = { yGroups: value } } = $$props;
     	let { colorscheme = { colorscheme } } = $$props;
     	let { colorsteps = yGroups.length } = $$props;

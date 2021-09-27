@@ -31,8 +31,8 @@
 	export let data = {data};
 	export let width = {width};
 	export let height = {height};
-	export let xVar = {xVar};
-	export let yVar = {yVar};
+	export let xVar = {xVar: category};
+	export let yVar = {yVar: value};
 	export let yGroups = {yGroups: value};
 	export let yGroups_fac = {yGroups_fac};
 	export let yGroups_con = {yGroups_con};
