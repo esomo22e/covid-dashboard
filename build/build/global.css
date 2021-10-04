@@ -108,7 +108,7 @@
 
     --global--color-black: #000;
     --global--color-white: #fff;
-    --global--color-dark-gray: #222;
+    --global--color-darker-gray: #222;
     --global--color-gray: #555;
     --global--color-light-gray: #99a3b0;
     --global--color-lighter-gray: #cbcccb;
@@ -410,11 +410,11 @@
     border-radius: var(--global--border-radius-tight);
     padding: var(--global--spacing-unit);
 }
-:global(.wellness-summary-list) {
+:global(.wellness-summary__list) {
     display: flex;
 }
 
-:global(.wellness-summary-list > * + *) {
+:global(.wellness-summary__list > * + *) {
     margin-left: var(--global--spacing-gap);
 }
 
@@ -663,14 +663,14 @@ h3.vac-title {
     flex-direction: column;
 }
 
-.dash-table-wrapper {
+.collapsable-table-wrapper {
     height: 400px;
     overflow: hidden;
     position: relative;
     transition: height linear 200ms;
 }
 
-.dash-table-wrapper::after {
+.collapsable-table-wrapper::after {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgb(255, 255, 255));
     bottom: 0;
     left: 0;

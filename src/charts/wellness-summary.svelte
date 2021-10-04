@@ -8,7 +8,7 @@
 
     let classNames=[
         "graph",
-        "wellness-summary"
+        "wellness-summary-graph"
     ];
 
     if(hasAccent) {

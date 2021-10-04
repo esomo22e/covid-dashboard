@@ -1,20 +1,14 @@
 <script>
-    import GraphicTitle from './components/GraphicTitle.svelte'
-    import GraphicFooter from './components/GraphicFooter.svelte'
-    import Chart_Donut from './charts/chart-donut.svelte';
-    import Meter_Chart from './charts/meter-chart.svelte';
-    import Chart_Bar_Vertical from './charts/chart-bar-vertical.svelte'
-    import Chart_Wellness_Summary from './charts/wellness-summary.svelte'
-    import Results_By_Date from './charts/results-by-date.svelte'
+    import Donut_Graph from './charts/donut-graph.svelte';
+    import Meter_Graph from './charts/meter-graph.svelte';
+    import Waffle_Graph from "./charts/waffle-graph.svelte";
     import Data_Point from './charts/data-point.svelte'
-    import SvelteTable from "svelte-table"
-    import Waffle_Chart from "./charts/waffle-chart.svelte";
-    import {csv} from 'd3-fetch'
+    import Results_By_Date from './charts/results-by-date.svelte'
+    import Chart_Wellness_Summary from './charts/wellness-summary.svelte'
+    import Svelte_Table from "svelte-table"
+    // import {csv} from 'd3-fetch'
     import {timeFormat, timeParse} from 'd3-time-format';
-    import {negativePositive} from './helpers/colors.js'
-    import Datepicker from 'svelte-calendar';
     import './global.css';
-    import jsonData from '../public/datasets/data.json';
 
     const meterColumnWidth = 66;
     const meterColumnLength = 406;
@@ -24,87 +18,41 @@
      *
      * @since 1.0
      */
-
-    // const url = 'https://spreadsheets.google.com/feeds/cells/1REJNqVcREni8IlxiObIbm5M6xU0lb8BeKfxJO0lNvXk/1/public/full?alt=json&date=' + dateCode
-
-    // the dollar sign is a Svelte-y way of declaring a variable that will be dynamic
-    $: covidData = [];
-    // console.log(data);
-    // $: covidData = data;
-
+    $: covidData = parseCovidData();
 
     const parseTime = timeParse("%m/%d/%y");
     const formatDate = timeFormat("%m/%d/%y");
 
-    const DEV_BASE_DIR = "//news.northeastern.edu/interactive/2021/08/updated-covid-dashboard";
-    const LOCAL_BASE_DIR = "";
-    let baseDir;
-
-    baseDir = DEV_BASE_DIR;
-    if ("localhost" === window.location.hostname) {
-        baseDir = LOCAL_BASE_DIR;
-    }
-    csv(baseDir + "/datasets/covidupdate_testData.csv").then(function (data, i) {
-        data.forEach(function (d, i) {
-            Object.keys(d).forEach(function (j) {
-                if ((j === "Date") || (j === "Mass. Positive Rate")) {
-                    d[j] = d[j]
-                } else {
-                    d[j] = parseFloat(d[j])
-                }
-
-            })
-        });
-
-        covidData = data;
-    });
-
-    // NEED THESE TO CYCLE THROUGH THE HEADERS OF THE GOOGLE SHEET
-
-    // Dynamically figure out the width of CSS grid items.
-    let width = document.getElementById('covid-testing-dashboard').getBoundingClientRect().width;
-    let width_donut = Math.min(width, 175);
-    let width_stacked = 20;
-    let height = 500;
-    // height = Math.min(height, 500);
-
-    if (window.innerWidth > 600) {
-        width_donut = width * 0.22;
-        width_stacked = (width * 0.5)
-        height = width * 0.6;
-    }
-
-
-    // These are the columns for the table portion; this configuration is passed to the SvelteTable plugin
-    const columns = [
+    // These are the columns for the table portion.
+    const tableColumns = [
         {
-            key: "Date",
+            key: "date",
             title: "Date",
-            value: v => new Date(v["Date"]),
-            renderValue: v => v["Date"],
+            value: v => new Date(v["date"]),
+            renderValue: v => v["date"],
             sortable: true,
             headerClass: "text-left",
             class: "date-col"
         },
         {
-            key: "Tests Completed",
+            key: "total_tests",
             title: "Tests Completed",
-            value: v => v["Tests Completed"],
+            value: v => v["total_tests"],
             sortable: true,
             headerClass: "text-left"
         },
         {
-            key: "Negative Tests",
+            key: "negative_tests",
             title: "Negative Tests",
-            value: v => v["Negative Tests"],
+            value: v => v["negative_tests"],
             sortable: true,
             headerClass: "text-left"
         },
         {
-            key: "Negative Rate",
+            key: "negative_rate",
             title: "Negative Rate",
             value: v => (
-                (v["Negative Tests"] / v["Tests Completed"]).toLocaleString(undefined, {
+                (v["negative_tests"] / v["total_tests"]).toLocaleString(undefined, {
                     style: 'percent',
                     minimumFractionDigits: 2
                 })
@@ -113,17 +61,17 @@
             headerClass: "text-left"
         },
         {
-            key: "Positive Tests",
+            key: "positive_tests",
             title: "Positive Tests",
-            value: v => v["Positive Tests"],
+            value: v => v["positive_tests"],
             sortable: true,
             headerClass: "text-left"
         },
         {
-            key: "Positive Rate",
+            key: "positive_rate",
             title: "Positive Rate",
             value: v => (
-                (v["Positive Tests"] / v["Tests Completed"]).toLocaleString(undefined, {
+                (v["positive_tests"] / v["total_tests"]).toLocaleString(undefined, {
                     style: 'percent',
                     minimumFractionDigits: 2
                 })
@@ -134,11 +82,111 @@
     ];
 
     /**
+     * Filters test results by date.
+     *
+     * @since 2.0
+     */
+    let todaysDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+
+    function getStartDate() {
+        let daysAgo = 7;
+        let date = new Date(todaysDate - daysAgo * 24 * 60 * 60 * 1000);
+
+        return date;
+    }
+
+    function parseCovidData() {
+        let data = get_covid_data();
+
+        data.sort(function compare(a, b) {
+            let dateA = new Date(a["date"]);
+            let dateB = new Date(b["date"]);
+            return dateA - dateB;
+        });
+
+        for(let i = 0; i < data.length; i++) {
+            let date = new Date(data[i]["date"] + "T00:00:00-0400");
+            data[i]["date"] = date.toLocaleDateString();
+        }
+
+        return data;
+    }
+
+    /**
      * Gets the data for the most recent day
      */
 
     function getMostRecentEntry(prop = null) {
         return (null != prop) ? covidData[covidData.length - 1][prop] : covidData[covidData.length - 1];
+    }
+
+    /**
+     * Filter dates
+     */
+    let filterEndDate = getToday();
+    let filterStartDate = getDaysAgo(7);
+
+    /**
+     * Gets a date object for today.
+     *
+     * @since 2.0
+     *
+     * @return Date
+     */
+    function getToday() {
+        let todaysDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+        return todaysDate;
+    }
+
+    /**
+     * Gets a date object for a specified number of days ago.
+     *
+     * @since 2.0
+     *
+     * @return Date
+     */
+    function getDaysAgo(daysAgo) {
+        let daysAgoDate = new Date(getToday() - daysAgo * 24 * 60 * 60 * 1000);
+        return daysAgoDate;
+    }
+
+    /**
+     * Filters test results by date.
+     *
+     * @since 2.0
+     */
+    $: filteredData = covidData.filter(function (d) {
+        const START_DATE = new Date(filterStartDate).getTime();
+        const END_DATE = new Date(filterEndDate).getTime();
+        const COMPARE_DATE = new Date(d["date"]).getTime();
+        return (COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE);
+    });
+
+    function getSevenDayTotal() {
+        let cases = 0;
+        for (let i = 0; i < filteredData.length; i++) {
+            cases += filteredData[i]["total_tests"];
+        }
+
+        return cases;
+    }
+
+    function getSevenDayPositive() {
+        let cases = 0;
+        for (let i = 0; i < filteredData.length; i++) {
+            cases += filteredData[i]["positive_tests"];
+        }
+
+        return cases;
+    }
+
+    function getSevenDayNegative() {
+        let cases = 0;
+        for (let i = 0; i < filteredData.length; i++) {
+            cases += filteredData[i]["negative_tests"];
+        }
+
+        return cases;
     }
 
     /**
@@ -150,7 +198,7 @@
     let fullTableHeight;
 
     function toggleTable() {
-        const tableWrapper = document.querySelector('.dash-table-wrapper');
+        const tableWrapper = document.querySelector('.collapsable-table-wrapper');
         const buttonToggleLabel = document.querySelector('.table-button .button-label');
         const buttonToggleLabelInitial = 'Expand Table';
         const buttonToggleLabelExpanded = 'Collapse Table';
@@ -177,53 +225,46 @@
         referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
     }
 
-
 </script>
-
-<style>
-
-</style>
-<div class="dashboard-intro">
+<section id="intro">
     <p>On September 6, 2021, Northeastern launched its redesigned Covid-19
         dashboard to track and showcase the metrics that are most meaningful
         among a vaccinated population. The data below is updated daily as soon
         it becomes available from the university’s Life Sciences Testing
         Center.</p>
-</div>
+</section>
+
 {#if covidData.length > 0}
-    <div id="dashboard-grid">
-        <div class="dashboard-grid-item panel-testing-results">
+    <div class="dashboard">
+        <section id="testing-results">
             <section id="daily-positives">
                 <h2 class="section-heading">Daily Positives
-                    for {new Date(getMostRecentEntry('Date')).toLocaleDateString()}</h2>
-                <div class="daily-positives-list">
-                    <Chart_Donut
-                            width={width_donut}
-                            height={width_donut}
+                    for {getMostRecentEntry('date')}</h2>
+                <div class="daily-positives__list">
+                    <Donut_Graph
+                            diameter=125
                             value={[
-                                getMostRecentEntry("Students Total Positive"),
-                                getMostRecentEntry("Students Total Negative"),
+                                getMostRecentEntry("positive_students"),
+                                getMostRecentEntry("negative_tests"),
                                 ]}
                             label="Students"
                             valueStyle="default"
                             hasAccent={true}
                     />
-                    <Chart_Donut
-                            width={width_donut}
-                            height={width_donut}
+                    <Donut_Graph
+                            diameter=125
                             value={[
-                                getMostRecentEntry("FacStaff Total Positive"),
-                                getMostRecentEntry("FacStaff Total Negative"),
+                                getMostRecentEntry("positive_faculty_staff"),
+                                getMostRecentEntry("negative_tests"),
                                 ]}
                             label="Faculty/Staff"
                             hasAccent={true}
                     />
-                    <Chart_Donut
-                            width={width_donut}
-                            height={width_donut}
+                    <Donut_Graph
+                            diameter=125
                             value={[
-                                getMostRecentEntry("Contractor Total Positive"),
-                                getMostRecentEntry("Contractor Total Negative"),
+                                getMostRecentEntry("positive_contractors"),
+                                getMostRecentEntry("negative_tests"),
                                 ]}
                             label="Contractors"
                             hasAccent={true}
@@ -233,44 +274,45 @@
 
 
             <!-- Dashboard Filterable Test Results Stacked Bar Chart -->
-            <div id="results-by-date">
+            <section id="results-by-date">
                 <Results_By_Date
                         data={covidData}
                         title="Test Results by Date"
-                ></Results_By_Date>
-            </div>
+                />
+            </section>
 
-        </div>
+        </section>
 
 
-        <!-- Dash Positive (Students, Faculty/Staff, and Contractor) -->
+        <!--        &lt;!&ndash; Dash Positive (Students, Faculty/Staff, and Contractor) &ndash;&gt;-->
         <section id="overview">
             <h2 class="section-heading">Overview</h2>
             <div class="graph-group">
                 <Data_Point
-                        width={width_donut}
-                        height={width_donut}
-                        value=0
+                        width=200
+                        height=200
+                        value={getMostRecentEntry('hospitalizations')}
                         label="Hospitalizations"
                 />
 
-                <Chart_Donut
-                        width={width_donut}
-                        height={width_donut}
+                <!-- TODO: patch isPercent to use calculated percent as label instead of first value -->
+                {#key filteredData}
+                <Donut_Graph
+                        diameter=200
                         value={[
-                                getMostRecentEntry("Seven-Day Positive Primer"),
-                                getMostRecentEntry("Seven-Day Negative Primer"),
+                                getSevenDayPositive(),
+                                getSevenDayTotal()
                                 ]}
                         label="Seven-Day Positive Test Rate"
                         isPercent={true}
                 />
+                    {/key}
 
-                <Chart_Donut
-                        width={width_donut}
-                        height={width_donut}
+                <Donut_Graph
+                        diameter=200
                         value={[
-                                getMostRecentEntry("Beds In Use"),
-                                getMostRecentEntry("Beds Not In Use"),
+                                getMostRecentEntry("beds_in_use"),
+                                getMostRecentEntry("total_beds"),
                                 ]}
                         label="Campus Wellness Beds in Use"
                 />
@@ -282,14 +324,14 @@
         <section id="covid-variants">
             <h2 class="section-heading">Variants</h2>
 
-            <Waffle_Chart
+            <Waffle_Graph
                     isPercentage={false}
                     data={getMostRecentEntry()}
-                    width={width}
-                    columns={25}
+                    width=1000
+                    columns=25
                     value={[
-                        getMostRecentEntry("SARS-COV-2"),
-                        getMostRecentEntry("SARS-COV-2 Delta"),
+                        getMostRecentEntry("strain_sars_cov_2"),
+                        getMostRecentEntry("strain_sars_cov_2_delta"),
                         ]}
                     labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
                     footnotes={[
@@ -310,88 +352,75 @@
 
         <!-- Total Vaccination Rates -->
 
-        <div class="dashboard-grid-item dash-vac-rate">
-
-            <GraphicTitle
-                    title={"Vaccination Rates"}
-            />
+        <section id="vaccination-rates">
+            <h2 class="section-heading">Vaccination Rates</h2>
             <div class="dash-vac-chart">
 
                 <div class="dash-stacked-vaccination">
                     <div class="stacked-cont is-horizontal">
-                        <Meter_Chart
+                        <Meter_Graph
                                 length={meterColumnLength}
                                 width={meterColumnWidth}
-                                value={getMostRecentEntry("Student Vaccinated")}
+                                value={getMostRecentEntry("vax_rate_students")}
                                 label="Students Vaccination Rate"
                         />
-                        <Meter_Chart
+                        <Meter_Graph
                                 length={meterColumnLength}
                                 width={meterColumnWidth}
-                                value={getMostRecentEntry("Fac/Staff Vaccinated")}
+                                value={getMostRecentEntry("vax_rate_faculty_staff")}
                                 label="Faculty and Staff Vaccination Rate"
                         />
                     </div>
 
                 </div>
             </div>
+        </section>
 
-        </div>
-
-        <!-- Dashboard Item -Wellness Summary -->
-
-        <div class="dashboard-grid-item dash-wellness">
-            <!-- <GraphicTitle
-                title={"Wellness and Contact Tracing"}
-            /> -->
-            <div class="wellness-summary-list">
+        <section id="wellness-summary">
+            <div class="wellness-summary__list">
                 <Chart_Wellness_Summary
                         label="Students in Isolation"
-                        onCampus={getMostRecentEntry("Students in Isolation On Campus")}
-                        offCampus={getMostRecentEntry("Students in Isolation Off Campus")}
+                        onCampus={getMostRecentEntry("isolate_on_campus")}
+                        offCampus={getMostRecentEntry("isolate_off_campus")}
                         hasAccent={true}
                 />
                 <Chart_Wellness_Summary
                         label="Students in Quarantine"
-                        onCampus={getMostRecentEntry("Students in Quarantine On Campus")}
-                        offCampus={getMostRecentEntry("Students in Quarantine Off Campus")}
+                        onCampus={getMostRecentEntry("quarantine_on_campus")}
+                        offCampus={getMostRecentEntry("quarantine_off_campus")}
                         hasAccent={true}
                 />
             </div>
-            <p class="update-line">*According to the university’s August 18,
-                2021 announcement, those who have been identified as close
-                contacts no longer have to quarantine as long as they are
-                vaccinated.</p>
+            <footer class="wellness-summary__footer">
+                <p class="footnote">* According to the university’s August 18,
+                    2021 announcement, those who have been identified as close
+                    contacts no longer have to quarantine as long as they are
+                    vaccinated.</p>
+            </footer>
+        </section>
 
-        </div>
-
-        <!-- Dashboard Item -Svelte Table -->
-        <div class="dashboard-grid-item dash-table-container">
-
-            <div class="dashboard-grid-item dash-table-wrapper"
-                 id="table-covid">
-                <!-- <before></before> -->
-
-                <SvelteTable
-                        columns={columns}
+        <section id="data-table">
+            <div class="collapsable-table-wrapper">
+                <Svelte_Table
+                        columns={tableColumns}
                         rows={covidData}
-                        sortBy={"Date"}
+                        sortBy={"date"}
                         sortOrder={-1}
                         classNameCell={"infocell"}
                 >
-                </SvelteTable>
+                </Svelte_Table>
             </div>
             <button on:click={toggleTable} class="table-button is-primary">
                 <div class="button-label">View Full Table</div>
             </button>
-        </div>
-
+            <footer class="data-table__footer">
+                <p class="footnote"><b class="footnote-offset">Source:</b>
+                    Northeastern Life Sciences Testing Center and the Broad
+                    Institute</p>
+            </footer>
+        </section>
 
     </div>
 
 
 {/if}
-<GraphicFooter
-        note={""}
-        source={"Northeastern Life Sciences Testing Center and the Broad Institute"}
-/>

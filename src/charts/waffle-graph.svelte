@@ -36,6 +36,7 @@
     export let footnotes = {footnotes}
     export let orientation = "horizontal";
     export let hasAccent = false;
+    export let isResponsive = true;
 
     const padding = {top: 20, right: 0, bottom: 0, left: 20};
     let cellBounds = [0]
@@ -140,12 +141,21 @@
         graphContainer.append("h3")
             .attr("class", "chart-label")
             .text(totalItems + " cases")
+        const GRAPH_HEIGHT = height + padding.top + 20
 
         // Adds graph.
         let graph = graphContainer
             .append("svg")
-            .attr("width", width)
-            .attr("height", height + padding.top + 20);
+            .style("max-width", `${width}px`)
+            .attr("viewBox", `0 0 ${width} ${GRAPH_HEIGHT}`)
+
+        if (isResponsive) {
+            graph.style("width", "100%")
+            graph.style("max-width", `${width}px`)
+        } else {
+            graph.attr("width", width)
+                .attr("height", GRAPH_HEIGHT);
+        }
 
         let group = graph.append("g")
             .attr("transform",
@@ -193,14 +203,12 @@
         if (0 < footnotes.length) {
             const graphFootnotes = graphContainer
                 .append("div")
-                .attr("class", "footnotes");
+                .attr("class", "footnote-container");
 
             for (let i = 0; i < footnotes.length; i++) {
                 let footnote = graphFootnotes
-                    .append("div")
+                    .append("p")
                     .attr("class", "footnote")
-                    .append("small")
-                    .attr("class", "footnote-body")
                     .text(function (d) {
                         return footnotes[i];
                     });
@@ -210,5 +218,14 @@
     }
 
 </script>
+<style>
+    :global(.waffle-graph .chart-label) {
+        margin: 0;
+        text-align: left;
+    }
+    :global(.waffle-graph .legend-key__identifier) {
+        border-radius: 50%;
+    }
+</style>
 
 <figure bind:this={el} class="{getClassNames()}"></figure>

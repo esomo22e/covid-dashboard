@@ -8,8 +8,7 @@
 
     // export let data = {data};
     export let value = {value};
-    export let width = {width};
-    export let height = {height};
+    export let diameter = {diameter};
     export let label = {label};
     // export let primaryKey = {primaryKey};
     // export let secondaryKey = {secondaryKey};
@@ -50,7 +49,7 @@
     // TODO: Reenable this
     if (isPercent) {
         valueStyleParams = {style: 'percent', minimumFractionDigits: 2}
-        innerText = (value[0] / 100).toLocaleString(undefined, valueStyleParams)
+        innerText = (value[0] / value[1]).toLocaleString(undefined, valueStyleParams)
     } else {
         innerText = (value[0]).toLocaleString(undefined, valueStyleParams)
     }
@@ -77,19 +76,16 @@
         /**
          * Add graph
          */
-        // let graphData = {
-        //     a: data[primaryKey],
-        //     b: data[secondaryKey]
-        // }
 
         const graphVisual = graphVisualWrapper
             .append("svg")
             .attr("class", "graph-visual")
+            .style("max-width", `${diameter}px`)
+            .attr("viewBox", `0 0 ${diameter} ${diameter}`)
             .attr("aria-label", `${innerText} ${label}`)
-            .attr("width", width)
-            .attr("height", height)
+            .attr("preserveAspectRatio", "xMinYMin meet")
             .append("g")
-            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+            .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
 
         /**
@@ -109,8 +105,8 @@
             .append('path')
             .attr("class", "graph-column")
             .attr('d', d3.arc()
-                .innerRadius(width * 0.35) // This is the size of the donut hole
-                .outerRadius(width * 0.45)
+                .innerRadius(diameter * 0.35) // This is the size of the donut hole
+                .outerRadius(diameter * 0.45)
             )
 
         /**
@@ -121,5 +117,24 @@
             .text(innerText)
     }
 </script>
+
+<style>
+    :global(.donut-graph) {
+        display: flex;
+        justify-content: var(--chart--alignment, center);
+        align-content: var(--chart--alignment, center);
+        flex-direction: var(--chart--flex-direction, column);
+        padding: var(--graph--spacing-unit);
+    }
+
+    :global(.donut-graph .graph-title) {
+        text-align: center;
+    }
+
+    :global(.donut-graph svg .data-label) {
+        text-anchor: middle;
+        dominant-baseline: middle;
+    }
+</style>
 
 <figure bind:this={el} class="{getClassNames()}"></figure>

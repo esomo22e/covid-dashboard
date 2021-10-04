@@ -26,6 +26,7 @@
     export let value = {value};
     export let label = {label};
     let hasAccent = false;
+    let isResponsive = true;
 
     let classNames = [
         "graph",
@@ -57,20 +58,29 @@
         const graphVisual = graphVisualWrapper
             .append("svg")
             .attr("class", "graph-visual")
-            .attr("width", width)
-            .attr("height", height)
+            .attr("viewBox", `0 0 ${width} ${height}`)
+            .style("max-width", `${width}px`)
+            .attr("viewBox", `0 0 ${width} ${height}`)
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
+
+        if (isResponsive) {
+            graphVisual.style("width", "100%")
+            graphVisual.style("max-width", `${width}px`)
+        } else {
+            graphVisual.attr("width", width)
+                .attr("height", height);
+        }
+
+
         let squareSideLength = 0.4 * width
-        let squareStrokeWidth = "8px";
         graphVisual.append("rect")
             .attr("class", "graph-column")
             .attr("width", squareSideLength)
             .attr("height", squareSideLength)
             .attr("x", -0.5 * squareSideLength)
             .attr("y", -0.5 * squareSideLength)
-            .style("stroke-width", squareStrokeWidth)
 
         let textFontSizeAmount = 1.5;
         let textFontSizeUnit = "rem";
@@ -81,5 +91,24 @@
             .text((value).toLocaleString())
     }
 </script>
+
+<style>
+    :global(.data-point-graph) {
+        --graph-title--color: var(--global--color-purple);
+        --graph-title--text-align: center;
+
+        display: flex;
+        justify-content: var(--chart--alignment, center);
+        align-content: var(--chart--alignment, center);
+        flex-direction: var(--chart--flex-direction, column);
+        margin: 0;
+    }
+
+    :global(.data-point-graph .graph-column) {
+        fill: var(--graph--color-background);
+        stroke: var(--graph--color-face);
+        stroke-width: var(--graph--secondary-stroke-width);
+    }
+</style>
 
 <figure bind:this={el} class="{getClassNames()}"></figure>

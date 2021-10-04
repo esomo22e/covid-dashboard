@@ -36,7 +36,8 @@
     export let category = {category};
     export let value = {value};
     export let groups = {groups};
-    export let plotMargin = {top: 5, right: 0, bottom: 50, left: 42}
+    export let groupLabels = {groupLabels};
+    export let plotMargin = {top: 5, right: 0, bottom: 60, left: 42}
     export let hasAccent = false;
     export let columnDescription = {columnDescription};
 
@@ -88,16 +89,16 @@
             .trim()                         // Remove whitespace from both sides of a string
             .replace(/\s+/g, '-')           // Replace spaces with -
             .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-            .replace(/\-\-+/g, '-');        // Replace multiple - with single -
+            .replace(/\-\-+/g, '-')        // Replace multiple - with single -
+            .replace(/_+/g, '-');        // Replace underscore _ with dash -
     }
 
     function showTip(d, target, mouse) {
         let innerHTML = `<div class="tooltip__date">${new Date(d[category]).toLocaleDateString()}</div>`;
 
         for (let i = 0; i < groups.length; i++) {
-            innerHTML += '<div class="tooltip__result">' + groups[i] + ": " + d[groups[i]] + "</div>";
+            innerHTML += '<div class="tooltip__result">' + groupLabels[i] + ": " + d[groups[i]] + "</div>";
         }
-
 
         target
             .style("position", "absolute")
@@ -135,7 +136,6 @@
     onMount(generateColumnChart);
 
     function generateColumnChart() {
-
         let graphContainer = d3.select(el);
 
         let tooltip = graphContainer.append("div").attr("class", "tooltip");
@@ -152,7 +152,7 @@
         for (let i = 0; i < groups.length; i++) {
             let legendKey = legend
                 .append("div")
-                .attr("class", "legend-key graph-column-" + slugify(groups[i]));
+                .attr("class", "legend-key graph-column-" + slugify(groupLabels[i]));
 
             legendKey
                 .append("span")
@@ -161,9 +161,9 @@
             legendKey
                 .append("div")
                 .attr("class", "legend-key__label")
-                .attr("aria-label", "Identifier for " + groups[i])
+                .attr("aria-label", "Identifier for " + groupLabels[i])
                 .text(function (d) {
-                    return groups[i];
+                    return groupLabels[i];
                 })
         }
 
@@ -193,15 +193,16 @@
             .attr("class", "graph-plot")
             .attr("transform", "translate(0," + (height - plotMargin.bottom) + ")")
             .attr("class", "axis axis--x")
+
+
+
+        let xAxisTicks = xAxis.append("g")
+            .attr("class", "axis-ticks")
             .call(
-                d3.axisBottom(xScale)
-                    .tickValues(xScale.domain().filter(function (d, i) {
-                        let tickCount = Math.round(xScale.domain().length / 10);
-                        let lastTick = xScale.domain().length - 1;
-                        return ((i % tickCount) === (lastTick % tickCount))
-                    }))
-                    .tickSize(0)
-            );
+            d3.axisBottom(xScale)
+                .tickValues(xScale.domain())
+                .tickSize(0)
+        );
 
         let xAxisLine = xAxis.selectAll("path")
             .attr("class", "axis-line axis-line--x");
@@ -272,55 +273,10 @@
 </script>
 
 <style>
-    /*.chart :global() {*/
-    /*    position: relative;*/
-    /*}*/
-
-    /*.chart :global(rect) {*/
-    /*    !* fill: #cfbabc; *!*/
-    /*}*/
-
-    /*.chart :global(.tooltip) {*/
-    /*    display: none;*/
-    /*    position: absolute;*/
-    /*    background-color: white;*/
-    /*    border: 2px solid black;*/
-    /*    border-radius: 10px;*/
-    /*    padding: 10px;*/
-    /*    width: 300px;*/
-    /*}*/
-
-    /*.chart :global(.legendCells .cell) {*/
-    /*    font-size: 0.65rem;*/
-    /*    fill: #777;*/
-    /*    text-transform: uppercase;*/
-    /*}*/
-
-    /*.chart :global(.tipdate) {*/
-    /*    font-size: 1.2rem;*/
-    /*    font-weight: bold;*/
-    /*    margin: 0 auto;*/
-    /*}*/
-
-    /* .chart :global(.horizontalAxis .tick text) {
-         visibility: hidden;
+    :global(.tooltip__date) {
+        font-weight: var(--global--font-weight-bold);
+        margin-bottom: calc(0.25 * var(--global--spacing-unit));
     }
-
-
-    .chart :global(.horizontalAxis .tick:nth-last-child(7n+1) text) {
-         visibility: visible;
-    }
-
-    @media screen and (max-width:600px) {
-        .chart :global(.horizontalAxis .tick:nth-last-child(7n+1) text) {
-             visibility: hidden;
-        }
-
-        .chart :global(.horizontalAxis .tick:nth-last-child(14n+1) text) {
-             visibility: visible;
-        }
-    } */
-
 </style>
 
 <figure bind:this={el} class="{getClassNames()}"></figure>

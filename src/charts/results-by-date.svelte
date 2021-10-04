@@ -5,7 +5,7 @@
     import {entries} from 'd3-collection';
     import {path} from 'd3-path';
     import {arc, pie} from 'd3-shape';
-    import Chart_Bar_Vertical from './chart-bar-vertical.svelte'
+    import Chart_Bar_Vertical from './vertical-bar-graph.svelte'
     import {negativePositive} from '../helpers/colors.js'
     import Datepicker from 'svelte-calendar';
 
@@ -42,7 +42,18 @@
      * @return Date
      */
     function getToday() {
-        return new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+        let todaysDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+        return todaysDate;
+    }
+
+    function getMostRecentDate() {
+        let parts = data[data.length - 1]["date"].split("/");
+
+        for (let i = 0; i < parts.length; i++) {
+            parts[i] = (10 > parts[i]) ? "0" + parts[i].toString() : parts[i].toString();
+        }
+
+        return new Date(`${parts[2]}-${parts[0]}-${parts[1]}T00:00:00-0400`);
     }
 
     /**
@@ -53,7 +64,8 @@
      * @return Date
      */
     function getDaysAgo(daysAgo) {
-        return new Date(getToday() - daysAgo * 24 * 60 * 60 * 1000);
+        let daysAgoDate = new Date(getMostRecentDate() - daysAgo * 24 * 60 * 60 * 1000);
+        return daysAgoDate;
     }
 
     /**
@@ -85,7 +97,7 @@
      */
     function setFilterLastSevenDays() {
         filterStartDate = getDaysAgo(7);
-        filterEndDate = getToday();
+        filterEndDate = getMostRecentDate();
         setActiveFilter('.filter-seven-days');
     }
 
@@ -95,7 +107,7 @@
      */
     function setFilterLastThirtyDays() {
         filterStartDate = getDaysAgo(30);
-        filterEndDate = getToday();
+        filterEndDate = getMostRecentDate();
         setActiveFilter('.filter-thirty-days');
     }
 
@@ -113,7 +125,7 @@
      *
      * @since 2.0
      */
-    let filterEndDate = getToday();
+    let filterEndDate = getMostRecentDate();
     let filterStartDate = getDaysAgo(7);
     let isStartDateChosen = false;
     let isEndDateChosen = false;
@@ -126,9 +138,10 @@
     $: filteredData = data.filter(function (d) {
         const START_DATE = new Date(filterStartDate).getTime();
         const END_DATE = new Date(filterEndDate).getTime();
-        const COMPARE_DATE = new Date(d.Date).getTime();
+        const COMPARE_DATE = new Date(d["date"]).getTime();
         return (COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE);
     });
+
 </script>
 
 <figure bind:this={el} class="{getClassNames()}">
@@ -167,28 +180,16 @@
             </div>
             <div class="graph-visual-wrapper">
                 <div class="chart-results-pos-neg__chart">
-<!--                    <div class="dashboard-legend">-->
-<!--                        <div class="legendCells">-->
-<!--                            <div class="cell1"></div>-->
-<!--                            <div class="cell-label">NEGATIVE TESTS</div>-->
-
-<!--                        </div>-->
-<!--                        <div class="legendCells">-->
-<!--                            <div class="cell2"></div>-->
-<!--                            <div class="cell-label">POSITIVE TESTS</div>-->
-
-<!--                        </div>-->
-
-<!--                    </div>-->
                     {#key filteredData}
                         <Chart_Bar_Vertical
                                 width=500
-                                height=506
+                                height=480
                                 data={filteredData}
-                                category={'Date'}
-                                value={"Tests Completed"}
-                                groups={["Negative Tests", "Positive Tests"]}
-                                columnDescription={"On {Date} there were  {Negative Tests} negative and {Positive Tests} positive tests."}
+                                category={'date'}
+                                value={"total_tests"}
+                                groups={["negative_tests", "positive_tests"]}
+                                groupLabels={["Negative Tests", "Positive Tests"]}
+                                columnDescription={"On {date} there were  {negative_tests} negative and {positive_tests} positive tests."}
 
                         />
                     {/key}

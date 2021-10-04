@@ -27,6 +27,7 @@
     export let orientation = 'horizontal';
     export let max = 100;
     export let hasAccent = false;
+    export let isResponsive = true;
 
     let classNames=[
         "graph",
@@ -95,8 +96,16 @@
         const svg = figure
             .append("svg")
             .attr("class", classNames.join(" "))
-            .attr("width", chartWidth)
-            .attr("height", chartHeight);
+            .attr("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
+
+        if (isResponsive) {
+            svg.style("width", "100%")
+            svg.style("max-width", `${chartWidth}px`)
+        } else {
+            svg.attr("width", chartWidth)
+                .attr("height", chartHeight);
+        }
+
 
         /**
          * Create chart
@@ -176,6 +185,8 @@
         }
     }
 </script>
+<style>
 
+</style>
 
 <figure bind:this={el} class="{getClassNames()}"></figure>
