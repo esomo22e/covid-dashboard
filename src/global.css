@@ -252,6 +252,14 @@
 
 }
 
+.dashboard .graph svg {
+    width: 100%;
+}
+
+.chart-results-pos-neg__chart {
+    width: 100%;
+}
+
 .dashboard section {
     margin-top: var(--global--spacing-vertical);
 }
@@ -412,6 +420,7 @@ svg .axis-label--x {
     display: none;
     pointer-events: none;
 }
+
 
 /**
  * Meter graph
