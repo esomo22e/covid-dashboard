@@ -256,6 +256,10 @@
     width: 100%;
 }
 
+#overview .graph svg {
+    width: 150px;
+}
+
 .chart-results-pos-neg__chart {
     width: 100%;
 }
@@ -440,6 +444,20 @@ svg .axis-label--x {
     --graph-title--text-align: center;
 }
 
+.dashboard .donut-graph .graph-visual-wrapper {
+    position: relative;
+}
+
+.dashboard .donut-graph .graph-title {
+    text-align: center;
+    margin-top: var(--graph--spacing-unit, 1rem);
+}
+
+.dashboard .donut-graph .data-label {
+    position: absolute;
+    top: calc(50% - 0.7em);
+}
+
 .dashboard .donut-graph .graph-column:nth-child(n+1) {
     fill: var(--graph--color-primary);
 }
@@ -465,6 +483,36 @@ svg .axis-label--x {
 }
 
 /**
+ * Data point graph.
+ */
+
+.dashboard .data-point-graph .graph-title {
+    margin-top: var(--graph--spacing-unit, 1rem);
+}
+
+.dashboard .data-point-graph {
+
+    display: flex;
+    justify-content: space-between;
+    align-content: var(--chart--alignment, center);
+    flex-direction: var(--chart--flex-direction, column);
+    padding: var(--graph--spacing-unit);
+}
+
+.dashboard .data-point-graph .data-label-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashboard .data-point-graph .data-label {
+    border: var(--graph--secondary-stroke-width) solid var(--graph--color-face);
+    flex: 0 0 1em;
+    padding: var(--global--spacing-medium);
+}
+
+/**
  * Wellness Summary
  */
 .wellness-summary {
@@ -476,6 +524,11 @@ svg .axis-label--x {
 
 .wellness-summary__list {
     display: flex;
+}
+
+.wellness-summary__location .data-category {
+    max-width: 6rem;
+    height: 2.5em;
 }
 
 @media only screen and (max-width: 640px) {
@@ -525,7 +578,7 @@ svg .axis-label--x {
 }
 
 #wellness-summary {
---data-label--text-align: left;
+    --data-label--text-align: left;
 }
 
 /**
@@ -569,11 +622,11 @@ svg .axis-label--x {
     height: 10px;
 }
 
-#results-by-date .graph-column-negative-tests .legend-key__identifier {
+#results-by-date .graph-column-negative .legend-key__identifier {
     background: var(--graph--color-secondary);
 }
 
-#results-by-date .graph-column-positive-tests .legend-key__identifier {
+#results-by-date .graph-column-positive .legend-key__identifier {
     background: var(--graph--color-primary);
 }
 
@@ -584,6 +637,7 @@ svg .axis-label--x {
     --graph-title--color: var(--global--color-black);
     --graph-title--font-size: var(--global--font-size-m);
     flex-direction: column-reverse;
+    aligh-self: stretch;
 }
 
 /**
@@ -625,7 +679,7 @@ svg .axis-label--x {
         overflow: hidden;
     }
 
-    #covid-variants .waffle-graph svg{
+    #covid-variants .waffle-graph svg {
         width: 1000px !important;
     }
 }
@@ -675,9 +729,7 @@ svg .axis-label--x {
 }
 
 #results-by-date {
-    /*max-height: 500px;*/
     max-height: 736px;
-    overflow: hidden;
 }
 
 #results-by-date {
