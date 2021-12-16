@@ -1,231 +1,257 @@
 <script>
-    import Donut_Graph from './charts/donut-graph.svelte';
-    import Meter_Graph from './charts/meter-graph.svelte';
-    import Waffle_Graph from "./charts/waffle-graph.svelte";
-    import Data_Point from './charts/data-point.svelte'
-    import Results_By_Date from './charts/results-by-date.svelte'
-    import Chart_Wellness_Summary from './charts/wellness-summary.svelte'
-    import Svelte_Table from "svelte-table"
-    // import {csv} from 'd3-fetch'
-    import {timeFormat, timeParse} from 'd3-time-format';
-    import './global.css';
+	import Donut_Graph from './charts/donut-graph.svelte';
+	import Meter_Graph from './charts/meter-graph.svelte';
+	import Waffle_Graph from './charts/waffle-graph.svelte';
+	import Data_Point from './charts/data-point.svelte';
+	import Results_By_Date from './charts/results-by-date.svelte';
+	import Chart_Wellness_Summary from './charts/wellness-summary.svelte';
+	import Svelte_Table from 'svelte-table';
+	// import {csv} from 'd3-fetch'
+	import { timeFormat, timeParse } from 'd3-time-format';
+	import './global.css';
 
-    const meterColumnWidth = 66;
-    const meterColumnLength = 406;
+	const meterColumnWidth = 66;
+	const meterColumnLength = 406;
 
-    /**
-     * Get COVID dataset
-     *
-     * @since 1.0
-     */
-    $: covidData = parseCovidData();
+	/**
+	 * Get COVID dataset
+	 *
+	 * @since 1.0
+	 */
+	$: covidData = parseCovidData();
 
-    const parseTime = timeParse("%m/%d/%y");
-    const formatDate = timeFormat("%m/%d/%y");
+	const parseTime = timeParse( '%m/%d/%y' );
+	const formatDate = timeFormat( '%m/%d/%y' );
 
-    // These are the columns for the table portion.
-    const tableColumns = [
-        {
-            key: "date",
-            title: "Date",
-            value: v => new Date(v["date"]),
-            renderValue: v => v["date"],
-            sortable: true,
-            headerClass: "text-left",
-            class: "date-col"
-        },
-        {
-            key: "total_tests",
-            title: "Tests Completed",
-            value: v => v["total_tests"],
-            sortable: true,
-            headerClass: "text-left"
-        },
-        {
-            key: "negative_tests",
-            title: "Negative Tests",
-            value: v => v["negative_tests"],
-            sortable: true,
-            headerClass: "text-left"
-        },
-        {
-            key: "negative_rate",
-            title: "Negative Rate",
-            value: v => (
-                (v["negative_tests"] / v["total_tests"]).toLocaleString(undefined, {
-                    style: 'percent',
-                    minimumFractionDigits: 2
-                })
-            ),
-            sortable: true,
-            headerClass: "text-left"
-        },
-        {
-            key: "positive_tests",
-            title: "Positive Tests",
-            value: v => v["positive_tests"],
-            sortable: true,
-            headerClass: "text-left"
-        },
-        {
-            key: "positive_rate",
-            title: "Positive Rate",
-            value: v => (
-                (v["positive_tests"] / v["total_tests"]).toLocaleString(undefined, {
-                    style: 'percent',
-                    minimumFractionDigits: 2
-                })
-            ),
-            sortable: true,
-            headerClass: "text-left"
-        }
-    ];
+	// These are the columns for the table portion.
+	const tableColumns = [
+		{
+			key        : 'date',
+			title      : 'Date',
+			value      : v => new Date( v[ 'date' ] ),
+			renderValue: v => v[ 'date' ],
+			sortable   : true,
+			headerClass: 'text-left',
+			class      : 'date-col',
+		},
+		{
+			key        : 'total_tests',
+			title      : 'Tests Completed',
+			value      : v => v[ 'total_tests' ],
+			sortable   : true,
+			headerClass: 'text-left',
+		},
+		{
+			key        : 'negative_tests',
+			title      : 'Negative Tests',
+			value      : v => v[ 'negative_tests' ],
+			sortable   : true,
+			headerClass: 'text-left',
+		},
+		{
+			key        : 'negative_rate',
+			title      : 'Negative Rate',
+			value      : v => (
+					( v[ 'negative_tests' ] / v[ 'total_tests' ] ).toLocaleString(
+							undefined, {
+								style                : 'percent',
+								minimumFractionDigits: 2,
+							} )
+			),
+			sortable   : true,
+			headerClass: 'text-left',
+		},
+		{
+			key        : 'positive_tests',
+			title      : 'Positive Tests',
+			value      : v => v[ 'positive_tests' ],
+			sortable   : true,
+			headerClass: 'text-left',
+		},
+		{
+			key        : 'positive_rate',
+			title      : 'Positive Rate',
+			value      : v => (
+					( v[ 'positive_tests' ] / v[ 'total_tests' ] ).toLocaleString(
+							undefined, {
+								style                : 'percent',
+								minimumFractionDigits: 2,
+							} )
+			),
+			sortable   : true,
+			headerClass: 'text-left',
+		},
+	];
 
-    /**
-     * Filters test results by date.
-     *
-     * @since 2.0
-     */
-    let todaysDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+	/**
+	 * Filters test results by date.
+	 *
+	 * @since 2.0
+	 */
+	let todaysDate = new Date( new Date().getFullYear(), new Date().getMonth(),
+	                           new Date().getDate(),
+	);
 
-    function getStartDate() {
-        let daysAgo = 7;
-        let date = new Date(todaysDate - daysAgo * 24 * 60 * 60 * 1000);
+	function getStartDate () {
+		let daysAgo = 7;
+		let date = new Date( todaysDate - daysAgo * 24 * 60 * 60 * 1000 );
 
-        return date;
-    }
+		return date;
+	}
 
-    function parseCovidData() {
-        let data = getCovidData();
-        console.log('data', data);
-        // let data = get_covid_data();
+	function parseCovidData () {
+		let data = getCovidData();
+		console.log( 'data', data );
+		// let data = get_covid_data();
 
-        data.sort(function compare(a, b) {
-            let dateA = new Date(a["date"]);
-            let dateB = new Date(b["date"]);
-            return dateA - dateB;
-        });
+		data.sort( function compare ( a, b ) {
+			let dateA = new Date( a[ 'date' ] );
+			let dateB = new Date( b[ 'date' ] );
+			return dateA - dateB;
+		} );
 
-        for(let i = 0; i < data.length; i++) {
-            let date = new Date(data[i]["date"] + "T00:00:00-0400");
-            data[i]["date"] = date.toLocaleDateString();
-        }
+		for ( let i = 0; i < data.length; i++ ) {
+			let date = new Date( data[ i ][ 'date' ] + 'T00:00:00-0400' );
+			data[ i ][ 'date' ] = date.toLocaleDateString();
+		}
 
-        return data;
-    }
+		return data;
+	}
 
-    /**
-     * Gets the data for the most recent day
-     */
+	/**
+	 * Gets the data for the most recent day
+	 */
 
-    function getMostRecentEntry(prop = null) {
-        return (null != prop) ? covidData[covidData.length - 1][prop] : covidData[covidData.length - 1];
-    }
+	function getMostRecentEntry ( prop = null ) {
+		return ( null != prop ) ?
+				covidData[ covidData.length - 1 ][ prop ] :
+				covidData[ covidData.length - 1 ];
+	}
 
-    /**
-     * Filter dates
-     */
-    let filterEndDate = getToday();
-    let filterStartDate = getDaysAgo(7);
+	/**
+	 * Gets the total quarantined on campus.
+	 */
+	function getQuarantineTotalOnCampus ( entry ) {
+		return entry[ 'traced_contacts_on_campus' ] +
+				entry[ 'self_reported_on_campus' ];
+	}
 
-    /**
-     * Gets a date object for today.
-     *
-     * @since 2.0
-     *
-     * @return Date
-     */
-    function getToday() {
-        let todaysDate = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
-        return todaysDate;
-    }
+	/**
+	 * Gets the total quarantined off campus.
+	 */
+	function getQuarantineTotalOffCampus ( entry ) {
+		return entry[ 'traced_contacts_off_campus' ] +
+				entry[ 'self_reported_off_campus' ];
+	}
 
-    /**
-     * Gets a date object for a specified number of days ago.
-     *
-     * @since 2.0
-     *
-     * @return Date
-     */
-    function getDaysAgo(daysAgo) {
-        let daysAgoDate = new Date(getToday() - daysAgo * 24 * 60 * 60 * 1000);
-        return daysAgoDate;
-    }
+	/**
+	 * Filter dates
+	 */
+	let filterEndDate = getToday();
+	let filterStartDate = getDaysAgo( 7 );
 
-    /**
-     * Filters test results by date.
-     *
-     * @since 2.0
-     */
-    $: filteredData = covidData.filter(function (d) {
-        const START_DATE = new Date(filterStartDate).getTime();
-        const END_DATE = new Date(filterEndDate).getTime();
-        const COMPARE_DATE = new Date(d["date"]).getTime();
-        return (COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE);
-    });
+	/**
+	 * Gets a date object for today.
+	 *
+	 * @since 2.0
+	 *
+	 * @return Date
+	 */
+	function getToday () {
+		let todaysDate = new Date( new Date().getFullYear(), new Date().getMonth(),
+		                           new Date().getDate(),
+		);
+		return todaysDate;
+	}
 
-    function getSevenDayTotal() {
-        let cases = 0;
-        for (let i = 0; i < filteredData.length; i++) {
-            cases += filteredData[i]["total_tests"];
-        }
+	/**
+	 * Gets a date object for a specified number of days ago.
+	 *
+	 * @since 2.0
+	 *
+	 * @return Date
+	 */
+	function getDaysAgo ( daysAgo ) {
+		let daysAgoDate = new Date( getToday() - daysAgo * 24 * 60 * 60 * 1000 );
+		return daysAgoDate;
+	}
 
-        return cases;
-    }
+	/**
+	 * Filters test results by date.
+	 *
+	 * @since 2.0
+	 */
+	$: filteredData = covidData.filter( function ( d ) {
+		const START_DATE = new Date( filterStartDate ).getTime();
+		const END_DATE = new Date( filterEndDate ).getTime();
+		const COMPARE_DATE = new Date( d[ 'date' ] ).getTime();
+		return ( COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE );
+	} );
 
-    function getSevenDayPositive() {
-        let cases = 0;
-        for (let i = 0; i < filteredData.length; i++) {
-            cases += filteredData[i]["positive_tests"];
-        }
+	function getSevenDayTotal () {
+		let cases = 0;
+		for ( let i = 0; i < filteredData.length; i++ ) {
+			cases += filteredData[ i ][ 'total_tests' ];
+		}
 
-        return cases;
-    }
+		return cases;
+	}
 
-    function getSevenDayNegative() {
-        let cases = 0;
-        for (let i = 0; i < filteredData.length; i++) {
-            cases += filteredData[i]["negative_tests"];
-        }
+	function getSevenDayPositive () {
+		let cases = 0;
+		for ( let i = 0; i < filteredData.length; i++ ) {
+			cases += filteredData[ i ][ 'positive_tests' ];
+		}
 
-        return cases;
-    }
+		return cases;
+	}
 
-    /**
-     * Toggles view of table
-     *
-     * @since 2.0
-     */
-    let initialTableHeight;
-    let fullTableHeight;
+	function getSevenDayNegative () {
+		let cases = 0;
+		for ( let i = 0; i < filteredData.length; i++ ) {
+			cases += filteredData[ i ][ 'negative_tests' ];
+		}
 
-    function toggleTable() {
-        const tableWrapper = document.querySelector('.collapsable-table-wrapper');
-        const buttonToggleLabel = document.querySelector('.table-button .button-label');
-        const buttonToggleLabelInitial = 'Expand Table';
-        const buttonToggleLabelExpanded = 'Collapse Table';
+		return cases;
+	}
 
-        if (!initialTableHeight) {
-            initialTableHeight = tableWrapper.offsetHeight;
-            tableWrapper.style.height = 'auto';
-            fullTableHeight = tableWrapper.offsetHeight;
-            tableWrapper.style.height = initialTableHeight + 'px';
-        }
+	/**
+	 * Toggles view of table
+	 *
+	 * @since 2.0
+	 */
+	let initialTableHeight;
+	let fullTableHeight;
 
-        if (tableWrapper.classList.contains('is-expanded')) {
-            tableWrapper.classList.remove('is-expanded');
-            tableWrapper.style.height = initialTableHeight + 'px';
-            buttonToggleLabel.innerText = buttonToggleLabelInitial;
-        } else {
-            tableWrapper.classList.add('is-expanded');
-            tableWrapper.style.height = fullTableHeight + 'px';
-            buttonToggleLabel.innerText = buttonToggleLabelExpanded;
-        }
-    }
+	function toggleTable () {
+		const tableWrapper = document.querySelector( '.collapsable-table-wrapper' );
+		const buttonToggleLabel = document.querySelector(
+				'.table-button .button-label' );
+		const buttonToggleLabelInitial = 'Expand Table';
+		const buttonToggleLabelExpanded = 'Collapse Table';
 
-    function insertAfter(referenceNode, newNode) {
-        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
+		if ( ! initialTableHeight ) {
+			initialTableHeight = tableWrapper.offsetHeight;
+			tableWrapper.style.height = 'auto';
+			fullTableHeight = tableWrapper.offsetHeight;
+			tableWrapper.style.height = initialTableHeight + 'px';
+		}
+
+		if ( tableWrapper.classList.contains( 'is-expanded' ) ) {
+			tableWrapper.classList.remove( 'is-expanded' );
+			tableWrapper.style.height = initialTableHeight + 'px';
+			buttonToggleLabel.innerText = buttonToggleLabelInitial;
+		}
+		else {
+			tableWrapper.classList.add( 'is-expanded' );
+			tableWrapper.style.height = fullTableHeight + 'px';
+			buttonToggleLabel.innerText = buttonToggleLabelExpanded;
+		}
+	}
+
+	function insertAfter ( referenceNode, newNode ) {
+		referenceNode.parentNode.insertBefore( newNode, referenceNode.nextSibling );
+	}
 
 </script>
 <section id="intro">
@@ -241,34 +267,36 @@
         <section id="testing-results">
             <section id="daily-positives">
                 <h2 class="section-heading">Daily Positives
-                    for {getMostRecentEntry('date')}</h2>
-                <p>Thinking positive for {getMostRecentEntry("positive_students")}</p>
+                    for {getMostRecentEntry( 'date' )}</h2>
                 <div class="daily-positives__list">
                     <Donut_Graph
-                            diameter=125
-                            value={[
+                            width=125
+                            values={[
                                 getMostRecentEntry("positive_students"),
                                 getMostRecentEntry("negative_tests"),
                                 ]}
+                            thickness=20
                             label="Students"
                             valueStyle="default"
                             hasAccent={true}
                     />
                     <Donut_Graph
-                            diameter=125
-                            value={[
+                            width=125
+                            values={[
                                 getMostRecentEntry("positive_faculty_staff"),
                                 getMostRecentEntry("negative_tests"),
                                 ]}
+                            thickness=20
                             label="Faculty/Staff"
                             hasAccent={true}
                     />
                     <Donut_Graph
-                            diameter=125
-                            value={[
+                            width=125
+                            values={[
                                 getMostRecentEntry("positive_contractors"),
                                 getMostRecentEntry("negative_tests"),
                                 ]}
+                            thickness=20
                             label="Contractors"
                             hasAccent={true}
                     />
@@ -287,7 +315,7 @@
         </section>
 
 
-        <!--        &lt;!&ndash; Dash Positive (Students, Faculty/Staff, and Contractor) &ndash;&gt;-->
+        <!-- Dash Positive (Students, Faculty/Staff, and Contractor) -->
         <section id="overview">
             <h2 class="section-heading">Overview</h2>
             <div class="graph-group">
@@ -298,25 +326,26 @@
                         label="Hospitalizations"
                 />
 
-                <!-- TODO: patch isPercent to use calculated percent as label instead of first value -->
                 {#key filteredData}
-                <Donut_Graph
-                        diameter=200
-                        value={[
+                    <Donut_Graph
+                            width=200
+                            values={[
                                 getSevenDayPositive(),
                                 getSevenDayTotal()
                                 ]}
-                        label="Seven-Day Positive Test Rate"
-                        isPercent={true}
-                />
-                    {/key}
+                            label="Seven-Day Positive Test Rate"
+                            thickness=20
+                            isPercent={true}
+                    />
+                {/key}
 
                 <Donut_Graph
-                        diameter=200
-                        value={[
+                        width=200
+                        values={[
                                 getMostRecentEntry("beds_in_use"),
                                 getMostRecentEntry("total_beds"),
                                 ]}
+                        thickness=20
                         label="Campus Wellness Beds in Use"
                 />
             </div>
@@ -354,7 +383,6 @@
 
 
         <!-- Total Vaccination Rates -->
-
         <section id="vaccination-rates">
             <h2 class="section-heading">Vaccination Rates</h2>
             <div class="dash-vac-chart">
@@ -379,20 +407,37 @@
             </div>
         </section>
 
+        <!-- Wellness summary -->
         <section id="wellness-summary">
             <div class="wellness-summary__list">
-<!--                <Chart_Wellness_Summary-->
-<!--                        label="Students in Isolation"-->
-<!--                        onCampus={getMostRecentEntry("isolate_on_campus")}-->
-<!--                        offCampus={getMostRecentEntry("isolate_off_campus")}-->
-<!--                        hasAccent={true}-->
-<!--                />-->
-<!--                <Chart_Wellness_Summary-->
-<!--                        label="Students in Quarantine"-->
-<!--                        onCampus={getMostRecentEntry("quarantine_on_campus")}-->
-<!--                        offCampus={getMostRecentEntry("quarantine_off_campus")}-->
-<!--                        hasAccent={true}-->
-<!--                />-->
+                <Chart_Wellness_Summary
+                        label="Students in Isolation"
+                        data={[
+                            getMostRecentEntry("isolate_on_campus"),
+                            getMostRecentEntry("isolate_off_campus"),
+                            ]}
+                        dataLabels={[
+                            "On-Campus",
+                            "Off-Campus",
+                        ]}
+                        hasAccent={true}
+                />
+                <Chart_Wellness_Summary
+                        label="Students in Quarantine"
+                        data={[
+                            getMostRecentEntry("newly_identified_on_campus"),
+                            getMostRecentEntry("newly_identified_off_campus"),
+                            getQuarantineTotalOnCampus(getMostRecentEntry()),
+                            getQuarantineTotalOffCampus(getMostRecentEntry()),
+                            ]}
+                        dataLabels={[
+                            "Newly Identified On-Campus",
+                            "Newly Identified <wbr/>Off-Campus",
+                            "Total On-Campus",
+                            "Total Off-Campus",
+                        ]}
+                        hasAccent={true}
+                />
             </div>
             <footer class="wellness-summary__footer">
                 <p class="footnote">* According to the university’s August 18,
@@ -402,6 +447,7 @@
             </footer>
         </section>
 
+        <!-- Data table -->
         <section id="data-table">
             <div class="collapsable-table-wrapper">
                 <Svelte_Table
@@ -417,13 +463,12 @@
                 <div class="button-label">View Full Table</div>
             </button>
             <footer class="data-table__footer">
-                <p class="footnote">
-                    Starting on November 28th, 2021 the testing centers are closed on Sundays.<br>
-                    <b class="footnote-offset">Source:</b>
+                <p class="footnote"><b class="footnote-offset">Source:</b>
                     Northeastern Life Sciences Testing Center and the Broad
                     Institute</p>
             </footer>
         </section>
+
 
     </div>
 

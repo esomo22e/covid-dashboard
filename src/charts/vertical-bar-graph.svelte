@@ -95,6 +95,7 @@
     }
 
     function showTip(d, target, mouse) {
+    	console.log('this is a tooltip');
         let innerHTML = `<div class="tooltip__date">${new Date(d[category]).toLocaleDateString()}</div>`;
 
         for (let i = 0; i < groups.length; i++) {
@@ -259,9 +260,9 @@
                 .attr("height", function (d) {
                     return height - plotMargin.bottom - yScale(d[groups[i]]);
                 })
-                .on("mousemove", function (d) {
+                .on("mousemove", function (event, d) {
                     if (window.innerWidth > 600) {
-                        showTip(d, tooltip, d3.mouse(this))
+                        showTip(d, tooltip, d3.pointer(event))
                     }
                 })
                 .on("mouseout", function (d) {
