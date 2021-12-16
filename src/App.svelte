@@ -96,7 +96,9 @@
     }
 
     function parseCovidData() {
-        let data = get_covid_data();
+        let data = getCovidData();
+        console.log('data', data);
+        // let data = get_covid_data();
 
         data.sort(function compare(a, b) {
             let dateA = new Date(a["date"]);
@@ -240,6 +242,7 @@
             <section id="daily-positives">
                 <h2 class="section-heading">Daily Positives
                     for {getMostRecentEntry('date')}</h2>
+                <p>Thinking positive for {getMostRecentEntry("positive_students")}</p>
                 <div class="daily-positives__list">
                     <Donut_Graph
                             diameter=125
@@ -378,18 +381,18 @@
 
         <section id="wellness-summary">
             <div class="wellness-summary__list">
-                <Chart_Wellness_Summary
-                        label="Students in Isolation"
-                        onCampus={getMostRecentEntry("isolate_on_campus")}
-                        offCampus={getMostRecentEntry("isolate_off_campus")}
-                        hasAccent={true}
-                />
-                <Chart_Wellness_Summary
-                        label="Students in Quarantine"
-                        onCampus={getMostRecentEntry("quarantine_on_campus")}
-                        offCampus={getMostRecentEntry("quarantine_off_campus")}
-                        hasAccent={true}
-                />
+<!--                <Chart_Wellness_Summary-->
+<!--                        label="Students in Isolation"-->
+<!--                        onCampus={getMostRecentEntry("isolate_on_campus")}-->
+<!--                        offCampus={getMostRecentEntry("isolate_off_campus")}-->
+<!--                        hasAccent={true}-->
+<!--                />-->
+<!--                <Chart_Wellness_Summary-->
+<!--                        label="Students in Quarantine"-->
+<!--                        onCampus={getMostRecentEntry("quarantine_on_campus")}-->
+<!--                        offCampus={getMostRecentEntry("quarantine_off_campus")}-->
+<!--                        hasAccent={true}-->
+<!--                />-->
             </div>
             <footer class="wellness-summary__footer">
                 <p class="footnote">* According to the university’s August 18,
@@ -414,7 +417,9 @@
                 <div class="button-label">View Full Table</div>
             </button>
             <footer class="data-table__footer">
-                <p class="footnote"><b class="footnote-offset">Source:</b>
+                <p class="footnote">
+                    Starting on November 28th, 2021 the testing centers are closed on Sundays.<br>
+                    <b class="footnote-offset">Source:</b>
                     Northeastern Life Sciences Testing Center and the Broad
                     Institute</p>
             </footer>

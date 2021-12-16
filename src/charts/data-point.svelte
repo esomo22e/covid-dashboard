@@ -1,20 +1,21 @@
 <script>
     import {onMount} from 'svelte';
-    import {scaleOrdinal} from 'd3-scale';
-    import {mouse, select} from 'd3-selection';
-    import {entries} from 'd3-collection';
-    import {path} from 'd3-path';
-    import {arc, pie} from 'd3-shape';
+    import * as d3 from 'd3';
+    // import {scaleOrdinal} from 'd3-scale';
+    // import {mouse, select} from 'd3-selection';
+    // import {entries} from 'd3-collection';
+    // import {path} from 'd3-path';
+    // import {arc, pie} from 'd3-shape';
 
-    let d3 = {
-        scaleOrdinal: scaleOrdinal,
-        entries: entries,
-        pie: pie,
-        arc: arc,
-        select: select,
-        mouse: mouse,
-        path: path,
-    }
+    // let d3 = {
+    //     scaleOrdinal: scaleOrdinal,
+    //     entries: entries,
+    //     pie: pie,
+    //     arc: arc,
+    //     select: select,
+    //     mouse: mouse,
+    //     path: path,
+    // }
 
     let el;
 

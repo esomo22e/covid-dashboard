@@ -20,16 +20,16 @@
     }
 </script>
 
-<figure bind:this={el} class="{getClassNames()}">
+<figure class="{getClassNames()}">
     <h3 class="graph-title">{label}</h3>
     <div class="wellness-summary__location-list">
         <div class="wellness-summary__location">
             <h4 class="data-category">On Campus</h4>
-            <div class="data-label">{digitFormat(onCampus)}</div>
+<!--            <div class="data-label">{digitFormat(onCampus)}</div>-->
         </div>
         <div class="wellness-summary__location">
             <h4 class="data-category">Off Campus</h4>
-            <div class="data-label">{digitFormat(offCampus)}</div>
+<!--            <div class="data-label">{digitFormat(offCampus)}</div>-->
         </div>
     </div>
 </figure>

@@ -1,22 +1,23 @@
 <script>
     import {onMount} from 'svelte';
-    import {scaleBand, scaleLinear, scaleOrdinal} from 'd3-scale';
-    import {axisBottom, axisLeft, axisRight, axisTop} from 'd3-axis';
-    import {select} from 'd3-selection';
-    import {legendColor} from 'd3-svg-legend';
+    import * as d3 from 'd3';
+    // import {scaleBand, scaleLinear, scaleOrdinal} from 'd3-scale';
+    // import {axisBottom, axisLeft, axisRight, axisTop} from 'd3-axis';
+    // import {select} from 'd3-selection';
+    // import {legendColor} from 'd3-svg-legend';
 
-    let d3 = {
-        scaleLinear,
-        scaleBand,
-        scaleOrdinal,
-        select,
-        axisLeft,
-        axisRight,
-        axisBottom,
-        axisTop,
-        legendColor: legendColor
-
-    }
+    // let d3 = {
+    //     scaleLinear,
+    //     scaleBand,
+    //     scaleOrdinal,
+    //     select,
+    //     axisLeft,
+    //     axisRight,
+    //     axisBottom,
+    //     axisTop,
+    //     legendColor: legendColor
+    //
+    // }
 
     let el;
 

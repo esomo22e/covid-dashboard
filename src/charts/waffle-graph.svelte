@@ -1,32 +1,31 @@
 <script>
     import {onMount} from 'svelte';
-    import {
-        scaleBand,
-        scaleLinear,
-        scaleOrdinal,
-        scaleQuantile,
-        scaleQuantize,
-        scaleThreshold
-    } from 'd3-scale';
-    import {axisBottom, axisLeft, axisRight, axisTop} from 'd3-axis';
-    import {select} from 'd3-selection';
-    import {legendColor, legendSize} from 'd3-svg-legend';
+    import * as d3 from 'd3';
+    // import {
+    //     scaleBand,
+    //     scaleLinear,
+    //     scaleOrdinal,
+    //     scaleQuantile,
+    //     scaleQuantize,
+    //     scaleThreshold
+    // } from 'd3-scale';
+    // import {axisBottom, axisLeft, axisRight, axisTop} from 'd3-axis';
+    // import {legendColor, legendSize} from 'd3-svg-legend';
 
-    let d3 = {
-        scaleLinear: scaleLinear,
-        scaleBand: scaleBand,
-        scaleOrdinal: scaleOrdinal,
-        scaleQuantize: scaleQuantize,
-        scaleQuantile: scaleQuantile,
-        scaleThreshold: scaleThreshold,
-        select: select,
-        axisLeft: axisLeft,
-        axisRight: axisRight,
-        axisBottom: axisBottom,
-        axisTop: axisTop,
-        legendColor: legendColor,
-        legendSize: legendSize
-    }
+    // let d3 = {
+    //     scaleLinear: scaleLinear,
+    //     scaleBand: scaleBand,
+    //     scaleOrdinal: scaleOrdinal,
+    //     scaleQuantize: scaleQuantize,
+    //     scaleQuantile: scaleQuantile,
+    //     scaleThreshold: scaleThreshold,
+    //     axisLeft: axisLeft,
+    //     axisRight: axisRight,
+    //     axisBottom: axisBottom,
+    //     axisTop: axisTop,
+    //     legendColor: legendColor,
+    //     legendSize: legendSize
+    // }
 
     export let width = {width};
     export let value = {value};

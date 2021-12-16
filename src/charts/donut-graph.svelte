@@ -1,10 +1,11 @@
 <script>
     import {onMount} from 'svelte';
-    import {scaleOrdinal} from 'd3-scale';
-    import {mouse, select} from 'd3-selection';
-    import {entries} from 'd3-collection';
-    import {path} from 'd3-path';
-    import {arc, pie} from 'd3-shape';
+    import * as d3 from 'd3';
+    // import {scaleOrdinal} from 'd3-scale';
+    // import {mouse, select} from 'd3-selection';
+    // import {entries} from 'd3-collection';
+    // import {path} from 'd3-path';
+    // import {arc, pie} from 'd3-shape';
 
     // export let data = {data};
     export let value = {value};
@@ -29,15 +30,15 @@
     }
 
 
-    let d3 = {
-        scaleOrdinal: scaleOrdinal,
-        entries: entries,
-        pie: pie,
-        arc: arc,
-        select: select,
-        mouse: mouse,
-        path: path,
-    }
+    // let d3 = {
+    //     scaleOrdinal: scaleOrdinal,
+    //     entries: entries,
+    //     pie: pie,
+    //     arc: arc,
+    //     select: select,
+    //     mouse: mouse,
+    //     path: path,
+    // }
     let el;
     let valueStyleParams = {};
 
@@ -95,7 +96,7 @@
             .value(function (d) {
                 return d.value;
             })
-        let dataReady = donut(d3.entries(value))
+        let dataReady = donut(Object.entries(value))
 
         graphVisual
             .selectAll()
@@ -136,5 +137,6 @@
         dominant-baseline: middle;
     }
 </style>
-
+<p>Value: {value}</p>
+<p>Diameter: {diameter}</p>
 <figure bind:this={el} class="{getClassNames()}"></figure>

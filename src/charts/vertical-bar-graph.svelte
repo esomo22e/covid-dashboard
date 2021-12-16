@@ -1,31 +1,32 @@
 <script>
     import {onMount} from 'svelte';
-    import {scaleLinear, scaleBand, scaleOrdinal} from 'd3-scale';
-    import {axisLeft, axisRight, axisTop, axisBottom} from 'd3-axis';
-    import {select, mouse} from 'd3-selection';
-    import {line, curveMonotoneX, curveNatural} from 'd3-shape';
-    import {path} from 'd3-path';
-    import {interpolateRound} from 'd3-interpolate';
+    import * as d3 from 'd3';
     import 'd3-transition'
-    import {legendColor} from 'd3-svg-legend';
+    // import {scaleLinear, scaleBand, scaleOrdinal} from 'd3-scale';
+    // import {axisLeft, axisRight, axisTop, axisBottom} from 'd3-axis';
+    // import {select, mouse} from 'd3-selection';
+    // import {line, curveMonotoneX, curveNatural} from 'd3-shape';
+    // import {path} from 'd3-path';
+    // import {interpolateRound} from 'd3-interpolate';
+    // import {legendColor} from 'd3-svg-legend';
 
-    let d3 = {
-        scaleLinear: scaleLinear,
-        scaleBand: scaleBand,
-        scaleOrdinal: scaleOrdinal,
-        select: select,
-        mouse: mouse,
-        axisLeft: axisLeft,
-        axisRight: axisRight,
-        axisBottom: axisBottom,
-        axisTop: axisTop,
-        line: line,
-        path: path,
-        curveMonotoneX: curveMonotoneX,
-        curveNatural: curveNatural,
-        interpolateRound: interpolateRound,
-        legendColor: legendColor
-    }
+    // let d3 = {
+    //     scaleLinear: scaleLinear,
+    //     scaleBand: scaleBand,
+    //     scaleOrdinal: scaleOrdinal,
+    //     select: select,
+    //     mouse: mouse,
+    //     axisLeft: axisLeft,
+    //     axisRight: axisRight,
+    //     axisBottom: axisBottom,
+    //     axisTop: axisTop,
+    //     line: line,
+    //     path: path,
+    //     curveMonotoneX: curveMonotoneX,
+    //     curveNatural: curveNatural,
+    //     interpolateRound: interpolateRound,
+    //     legendColor: legendColor
+    // }
 
     let el;
 

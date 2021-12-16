@@ -1,10 +1,11 @@
 <script>
-    import {onMount} from 'svelte';
-    import {scaleOrdinal} from 'd3-scale';
-    import {mouse, select} from 'd3-selection';
-    import {entries} from 'd3-collection';
-    import {path} from 'd3-path';
-    import {arc, pie} from 'd3-shape';
+	import * as d3 from 'd3';
+    // import {onMount} from 'svelte';
+    // import {scaleOrdinal} from 'd3-scale';
+    // import {mouse, select} from 'd3-selection';
+    // import {entries} from 'd3-collection';
+    // import {path} from 'd3-path';
+    // import {arc, pie} from 'd3-shape';
     import Chart_Bar_Vertical from './vertical-bar-graph.svelte'
     import {negativePositive} from '../helpers/colors.js'
     import Datepicker from 'svelte-calendar';
@@ -28,9 +29,9 @@
     }
 
 
-    let d3 = {
-        select: select,
-    }
+    // let d3 = {
+    //     select: select,
+    // }
     let el;
 
 
