@@ -21,14 +21,14 @@
 	let innerText = '';
 
 	// Sets the text inside of the donut graph. Will calculate percentage if isPercent is true.
-	console.log( 'isPercent', isPercent );
 	if ( isPercent ) {
-		console.log( 'isPercent inside if', isPercent );
-		valueStyleParams = { style: 'percent', minimumFractionDigits: 2 };
-		innerText = ( values[ 0 ] / values[ 1 ] )
-				.toLocaleString( undefined,
-				                 valueStyleParams,
-				);
+		values[0] = ( 0 === values[ 0 ] || 0 === values[ 1 ] ) ?
+            0 :
+            values[ 0 ] / values[ 1 ];
+		values[1] = 100;
+
+			valueStyleParams = { style: 'percent', minimumFractionDigits: 2 };
+		innerText = (values[ 0 ]).toLocaleString( undefined, valueStyleParams );
 	}
 	else {
 		innerText = ( values[ 0 ] ).toLocaleString( undefined, valueStyleParams );
@@ -40,10 +40,10 @@
 	              } );
 	// Generates the graph visual.
 	onMount( () => {
-			console.log( 'values in onMount()', values );
-			console.log( 'el in onMount()', el );
+		console.log( 'values in onMount()', values );
+		console.log( 'el in onMount()', el );
 
-			const graphContainer = d3.select( el );
+		const graphContainer = d3.select( el );
 		// Specifies if the graph has an accent.
 		if ( hasAccent ) {
 			graphContainer.classed( 'has-accent', true );
