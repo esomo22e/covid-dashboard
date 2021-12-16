@@ -463,7 +463,9 @@
                 <div class="button-label">View Full Table</div>
             </button>
             <footer class="data-table__footer">
-                <p class="footnote"><b class="footnote-offset">Source:</b>
+                <p class="footnote">Starting on November 28th, 2021 the testing
+                    centers are closed on Sundays.<br>
+                    <b class="footnote-offset">Source:</b>
                     Northeastern Life Sciences Testing Center and the Broad
                     Institute</p>
             </footer>

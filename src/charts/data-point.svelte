@@ -1,34 +1,16 @@
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
-    // import {scaleOrdinal} from 'd3-scale';
-    // import {mouse, select} from 'd3-selection';
-    // import {entries} from 'd3-collection';
-    // import {path} from 'd3-path';
-    // import {arc, pie} from 'd3-shape';
-
-    // let d3 = {
-    //     scaleOrdinal: scaleOrdinal,
-    //     entries: entries,
-    //     pie: pie,
-    //     arc: arc,
-    //     select: select,
-    //     mouse: mouse,
-    //     path: path,
-    // }
 
     let el;
 
-    const padding = {top: 10, right: 40, bottom: 70, left: 50};
-
-    // export let data = {data};
     export let width = {width};
     export let height = {height};
     export let value = {value};
     export let label = {label};
+    const padding = {top: 10, right: 40, bottom: 70, left: 50};
     let hasAccent = false;
     let isResponsive = true;
-
     let classNames = [
         "graph",
         "data-point-graph"

@@ -1,31 +1,6 @@
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
-    // import {
-    //     scaleBand,
-    //     scaleLinear,
-    //     scaleOrdinal,
-    //     scaleQuantile,
-    //     scaleQuantize,
-    //     scaleThreshold
-    // } from 'd3-scale';
-    // import {axisBottom, axisLeft, axisRight, axisTop} from 'd3-axis';
-    // import {legendColor, legendSize} from 'd3-svg-legend';
-
-    // let d3 = {
-    //     scaleLinear: scaleLinear,
-    //     scaleBand: scaleBand,
-    //     scaleOrdinal: scaleOrdinal,
-    //     scaleQuantize: scaleQuantize,
-    //     scaleQuantile: scaleQuantile,
-    //     scaleThreshold: scaleThreshold,
-    //     axisLeft: axisLeft,
-    //     axisRight: axisRight,
-    //     axisBottom: axisBottom,
-    //     axisTop: axisTop,
-    //     legendColor: legendColor,
-    //     legendSize: legendSize
-    // }
 
     export let width = {width};
     export let value = {value};
@@ -33,11 +8,11 @@
     export let isPercentage = {isPercentage};
     export let labels = {labels};
     export let footnotes = {footnotes}
-    export let orientation = "horizontal";
     export let hasAccent = false;
     export let isResponsive = true;
 
     const padding = {top: 20, right: 0, bottom: 0, left: 20};
+    let orientation = "horizontal";
     let cellBounds = [0]
     let totalItems = 0;
     let totalCells = 0;

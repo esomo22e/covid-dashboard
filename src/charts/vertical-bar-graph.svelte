@@ -1,35 +1,6 @@
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
-    import 'd3-transition'
-    // import {scaleLinear, scaleBand, scaleOrdinal} from 'd3-scale';
-    // import {axisLeft, axisRight, axisTop, axisBottom} from 'd3-axis';
-    // import {select, mouse} from 'd3-selection';
-    // import {line, curveMonotoneX, curveNatural} from 'd3-shape';
-    // import {path} from 'd3-path';
-    // import {interpolateRound} from 'd3-interpolate';
-    // import {legendColor} from 'd3-svg-legend';
-
-    // let d3 = {
-    //     scaleLinear: scaleLinear,
-    //     scaleBand: scaleBand,
-    //     scaleOrdinal: scaleOrdinal,
-    //     select: select,
-    //     mouse: mouse,
-    //     axisLeft: axisLeft,
-    //     axisRight: axisRight,
-    //     axisBottom: axisBottom,
-    //     axisTop: axisTop,
-    //     line: line,
-    //     path: path,
-    //     curveMonotoneX: curveMonotoneX,
-    //     curveNatural: curveNatural,
-    //     interpolateRound: interpolateRound,
-    //     legendColor: legendColor
-    // }
-
-    let el;
-
 
     export let data = {data};
     export let width = {width};
@@ -42,6 +13,7 @@
     export let hasAccent = false;
     export let columnDescription = {columnDescription};
 
+    let el;
     let tooltipOffsetX = 15;
     let tooltipOffsetY = 70;
 

@@ -1,5 +1,5 @@
 <script>
-	import { select } from 'd3-selection';
+	import { select } from 'd3';
 	import Chart_Bar_Vertical from './vertical-bar-graph.svelte';
 	import Datepicker from 'svelte-calendar';
 
@@ -130,42 +130,42 @@
 	} );
 </script>
 
-<figure bind:this={el} className="{getClassNames()}">
-    <div className="chart-wrapper" id="chart-results-pos-neg">
-        <div className="dash-bars dash-test-item">
-            <h2 className="section-heading">{title}</h2>
-            <div className="filter-bar">
-                <menu className="filter-bar-presets" type="toolbar">
-                    <button className="button-filter filter-seven-days is-active"
+<figure bind:this={el} class="{getClassNames()}">
+    <div class="chart-wrapper" id="chart-results-pos-neg">
+        <div class="dash-bars dash-test-item">
+            <h2 class="section-heading">{title}</h2>
+            <div class="filter-bar">
+                <menu class="filter-bar-presets" type="toolbar">
+                    <button class="button-filter filter-seven-days is-active"
                             on:click={setFilterLastSevenDays}>Past 7
                         Days
                     </button>
-                    <button className="button-filter filter-thirty-days"
+                    <button class="button-filter filter-thirty-days"
                             on:click={setFilterLastThirtyDays}>Past 30
                         Days
                     </button>
-                    <button className="button-filter filter-semester"
+                    <button class="button-filter filter-semester"
                             on:click={setFilterThisSemester}>Semester
                     </button>
                 </menu>
 
-                <div className="filter-bar-date-range">
+                <div class="filter-bar-date-range">
                     <Datepicker bind:dateChosen={isStartDateChosen}
                                 bind:selected={filterStartDate}
                                 end={filterEndDate}>
-                        <div className="datepicker-label">{filterStartDate.toLocaleDateString()}</div>
+                        <div class="datepicker-label">{filterStartDate.toLocaleDateString()}</div>
                     </Datepicker>
                     <span aria-label="to"
-                          className="date-separator">–</span>
+                          class="date-separator">–</span>
                     <Datepicker bind:dateChosen={isEndDateChosen}
                                 bind:selected={filterEndDate}
                                 start={filterStartDate}>
-                        <div className="datepicker-label">{filterEndDate.toLocaleDateString()}</div>
+                        <div class="datepicker-label">{filterEndDate.toLocaleDateString()}</div>
                     </Datepicker>
                 </div>
             </div>
-            <div className="graph-visual-wrapper">
-                <div className="chart-results-pos-neg__chart">
+            <div class="graph-visual-wrapper">
+                <div class="chart-results-pos-neg__chart">
                     {#key filteredData}
                         <Chart_Bar_Vertical
                                 width=500
