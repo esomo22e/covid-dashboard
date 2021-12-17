@@ -5,7 +5,8 @@
 	import Waffle_Graph from './charts/waffle-graph.svelte';
 	import Data_Point from './charts/data-point.svelte';
 	import Results_By_Date from './charts/results-by-date.svelte';
-	import Covid_Variants_Stacked_Bar from './charts/covid-variants-stacked-bar.svelte';
+	import Covid_Variants_Stacked_Bar
+		from './charts/covid-variants-stacked-bar.svelte';
 	import Chart_Wellness_Summary from './charts/wellness-summary.svelte';
 	import Svelte_Table from 'svelte-table';
 	// import {csv} from 'd3-fetch'
@@ -94,17 +95,17 @@
 	                           new Date().getDate(),
 	);
 
-	function getStartDate () {
+	function getStartDate() {
 		let daysAgo = 7;
 		let date = new Date( todaysDate - daysAgo * 24 * 60 * 60 * 1000 );
 
 		return date;
 	}
 
-	function parseCovidData () {
+	function parseCovidData() {
 		let data = getCovidData();
 
-		data.sort( function compare ( a, b ) {
+		data.sort( function compare( a, b ) {
 			let dateA = new Date( a[ 'date' ] );
 			let dateB = new Date( b[ 'date' ] );
 			return dateA - dateB;
@@ -122,8 +123,8 @@
 	 * Gets the data for the most recent day
 	 */
 
-	function getMostRecentEntry ( prop = null ) {
-            return ( null != prop ) ?
+	function getMostRecentEntry( prop = null ) {
+		return ( null != prop ) ?
 				covidData[ covidData.length - 1 ][ prop ] :
 				covidData[ covidData.length - 1 ];
 	}
@@ -131,7 +132,7 @@
 	/**
 	 * Gets the total quarantined on campus.
 	 */
-	function getQuarantineTotalOnCampus ( entry ) {
+	function getQuarantineTotalOnCampus( entry ) {
 		return entry[ 'traced_contacts_on_campus' ] +
 				entry[ 'self_reported_on_campus' ];
 	}
@@ -139,7 +140,7 @@
 	/**
 	 * Gets the total quarantined off campus.
 	 */
-	function getQuarantineTotalOffCampus ( entry ) {
+	function getQuarantineTotalOffCampus( entry ) {
 		return entry[ 'traced_contacts_off_campus' ] +
 				entry[ 'self_reported_off_campus' ];
 	}
@@ -157,7 +158,7 @@
 	 *
 	 * @return Date
 	 */
-	function getToday () {
+	function getToday() {
 		let todaysDate = new Date( new Date().getFullYear(), new Date().getMonth(),
 		                           new Date().getDate(),
 		);
@@ -171,7 +172,7 @@
 	 *
 	 * @return Date
 	 */
-	function getDaysAgo ( daysAgo ) {
+	function getDaysAgo( daysAgo ) {
 		let daysAgoDate = new Date( getToday() - daysAgo * 24 * 60 * 60 * 1000 );
 		return daysAgoDate;
 	}
@@ -181,14 +182,14 @@
 	 *
 	 * @since 2.0
 	 */
-	$: filteredData = covidData.filter( function ( d ) {
+	$: filteredData = covidData.filter( function( d ) {
 		const START_DATE = new Date( filterStartDate ).getTime();
 		const END_DATE = new Date( filterEndDate ).getTime();
 		const COMPARE_DATE = new Date( d[ 'date' ] ).getTime();
 		return ( COMPARE_DATE >= START_DATE && COMPARE_DATE <= END_DATE );
 	} );
 
-	function getSevenDayTotal () {
+	function getSevenDayTotal() {
 		let cases = 0;
 		for ( let i = 0; i < filteredData.length; i++ ) {
 			cases += filteredData[ i ][ 'total_tests' ];
@@ -197,7 +198,7 @@
 		return cases;
 	}
 
-	function getSevenDayPositive () {
+	function getSevenDayPositive() {
 		let cases = 0;
 		for ( let i = 0; i < filteredData.length; i++ ) {
 			cases += filteredData[ i ][ 'positive_tests' ];
@@ -206,7 +207,7 @@
 		return cases;
 	}
 
-	function getSevenDayNegative () {
+	function getSevenDayNegative() {
 		let cases = 0;
 		for ( let i = 0; i < filteredData.length; i++ ) {
 			cases += filteredData[ i ][ 'negative_tests' ];
@@ -223,7 +224,7 @@
 	let initialTableHeight;
 	let fullTableHeight;
 
-	function toggleTable () {
+	function toggleTable() {
 		const tableWrapper = document.querySelector( '.collapsable-table-wrapper' );
 		const buttonToggleLabel = document.querySelector(
 				'.table-button .button-label' );
@@ -249,24 +250,8 @@
 		}
 	}
 
-	function insertAfter ( referenceNode, newNode ) {
+	function insertAfter( referenceNode, newNode ) {
 		referenceNode.parentNode.insertBefore( newNode, referenceNode.nextSibling );
-	}
-
-	const variantTestData = {
-		'strain_sars_cov_2'        : 400,
-		'strain_sars_cov_2_delta'  : 300,
-		'strain_sars_cov_2_kappa'  : 100,
-		'strain_sars_cov_2_omicron': 200,
-	};
-
-	function getVariantNumbers () {
-		return [
-			variantTestData.strain_sars_cov_2,
-			variantTestData.strain_sars_cov_2_delta,
-			variantTestData.strain_sars_cov_2_kappa,
-			variantTestData.strain_sars_cov_2_omicron,
-		];
 	}
 </script>
 <section id="intro">
@@ -370,37 +355,10 @@
         <!-- Waffle Charts of Variants -->
         <section id="covid-variants">
             <h2 class="section-heading">Variants</h2>
-
-            <Waffle_Graph
-                    isPercentage={false}
+            <Covid_Variants_Stacked_Bar
                     data={getMostRecentEntry()}
-                    width=1000
-                    columns=25
-                    value={[
-                        getMostRecentEntry("strain_sars_cov_2"),
-                        getMostRecentEntry("strain_sars_cov_2_delta"),
-                        ]}
-                    labels={["SARS-COV-2", "SARS-COV-2 Delta"]}
-                    footnotes={[
-                                "* Northeastern’s Life Sciences Testing Center analyzes\n"+
-        "                    the genome of viral samples that test positive for COVID-19\n"+
-        "                    to determine which strain of the virus is behind a positive\n"+
-        "                    test. The lab probes each sample for distinctive markers of\n"+
-        "                    known variants of concern: Alpha (B.1.1.7), Beta (B.1.351),\n"+
-        "                    Gamma (P.1), and Delta (B.1.617.2). Not all positive tests\n"+
-        "                    in this report are from variants of concern, so the number\n"+
-        "                    of variants reported here will not match the total positive\n"+
-        "                    tests above.",
-
-                            ]}
             />
         </section>
-
-        <!-- Stacked Chart of Variants -->
-        <Covid_Variants_Stacked_Bar
-                data={getMostRecentEntry()}
-        />
-
 
         <!-- Total Vaccination Rates -->
         <section id="vaccination-rates">

@@ -240,6 +240,9 @@
     --data-category--font-size: var(--global--font-size-xxs);
     --data-category--font-weight: var(--global--font-weight-regular);
 
+    --cov-dashboard--color-jewel-red: #750936;
+    --cov-dashboard--color-jewel-green: #0E8476;
+    --cov-dashboard--color-jewel-yellow: #F8B739;
 }
 
 /**
