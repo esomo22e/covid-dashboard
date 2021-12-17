@@ -47,13 +47,26 @@
 			}
 		}
 
-		variantData['strain_sars_cov_2_omicron'] = 234;
-		variantData['strain_sars_cov_2_kappa'] = 123;
+		variantData[ 'strain_sars_cov_2_omicron' ] = 234;
+		variantData[ 'strain_sars_cov_2_kappa' ] = 123;
 
 		return variantData;
 	}
 
+	function getTotalVariants() {
+		let totalVariants = 0;
+
+		for ( let i = 0; i < orderedVariantKeys.length; i++ ) {
+			if ( 'total' !== orderedVariantKeys[ i ] ) {
+				totalVariants += variantNumbers[ orderedVariantKeys[ i ] ];
+			}
+		}
+
+		return totalVariants;
+	}
+
 	function assignExistingVariantData() {
+
 		for ( let i = 0; i < orderedImportantVariants.length; i++ ) {
 			if ( variantNumbers.hasOwnProperty( orderedImportantVariants[ i ].key ) &&
 					0 < variantNumbers[ orderedImportantVariants[ i ].key ] ) {
@@ -61,6 +74,7 @@
 				orderedVariantColors.push( orderedImportantVariants[ i ].color );
 			}
 		}
+		variantNumbers[ 'total' ] = getTotalVariants();
 		orderedVariantKeys.push();
 	}
 
@@ -192,31 +206,29 @@
                 width={getWidth()}
                 xVar={"Variants"}
                 yGroups={orderedVariantKeys}
-                yVar={[ 'strain_sars_cov_2_omicron', ]}
+                yVar={['total',]}
         />
     </div>
     <div class="variant-container">
         {#if variantNumbers.hasOwnProperty( 'strain_sars_cov_2_delta' )}
             <div class="test-container" id="delta-variants">
                 <div class="icon" id="delta-icon"></div>
-                <div class="variant-text"><b>Delta
-                    Variants:</b> {variantNumbers.strain_sars_cov_2_delta}</div>
+                <div class="variant-text"><b>Delta:</b> {variantNumbers.strain_sars_cov_2_delta}</div>
             </div>
         {/if}
         {#if variantNumbers.hasOwnProperty( 'strain_sars_cov_2_kappa' )}
             <div class="test-container" id="kappa-variants">
                 <div class="icon" id="kappa-icon"></div>
-                <div class="variant-text"><b>Kappa
-                    Variants:</b> {variantNumbers.strain_sars_cov_2_kappa}</div>
+                <div class="variant-text"><b>Kappa:</b> {variantNumbers.strain_sars_cov_2_kappa}</div>
             </div>
         {/if}
         {#if variantNumbers.hasOwnProperty( 'strain_sars_cov_2_omicron' )}
             <div class="test-container" id="omicron-variants">
                 <div class="icon" id="omicron-icon"></div>
-                <div class="variant-text"><b>Omicron
-                    Variants:</b> {variantNumbers.strain_sars_cov_2_omicron}
+                <div class="variant-text"><b>Omicron:</b> {variantNumbers.strain_sars_cov_2_omicron}
                 </div>
             </div>
         {/if}
     </div>
 </div>
+<div class="footnote">* Northeastern’s Life Sciences Testing Center analyzes the genome of viral samples that test positive for COVID-19 to determine which strain of the virus is behind a positive test. The lab probes each sample for distinctive markers of known variants of concern: Alpha (B.1.1.7), Beta (B.1.351), Gamma (P.1), Delta (B.1.617.2), Kappa (B.1.617.1), and Omicron (B.1.1.529). Not all positive tests in this report are from variants of concern, so the number of variants reported here will not match the total positive tests above. If a tracked variant of concern is not indicated on the chart above, that variant has not been detected. The data reported here aggregates all positive tests since the Life Sciences Testing Center began monitoring for variants of concern on September 1, 2021.</div>

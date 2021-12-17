@@ -21,12 +21,15 @@
 		'graph',
 		'stacked-bar-graph',
 	];
+
 	if ( hasAccent ) {
 		classNames.push( 'has-accent' );
 	}
+
 	const getClassNames = () => {
 		return classNames.join( ' ' );
 	};
+
 	// let stacked = d3.stack();
 	$: xScale = d3.scaleBand()
 	              .domain( data.map( function( o ) {
@@ -47,8 +50,6 @@
 	$: colors = d3.scaleOrdinal()
 	              .domain( yGroups )
 	              .range( colorscheme );
-
-	console.log( 'yGroups', yGroups );
 
 	onMount( () => {
 		if ( orientation !== 'vertical' ) {
@@ -123,7 +124,6 @@
 			// add data columns
 			for ( let i = 0; i < yGroups.length; i++ ) {
 				chartWrapper.append( 'g' )
-                            .attr('class', 'variant')
 				            .selectAll( 'rect' )
 				            .data( data )
 				            .enter()

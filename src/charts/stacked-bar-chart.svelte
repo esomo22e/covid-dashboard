@@ -92,8 +92,6 @@
 						})
 						.attr('height', 250)
 						.attr('width', function(d) {
-							console.log(height - padding.bottom -
-									            yScale(d[ yGroups[ i ] ]));
 							return height - padding.bottom -
 									yScale(d[ yGroups[ i ] ]);
 						});
@@ -143,14 +141,11 @@
 							for (let j = i; j > -1; j = j - 1) {
 								barheight += d[ yGroups[ j ] ];
 							}
-							// console.log(barheight)
 
 							return yScale(barheight);
 						})
 						.attr('width', xScale.bandwidth())
 						.attr('height', function(d) {
-							console.log(height - padding.bottom -
-									            yScale(d[ yGroups[ i ] ]));
 							return height - padding.bottom -
 									yScale(d[ yGroups[ i ] ]);
 						});
