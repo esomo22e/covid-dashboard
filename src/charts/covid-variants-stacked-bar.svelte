@@ -47,9 +47,6 @@
 			}
 		}
 
-		variantData[ 'strain_sars_cov_2_omicron' ] = 234;
-		variantData[ 'strain_sars_cov_2_kappa' ] = 123;
-
 		return variantData;
 	}
 
