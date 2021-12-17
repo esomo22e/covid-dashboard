@@ -40,9 +40,6 @@
 	              } );
 	// Generates the graph visual.
 	onMount( () => {
-		console.log( 'values in onMount()', values );
-		console.log( 'el in onMount()', el );
-
 		const graphContainer = d3.select( el );
 		// Specifies if the graph has an accent.
 		if ( hasAccent ) {

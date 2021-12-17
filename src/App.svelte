@@ -1,9 +1,11 @@
 <script>
+	import StackedBar from './charts/stacked-bar-alternate.svelte';
 	import Donut_Graph from './charts/donut-graph.svelte';
 	import Meter_Graph from './charts/meter-graph.svelte';
 	import Waffle_Graph from './charts/waffle-graph.svelte';
 	import Data_Point from './charts/data-point.svelte';
 	import Results_By_Date from './charts/results-by-date.svelte';
+	import Covid_Variants_Stacked_Bar from './charts/covid-variants-stacked-bar.svelte';
 	import Chart_Wellness_Summary from './charts/wellness-summary.svelte';
 	import Svelte_Table from 'svelte-table';
 	// import {csv} from 'd3-fetch'
@@ -101,8 +103,6 @@
 
 	function parseCovidData () {
 		let data = getCovidData();
-		console.log( 'data', data );
-		// let data = get_covid_data();
 
 		data.sort( function compare ( a, b ) {
 			let dateA = new Date( a[ 'date' ] );
@@ -123,7 +123,7 @@
 	 */
 
 	function getMostRecentEntry ( prop = null ) {
-		return ( null != prop ) ?
+            return ( null != prop ) ?
 				covidData[ covidData.length - 1 ][ prop ] :
 				covidData[ covidData.length - 1 ];
 	}
@@ -253,6 +253,21 @@
 		referenceNode.parentNode.insertBefore( newNode, referenceNode.nextSibling );
 	}
 
+	const variantTestData = {
+		'strain_sars_cov_2'        : 400,
+		'strain_sars_cov_2_delta'  : 300,
+		'strain_sars_cov_2_kappa'  : 100,
+		'strain_sars_cov_2_omicron': 200,
+	};
+
+	function getVariantNumbers () {
+		return [
+			variantTestData.strain_sars_cov_2,
+			variantTestData.strain_sars_cov_2_delta,
+			variantTestData.strain_sars_cov_2_kappa,
+			variantTestData.strain_sars_cov_2_omicron,
+		];
+	}
 </script>
 <section id="intro">
     <p>On September 6, 2021, Northeastern launched its redesigned Covid-19
@@ -380,6 +395,11 @@
                             ]}
             />
         </section>
+
+        <!-- Stacked Chart of Variants -->
+        <Covid_Variants_Stacked_Bar
+                data={getMostRecentEntry()}
+        />
 
 
         <!-- Total Vaccination Rates -->

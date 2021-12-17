@@ -67,7 +67,7 @@
     }
 
     function showTip(d, target, mouse) {
-    	console.log('this is a tooltip');
+
         let innerHTML = `<div class="tooltip__date">${new Date(d[category]).toLocaleDateString()}</div>`;
 
         for (let i = 0; i < groups.length; i++) {
