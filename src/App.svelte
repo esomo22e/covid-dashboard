@@ -112,10 +112,10 @@
 		} );
 
 		for ( let i = 0; i < data.length; i++ ) {
-			let date = new Date( data[ i ][ 'date' ] + 'T00:00:00-0400' );
+            let dateObj = new Date(data[ i ][ 'date' ]);
+			let date = new Date(dateObj.getTime() + dateObj.getTimezoneOffset() * 60000);
 			data[ i ][ 'date' ] = date.toLocaleDateString();
 		}
-
 		return data;
 	}
 
