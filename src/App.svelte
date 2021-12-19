@@ -352,7 +352,7 @@
         </section>
 
 
-        <!-- Waffle Charts of Variants -->
+        <!-- Variant Data -->
         <section id="covid-variants">
             <h2 class="section-heading">Total Variants</h2>
             <Covid_Variants_Stacked_Bar
