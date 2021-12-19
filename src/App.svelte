@@ -354,7 +354,7 @@
 
         <!-- Waffle Charts of Variants -->
         <section id="covid-variants">
-            <h2 class="section-heading">Variants</h2>
+            <h2 class="section-heading">Total Variants</h2>
             <Covid_Variants_Stacked_Bar
                     data={getMostRecentEntry()}
             />

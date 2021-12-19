@@ -62,11 +62,11 @@
 		let chartWrapper = chartContainer.append( 'g' )
 		                                 .attr( 'transform', function() {
 			                                 if ( width < 600 ) {
-				                                 return 'translate(' + 0 + ',' +
+				                                 return 'translate(-' + padding.left +',' +
 						                                 padding.top + ')';
 			                                 }
 			                                 else {
-				                                 return 'translate(' + 0 + ',' +
+				                                 return 'translate(-' + padding.left +',' +
 						                                 padding.top + ')';
 			                                 }
 		                                 } );
@@ -98,7 +98,7 @@
 		}
 		else {
 			let xAxis = chartWrapper.append( 'g' )
-			                        .attr( 'transform', 'translate(0,' +
+			                        .attr( 'transform', 'translate(-' + padding.left +',' +
 					                        ( height - padding.bottom ) + ')' )
 			                        .attr( 'class', 'horizontalAxis' )
 			                        .call( d3.axisBottom( xScale )
