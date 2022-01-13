@@ -339,15 +339,6 @@
                     />
                 {/key}
 
-                <Donut_Graph
-                        width=200
-                        values={[
-                                getMostRecentEntry("beds_in_use"),
-                                getMostRecentEntry("total_beds"),
-                                ]}
-                        thickness=20
-                        label="Campus Wellness Beds in Use"
-                />
             </div>
         </section>
 
