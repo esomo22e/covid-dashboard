@@ -259,6 +259,11 @@
     width: 100%;
 }
 
+.vaccinations-and-overview {
+    display: flex;
+    justify-content: space-between;
+}
+
 #overview .graph svg {
     width: 150px;
 }

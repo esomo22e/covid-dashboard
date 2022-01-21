@@ -112,8 +112,9 @@
 		} );
 
 		for ( let i = 0; i < data.length; i++ ) {
-            let dateObj = new Date(data[ i ][ 'date' ]);
-			let date = new Date(dateObj.getTime() + dateObj.getTimezoneOffset() * 60000);
+			let dateObj = new Date( data[ i ][ 'date' ] );
+			let date = new Date(
+					dateObj.getTime() + dateObj.getTimezoneOffset() * 60000 );
 			data[ i ][ 'date' ] = date.toLocaleDateString();
 		}
 		return data;
@@ -314,66 +315,66 @@
 
         </section>
 
+        <div class="vaccinations-and-overview">
+            <!-- Total Vaccination Rates -->
+            <section id="vaccination-rates">
+                <h2 class="section-heading">Vaccination Rates</h2>
+                <div class="dash-vac-chart">
 
-        <!-- Dash Positive (Students, Faculty/Staff, and Contractor) -->
-        <section id="overview">
-            <h2 class="section-heading">Overview</h2>
-            <div class="graph-group">
-                <Data_Point
-                        width=200
-                        height=200
-                        value={getMostRecentEntry('hospitalizations')}
-                        label="Hospitalizations"
-                />
+                    <div class="dash-stacked-vaccination">
+                        <div class="stacked-cont is-horizontal">
+                            <Meter_Graph
+                                    length={meterColumnLength}
+                                    width={meterColumnWidth}
+                                    value={getMostRecentEntry("vax_rate_students")}
+                                    label="Students Vaccination Rate"
+                            />
+                            <Meter_Graph
+                                    length={meterColumnLength}
+                                    width={meterColumnWidth}
+                                    value={getMostRecentEntry("vax_rate_faculty_staff")}
+                                    label="Faculty and Staff Vaccination Rate"
+                            />
+                        </div>
 
-                {#key filteredData}
-                    <Donut_Graph
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dash Positive (Students, Faculty/Staff, and Contractor) -->
+            <section id="overview">
+                <h2 class="section-heading">Overview</h2>
+                <div class="graph-group">
+                    <Data_Point
                             width=200
-                            values={[
+                            height=200
+                            value={getMostRecentEntry('hospitalizations')}
+                            label="Hospitalizations"
+                    />
+
+                    {#key filteredData}
+                        <Donut_Graph
+                                width=200
+                                values={[
                                 getSevenDayPositive(),
                                 getSevenDayTotal()
                                 ]}
-                            label="Seven-Day Positive Test Rate"
-                            thickness=20
-                            isPercent={true}
-                    />
-                {/key}
+                                label="Seven-Day Positive Test Rate"
+                                thickness=20
+                                isPercent={true}
+                        />
+                    {/key}
 
-            </div>
-        </section>
-
+                </div>
+            </section>
+        </div>
 
         <!-- Variant Data -->
         <section id="covid-variants">
-            <h2 class="section-heading">Total Variants</h2>
+            <h2 class="section-heading">Variants of Concern</h2>
             <Covid_Variants_Stacked_Bar
                     data={getMostRecentEntry()}
             />
-        </section>
-
-        <!-- Total Vaccination Rates -->
-        <section id="vaccination-rates">
-            <h2 class="section-heading">Vaccination Rates</h2>
-            <div class="dash-vac-chart">
-
-                <div class="dash-stacked-vaccination">
-                    <div class="stacked-cont is-horizontal">
-                        <Meter_Graph
-                                length={meterColumnLength}
-                                width={meterColumnWidth}
-                                value={getMostRecentEntry("vax_rate_students")}
-                                label="Students Vaccination Rate"
-                        />
-                        <Meter_Graph
-                                length={meterColumnLength}
-                                width={meterColumnWidth}
-                                value={getMostRecentEntry("vax_rate_faculty_staff")}
-                                label="Faculty and Staff Vaccination Rate"
-                        />
-                    </div>
-
-                </div>
-            </div>
         </section>
 
         <!-- Data table -->
