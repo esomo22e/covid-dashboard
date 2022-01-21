@@ -376,46 +376,6 @@
             </div>
         </section>
 
-        <!-- Wellness summary -->
-        <section id="wellness-summary">
-            <div class="wellness-summary__list">
-                <Chart_Wellness_Summary
-                        label="Students in Isolation"
-                        data={[
-                            getMostRecentEntry("isolate_on_campus"),
-                            getMostRecentEntry("isolate_off_campus"),
-                            ]}
-                        dataLabels={[
-                            "On-Campus",
-                            "Off-Campus",
-                        ]}
-                        hasAccent={true}
-                />
-                <Chart_Wellness_Summary
-                        label="Students in Quarantine"
-                        data={[
-                            getMostRecentEntry("newly_identified_on_campus"),
-                            getMostRecentEntry("newly_identified_off_campus"),
-                            getQuarantineTotalOnCampus(getMostRecentEntry()),
-                            getQuarantineTotalOffCampus(getMostRecentEntry()),
-                            ]}
-                        dataLabels={[
-                            "Newly Identified On-Campus",
-                            "Newly Identified <wbr/>Off-Campus",
-                            "Total On-Campus",
-                            "Total Off-Campus",
-                        ]}
-                        hasAccent={true}
-                />
-            </div>
-            <footer class="wellness-summary__footer">
-                <p class="footnote">* According to the university’s August 18,
-                    2021 announcement, those who have been identified as close
-                    contacts no longer have to quarantine as long as they are
-                    vaccinated.</p>
-            </footer>
-        </section>
-
         <!-- Data table -->
         <section id="data-table">
             <div class="collapsable-table-wrapper">
