@@ -9,6 +9,10 @@
 			'color': 'var(--cov-2-variant--omicron)',
 		},
 		{
+			'key'  : 'strain_sars_cov_2_kappa',
+			'color': 'var(--cov-2-variant--kappa)',
+		},
+		{
 			'key'  : 'strain_sars_cov_2_delta',
 			'color': 'var(--cov-2-variant--delta)',
 		},
@@ -30,7 +34,7 @@
 	 * Gets the variant data from the broader dataset.
 	 *
 	 * @param prop
-	 * @return {{strain_sars_cov_2_unknown : number, strain_sars_cov_2_delta : number, strain_sars_cov_2_omicron : number, strain_sars_cov_2_na : number}[]|*}
+	 * @return {{strain_sars_cov_2_unknown : number, strain_sars_cov_2_delta : number, strain_sars_cov_2_kappa : number, strain_sars_cov_2_omicron : number, strain_sars_cov_2_na : number}[]|*}
 	 */
 	function fetchVariantData() {
 		// Filters the data properties to get just the variants.
@@ -122,6 +126,11 @@
 
     }
 
+    #kappa-icon {
+        background: var(--cov-2-variant--kappa);
+
+    }
+
     #omicron-icon {
         background: var(--cov-2-variant--omicron);
 
@@ -177,6 +186,7 @@
 
     :root {
         --cov-2-variant--delta: #750936;
+        --cov-2-variant--kappa: #0E8476;
         --cov-2-variant--omicron: #F8B739;
     }
 </style>
@@ -202,6 +212,13 @@
                 <div class="icon" id="delta-icon"></div>
                 <div class="variant-text">
                     <b>Delta:</b> {variantNumbers.strain_sars_cov_2_delta}</div>
+            </div>
+        {/if}
+        {#if variantNumbers.hasOwnProperty( 'strain_sars_cov_2_kappa' )}
+            <div class="test-container" id="kappa-variants">
+                <div class="icon" id="kappa-icon"></div>
+                <div class="variant-text">
+                    <b>Kappa:</b> {variantNumbers.strain_sars_cov_2_kappa}</div>
             </div>
         {/if}
         {#if variantNumbers.hasOwnProperty( 'strain_sars_cov_2_omicron' )}
