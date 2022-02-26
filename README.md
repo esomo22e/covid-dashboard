@@ -91,3 +91,4 @@ This is where we keep arrays of color hex codes, in ways that are easily used by
 ### /helpers/digitFormat.js
 
 This is a small vanilla JavaScript function that's intended to catch numbers that aren't numbers or aren't formatted correctly, and display some text to that effect instead of throwing a bug.
+# covid-dashboard
